@@ -2,7 +2,7 @@
   <div id="ordering">
     <img class="example-panel" src="@/assets/exampleImage.jpg">
     <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
-
+    <button v-on:click="changeCategory(2)"></button>
     <h1>{{ uiLabels.ingredients }}</h1>
 
     <Ingredient
@@ -87,6 +87,11 @@ export default {
       }
       this.price = 0;
       this.chosenIngredients = [];
+    },
+
+    changeCategory: function(int) {
+      this.currentCategory = int;
+
     }
   }
 }
