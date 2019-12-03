@@ -1,6 +1,6 @@
 ingredient_id,ingredient_sv,ingredient_en,category,milk_free,gluten_free,vegan,selling_price
 1,bönburgare,bean patty,1,1,1,1,40
-2,nötfärsburgare 100g,beef patty 100g,1,1,1,0,40
+2,nötfärsburgare 300g,beef patty 100g,1,1,1,0,40
 3,nötfärsburgare 200g,beef patty 200g,1,1,1,0,60
 4,kycklingburgare,chicken patty,1,1,0,0,40
 5,friterad halloumi,deep-fried halloumi,1,0,0,0,40
