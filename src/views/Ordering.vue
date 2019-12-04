@@ -18,6 +18,7 @@
       ref="ingredient"
       v-for="item in ingredients"
       v-show="item.category==currentCategory"
+      v-on:increment="createBurger(item)"
       v-on:increment="addToOrder(item)"
       :item="item"
       :lang="lang"
@@ -66,6 +67,7 @@ export default {
   data: function() { //Not that data is a function!
     return {
       chosenIngredients: [],
+      burgerIngredients: [],
       price: 0,
       orderNumber: "",
       currentCategory: 1,
@@ -78,6 +80,12 @@ export default {
     }.bind(this));
   },
   methods: {
+    createBurger: function (item) {
+      if (this.currentCategory<=4){
+        this.burgerIngredients.push(item);
+      }
+
+    },
     addToOrder: function (item) {
       this.chosenIngredients.push(item);
       this.price += +item.selling_price;
