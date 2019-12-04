@@ -2,7 +2,16 @@
   <div id="ordering">
     <img class="example-panel" src="@/assets/exampleImage.jpg">
     <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
-    <button v-on:click="changeCategory(2)"></button>
+    <button v-on:click="changeCategory(1); showBurger(true)"> VÄLJ HAMBURGARE </button>
+    <button v-on:click="changeCategory(5); showBurger(false)"> VÄLJ TILLBEHÖR </button>
+    <button v-on:click="changeCategory(6); showBurger(false)"> VÄLJ DRYCK </button>
+    <br>
+    <div v-if="hamburgerButtons">
+      <button v-on:click="changeCategory(1)"> KÖTT </button>
+      <button v-on:click="changeCategory(2)"> PÅLÄGG </button>
+      <button v-on:click="changeCategory(3)"> SÅS </button>
+      <button v-on:click="changeCategory(4)"> BRÖD </button>
+    </div>
     <h1>{{ uiLabels.ingredients }}</h1>
 
     <Ingredient
@@ -59,7 +68,8 @@ export default {
       chosenIngredients: [],
       price: 0,
       orderNumber: "",
-      currentCategory: 1
+      currentCategory: 1,
+      hamburgerButtons: false
     }
   },
   created: function () {
@@ -91,7 +101,10 @@ export default {
 
     changeCategory: function(int) {
       this.currentCategory = int;
+    },
 
+    showBurger: function(boolean) {
+      this.hamburgerButtons = boolean;
     }
   }
 }
