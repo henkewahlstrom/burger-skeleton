@@ -24,10 +24,12 @@
       :key="item.ingredient_id">
     </Ingredient>
 
-    <h1>{{ uiLabels.order }}</h1>
-    {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
+    <div v-if="hamburgerButtons">
+      <h1>{{ uiLabels.order }}</h1>
+      {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
+    </div>
     <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
-    <button v-on:click="addToOrder()"> </button>
+    <button v-on:click="addToOrder()">{{ uiLabels.addOrder }}</button>
 
     <h1>{{ uiLabels.ordersInQueue }}</h1>
     <div>
