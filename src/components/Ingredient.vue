@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="ingredient">
     <label>
       <button v-on:click="incrementCounter">{{ counter }}</button>

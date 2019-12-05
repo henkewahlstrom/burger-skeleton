@@ -2,6 +2,7 @@
 <div id="orders">
   <h1>{{ uiLabels.ordersInQueue }}</h1>
   <div>
+    Hej
     <OrderItemToPrepare
       v-for="(order, key) in orders"
       v-if="order.status !== 'done'"
