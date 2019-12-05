@@ -20,17 +20,19 @@
     <section class="middleSection">
       <h1>{{ uiLabels.ingredients }}</h1>
       <Ingredient
-        ref="ingredient"
-        v-for="item in ingredients"
-        v-show="item.category==currentCategory"
-        v-on:increment="createBurger(item)"
-        :item="item"
-        :lang="lang"
-        :key="item.ingredient_id">
-      </Ingredient>
+      ref="ingredient"
+      v-for="item in ingredients"
+      v-show="item.category==currentCategory"
+      v-on:increment="createBurger(item)"
+      :item="item"
+      :lang="lang"
+      :key="item.ingredient_id">
+    </Ingredient>
 
+    <div v-if="hamburgerButtons">
       <h1>{{ uiLabels.order }}</h1>
       {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
+    </div>
       <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
       <button v-on:click="addToOrder()"> </button>
     </section>
