@@ -19,15 +19,15 @@
       v-for="item in ingredients"
       v-show="item.category==currentCategory"
       v-on:increment="createBurger(item)"
-      v-on:increment="addToOrder(item)"
       :item="item"
       :lang="lang"
       :key="item.ingredient_id">
     </Ingredient>
 
     <h1>{{ uiLabels.order }}</h1>
-    {{ chosenIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
+    {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
     <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
+    <button v-on:click="addToOrder()"> </button>
 
     <h1>{{ uiLabels.ordersInQueue }}</h1>
     <div>
@@ -68,6 +68,7 @@ export default {
     return {
       chosenIngredients: [],
       burgerIngredients: [],
+      drinksAndExtras: [],
       price: 0,
       orderNumber: "",
       currentCategory: 1,
@@ -83,13 +84,20 @@ export default {
     createBurger: function (item) {
       if (this.currentCategory<=4){
         this.burgerIngredients.push(item);
+        this.price += +item.selling_price;
+      }
+      else if (this.currentCategory>=5) {
+        this.drinksAndExtras.push(item);
+        this.price += +item.selling_price;
       }
 
     },
-    addToOrder: function (item) {
-      this.chosenIngredients.push(item);
-      this.price += +item.selling_price;
+    addToOrder: function () {
+      this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
+      this.burgerIngredients = [];
+      this.drinksAndExtras = []
     },
+
     placeOrder: function () {
       var i,
       //Wrap the order in an object
