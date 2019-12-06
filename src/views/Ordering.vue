@@ -4,7 +4,7 @@
       <div id="menuButtons">
         <img class="example-panel" src="@/assets/exampleImage.jpg">
         <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
-        <button v-on:click="changeCategory(1); showBurger(true); showOrder(false)"> VÄLJ HAMBURGARE </button>
+        <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"> VÄLJ HAMBURGARE </button>
         <br>
         <div v-if="hamburgerButtons">
           <button v-on:click="changeCategory(1)"> KÖTT </button>
@@ -12,29 +12,34 @@
           <button v-on:click="changeCategory(3)"> SÅS </button>
           <button v-on:click="changeCategory(4)"> BRÖD </button>
         </div>
-        <button v-on:click="changeCategory(5); showBurger(false); showOrder(false)"> VÄLJ TILLBEHÖR </button>
-        <button v-on:click="changeCategory(6); showBurger(false); showOrder(false)"> VÄLJ DRYCK </button>
+        <button v-on:click="changeCategory(5); showBurger(false); showOrder(true)"> VÄLJ TILLBEHÖR </button>
+        <button v-on:click="changeCategory(6); showBurger(false); showOrder(true)"> VÄLJ DRYCK </button>
       </div>
     </section>
 
-    <section class="middleSection">
-      <h1>{{ uiLabels.ingredients }}</h1>
-      <Ingredient
-        ref="ingredient"
-        v-for="item in ingredients"
-        v-show="item.category==currentCategory"
-        v-on:increment="createBurger(item)"
-        :item="item"
-        :lang="lang"
-        :key="item.ingredient_id">
-      </Ingredient>
-
-      <div v-if="hamburgerButtons">
-        <h1>{{ uiLabels.order }}</h1>
-        {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
+    <section class="middleSection" >
+      <div v-if="displayOrder">
+        <h1>{{ uiLabels.ingredients }}</h1>
+        <Ingredient
+          ref="ingredient"
+          v-for="item in ingredients"
+          v-show="item.category==currentCategory"
+          v-on:increment="createBurger(item)"
+          :item="item"
+          :lang="lang"
+          :key="item.ingredient_id">
+        </Ingredient>
+        <div v-if="hamburgerButtons">
+          <h1>{{ uiLabels.order }}</h1>
+          {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
+        </div>
+        <button v-on:click="addToOrder(); showOrder(false)">{{ uiLabels.addOrder }}</button>
       </div>
-      <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
-      <button v-on:click="addToOrder(); showOrder(true)">{{ uiLabels.addOrder }}</button>
+      <div v-if="displayOrder == false">
+        <h1>{{ uiLabels.order }}</h1>
+        {{ chosenIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
+        <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
+      </div>
     </section>
 
     <section class="rightSection">
@@ -82,7 +87,8 @@ export default {
       price: 0,
       orderNumber: "",
       currentCategory: 1,
-      hamburgerButtons: false
+      hamburgerButtons: false,
+      displayOrder: false
     }
   },
   created: function () {
@@ -133,7 +139,7 @@ export default {
       this.hamburgerButtons = boolean;
     },
     showOrder: function(boolean) {
-      this.completeOrder = boolean;
+      this.displayOrder = boolean;
     }
   }
 }
