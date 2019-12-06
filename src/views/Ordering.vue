@@ -1,48 +1,56 @@
 <template>
   <div id="ordering">
-    <img class="example-panel" src="@/assets/exampleImage.jpg">
-    <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
-    <button v-on:click="changeCategory(1); showBurger(true)"> VÄLJ HAMBURGARE </button>
-    <button v-on:click="changeCategory(5); showBurger(false)"> VÄLJ TILLBEHÖR </button>
-    <button v-on:click="changeCategory(6); showBurger(false)"> VÄLJ DRYCK </button>
-    <br>
-    <div v-if="hamburgerButtons">
-      <button v-on:click="changeCategory(1)"> KÖTT </button>
-      <button v-on:click="changeCategory(2)"> PÅLÄGG </button>
-      <button v-on:click="changeCategory(3)"> SÅS </button>
-      <button v-on:click="changeCategory(4)"> BRÖD </button>
-    </div>
-    <h1>{{ uiLabels.ingredients }}</h1>
+    <section class="leftSection">
+      <div id="menuButtons">
+        <img class="example-panel" src="@/assets/exampleImage.jpg">
+        <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
+        <button v-on:click="changeCategory(1); showBurger(true); showOrder(false)"> VÄLJ HAMBURGARE </button>
+        <br>
+        <div v-if="hamburgerButtons">
+          <button v-on:click="changeCategory(1)"> KÖTT </button>
+          <button v-on:click="changeCategory(2)"> PÅLÄGG </button>
+          <button v-on:click="changeCategory(3)"> SÅS </button>
+          <button v-on:click="changeCategory(4)"> BRÖD </button>
+        </div>
+        <button v-on:click="changeCategory(5); showBurger(false); showOrder(false)"> VÄLJ TILLBEHÖR </button>
+        <button v-on:click="changeCategory(6); showBurger(false); showOrder(false)"> VÄLJ DRYCK </button>
+      </div>
+    </section>
 
-    <Ingredient
-      ref="ingredient"
-      v-for="item in ingredients"
-      v-show="item.category==currentCategory"
-      v-on:increment="createBurger(item)"
-      :item="item"
-      :lang="lang"
-      :key="item.ingredient_id">
-    </Ingredient>
-
-    <div v-if="hamburgerButtons">
-      <h1>{{ uiLabels.order }}</h1>
-      {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
-    </div>
-    <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
-    <button v-on:click="addToOrder()">{{ uiLabels.addOrder }}</button>
-
-    <h1>{{ uiLabels.ordersInQueue }}</h1>
-    <div>
-      <OrderItem
-        v-for="(order, key) in orders"
-        v-if="order.status !== 'done'"
-        :order-id="key"
-        :order="order"
-        :ui-labels="uiLabels"
+    <section class="middleSection">
+      <h1>{{ uiLabels.ingredients }}</h1>
+      <Ingredient
+        ref="ingredient"
+        v-for="item in ingredients"
+        v-show="item.category==currentCategory"
+        v-on:increment="createBurger(item)"
+        :item="item"
         :lang="lang"
-        :key="key">
-      </OrderItem>
-    </div>
+        :key="item.ingredient_id">
+      </Ingredient>
+
+      <div v-if="hamburgerButtons">
+        <h1>{{ uiLabels.order }}</h1>
+        {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
+      </div>
+      <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
+      <button v-on:click="addToOrder(); showOrder(true)">{{ uiLabels.addOrder }}</button>
+    </section>
+
+    <section class="rightSection">
+      <h1>{{ uiLabels.ordersInQueue }}</h1>
+      <div>
+        <OrderItem
+          v-for="(order, key) in orders"
+          v-if="order.status !== 'done'"
+          :order-id="key"
+          :order="order"
+          :ui-labels="uiLabels"
+          :lang="lang"
+          :key="key">
+        </OrderItem>
+      </div>
+    </section>
   </div>
 </template>
 <script>
@@ -123,6 +131,9 @@ export default {
 
     showBurger: function(boolean) {
       this.hamburgerButtons = boolean;
+    },
+    showOrder: function(boolean) {
+      this.completeOrder = boolean;
     }
   }
 }
@@ -130,8 +141,28 @@ export default {
 <style scoped>
 /* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
 #ordering {
-  margin:auto;
-  width: 40em;
+  display: grid;
+  grid-gap: 5px;
+    grid-template-columns: 15% 50% 35%;
+  margin:40px;
+}
+.leftSection{
+  grid-column: 1;
+}
+.middleSection{
+  grid-column: 2;
+}
+.rightSection{
+  grid-column: 3;
+}
+#menuButtons{
+  display: grid;
+  grid-gap: 2px;
+    grid-template-columns: repeat(1, 1fr);
+}
+
+#menuButtons button{
+  width: 100%;
 }
 
 .example-panel {
