@@ -37,7 +37,10 @@
       </div>
       <div v-if="displayOrder == false">
         <h1>{{ uiLabels.order }}</h1>
-        {{ chosenIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
+        <div v-for="ab in chosenIngredients">
+          {{ ab.meat.map(item => item["ingredient_"+lang]).join(', ') }}
+          {{ ab.additionals.map(item => item["ingredient_"+lang]).join(', ') }}
+        </div>
         <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
       </div>
     </section>
@@ -88,7 +91,17 @@ export default {
       orderNumber: "",
       currentCategory: 1,
       hamburgerButtons: false,
-      displayOrder: false
+      displayOrder: false,
+      aBurger: {
+        bread: null,
+        meat: [],
+        additionals:[],
+        sauce: []
+      },
+      aDrinkOrExtra: {
+        size: "Small",
+        name: null,
+      }
     }
   },
   created: function () {
@@ -109,11 +122,33 @@ export default {
 
     },
     addToOrder: function () {
-      this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
+      this.addToBurger();
+      this.chosenIngredients.push(this.aBurger);
+      console.log(this.chosenIngredients);
+      //this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
       this.burgerIngredients = [];
       this.drinksAndExtras = []
     },
-
+    addToBurger: function(){
+      var i;
+      for (i=0; i < this.burgerIngredients.length; i++){
+      if (this.burgerIngredients[i].category == 1) {
+      this.aBurger.meat.push(this.burgerIngredients[i]);
+      }
+      else if (this.burgerIngredients[i].category == 2) {
+        this.aBurger.additionals.push(this.burgerIngredients[i]);
+      }
+      else if (this.burgerIngredients[i].category == 3) {
+        this.aBurger.sauce.push(this.burgerIngredients[i]);
+      }
+      else if (this.burgerIngredients[i].category == 4) {
+        this.aBurger.bread = this.burgerIngredients[i];
+        }
+      }
+    },
+    addToDrinkOrExtra: function(item){
+      this.aDrinkOrExtra.name = item;
+    },
     placeOrder: function () {
       var i,
       //Wrap the order in an object
