@@ -36,6 +36,7 @@
           <button v-on:click="addToOrder(); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width=40 >{{ uiLabels.addOrder }}</button>
         </div>
       </div>
+
       <div v-if="displayOrder == false">
         <h1>{{ uiLabels.order }}</h1>
         <div v-for="ab in outputOrderText">
@@ -227,8 +228,8 @@ export default {
 #ordering {
   display: grid;
   grid-gap: 5px;
-    grid-template-columns:  20% 45% 35%;
-  margin:40px;
+    grid-template-columns: 20% 45% 35%;
+  margin-left: 40px;
 }
 .leftSection{
   grid-column: 1;
@@ -252,10 +253,15 @@ export default {
   font-size: 50em;
 }
 
+#addOrderButton {
+  font-size: 50em;
+}
+
 .hamburgerIngredients button:focus {
   background-color: black;
   color: white;
 }
+
 .example-panel {
   position: fixed;
   left:0;
