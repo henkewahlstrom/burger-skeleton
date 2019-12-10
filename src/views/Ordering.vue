@@ -22,7 +22,7 @@
         <h1>{{ uiLabels.ingredients }}</h1>
         <Ingredient
           ref="ingredient"
-          v-for="item in ingredients"
+          v-for= "item  in ingredients"
           v-show="item.category==currentCategory"
           v-on:increment="createBurger(item)"
           :item="item"
@@ -37,9 +37,11 @@
       </div>
       <div v-if="displayOrder == false">
         <h1>{{ uiLabels.order }}</h1>
-        <div v-for="ab in chosenIngredients">
-          {{ ab.meat.map(item => item["ingredient_"+lang]).join(', ') }}
-          {{ ab.additionals.map(item => item["ingredient_"+lang]).join(', ') }}
+        <div v-for="ab in outputOrderText">
+          {{ ab}}
+          <button> delete </button>
+          <br>
+
         </div>
         <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
       </div>
@@ -212,6 +214,9 @@ export default {
     },
     showOrder: function(boolean) {
       this.displayOrder = boolean;
+    },
+    removeitem: function(){
+
     }
   }
 }
