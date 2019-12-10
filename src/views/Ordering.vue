@@ -88,6 +88,7 @@ export default {
       burgerIngredients: [],
       drinksAndExtras: [],
       outputOrderText: [],
+      tempFoodObjekt:"",
       price: 0,
       orderNumber: "",
       currentCategory: 1,
@@ -101,7 +102,7 @@ export default {
       },
       aDrinkOrExtra: {
         size: "Small",
-        name: null,
+        name: null
       }
     }
   },
@@ -126,7 +127,7 @@ export default {
       this.addToBurger();
       this.addToDrinkOrExtra();
       this.chosenIngredients.push(this.aBurger);
-      console.log(this.chosenIngredients);
+      this.createOutputOrderText();
       //this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
       this.burgerIngredients = [];
       this.drinksAndExtras = []
@@ -151,8 +152,8 @@ export default {
     addToDrinkOrExtra: function(){
       var j;
       for (j=0; j< this.drinksAndExtras.length; j++){
-        if (this.drinksAndExtras[i].category >= 5){
-          this.aDrinkOrExtra.name = this.chosenIngredients[i]
+        if (this.drinksAndExtras[j].category >= 5){
+          this.aDrinkOrExtra.name = this.drinksAndExtras[j]
           this.chosenIngredients.push(this.aDrinkOrExtra);
         }
       }
@@ -175,13 +176,33 @@ export default {
     },
 
     createOutputOrderText: function(){
-      var
-      for (i=0; i <this.chosenIngredients.lenght, i++){
-        if(typeof(this.chosenIngredients[i])==aBurger){
-
+      var i
+      var j
+      this.outputOrderText=[];
+      for (i=0; i <this.chosenIngredients.length; i++){
+        if(this.chosenIngredients[i].bread != null){
+          this.tempFoodObjekt= i +": " + this.chosenIngredients[i].bread.ingredient_sv
+          for (j=0; j < this.chosenIngredients[i].meat.length; j++){
+            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].meat[j].ingredient_sv
+          }
+          for (j=0; j < this.chosenIngredients[i].additionals.length; j++){
+            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].additionals[j].ingredient_sv
+          }
+          for (j=0; j < this.chosenIngredients[i].sauce.length; j++){
+            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].sauce[j].ingredient_sv
+          }
+          this.outputOrderText.push(this.tempFoodObjekt);
+          this.tempFoodObjekt = "";
+        }
+        else {
+          console.log(this.chosenIngredients[i].name.ingredient_sv)
+          this.tempFoodObjekt=this.chosenIngredients[i].name.ingredient_sv + ", " + this.chosenIngredients[i].size
+          this.outputOrderText.push(this.tempFoodObjekt);
+          this.tempFoodObjekt = "";
         }
       }
-
+      console.log(this.outputOrderText);
+    },
     changeCategory: function(int) {
       this.currentCategory = int;
     },
