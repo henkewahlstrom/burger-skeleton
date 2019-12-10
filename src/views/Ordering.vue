@@ -37,9 +37,9 @@
       </div>
       <div v-if="displayOrder == false">
         <h1>{{ uiLabels.order }}</h1>
-        <div v-for="ab in outputOrderText">
-          {{ ab}}
-          <button> delete </button>
+        <div v-for="(ab, index) in outputOrderText">
+          {{ ab}} {{index}}
+          <button> delete  </button>
           <br>
 
         </div>
@@ -128,8 +128,11 @@ export default {
     addToOrder: function () {
       this.addToBurger();
       this.addToDrinkOrExtra();
-      this.chosenIngredients.push(this.aBurger);
+      var temporaryBurger = this.aBurger
+      this.chosenIngredients.push(temporaryBurger);
+      console.log(this.chosenIngredients);
       this.createOutputOrderText();
+      this.aBurger.bread=null;
       //this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
       this.burgerIngredients = [];
       this.drinksAndExtras = []
@@ -197,13 +200,11 @@ export default {
           this.tempFoodObjekt = "";
         }
         else {
-          console.log(this.chosenIngredients[i].name.ingredient_sv)
           this.tempFoodObjekt=this.chosenIngredients[i].name.ingredient_sv + ", " + this.chosenIngredients[i].size
           this.outputOrderText.push(this.tempFoodObjekt);
           this.tempFoodObjekt = "";
         }
       }
-      console.log(this.outputOrderText);
     },
     changeCategory: function(int) {
       this.currentCategory = int;
