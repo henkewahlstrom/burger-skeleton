@@ -87,6 +87,7 @@ export default {
       chosenIngredients: [],
       burgerIngredients: [],
       drinksAndExtras: [],
+      outputOrderText: [],
       price: 0,
       orderNumber: "",
       currentCategory: 1,
@@ -123,6 +124,7 @@ export default {
     },
     addToOrder: function () {
       this.addToBurger();
+      this.addToDrinkOrExtra();
       this.chosenIngredients.push(this.aBurger);
       console.log(this.chosenIngredients);
       //this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
@@ -165,6 +167,11 @@ export default {
       this.price = 0;
       this.chosenIngredients = [];
     },
+
+    createOutputOrderText: function(){
+
+
+    }
 
     changeCategory: function(int) {
       this.currentCategory = int;
