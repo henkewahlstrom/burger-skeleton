@@ -148,8 +148,14 @@ export default {
         }
       }
     },
-    addToDrinkOrExtra: function(item){
-      this.aDrinkOrExtra.name = item;
+    addToDrinkOrExtra: function(){
+      var j;
+      for (j=0; j< this.drinksAndExtras.length; j++){
+        if (this.drinksAndExtras[i].category >= 5){
+          this.aDrinkOrExtra.name = this.chosenIngredients[i]
+          this.chosenIngredients.push(this.aDrinkOrExtra);
+        }
+      }
     },
     placeOrder: function () {
       var i,
