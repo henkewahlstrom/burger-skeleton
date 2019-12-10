@@ -2,18 +2,17 @@
   <div id="ordering">
     <section class="leftSection">
       <div id="menuButtons">
-        <img class="example-panel" src="@/assets/exampleImage.jpg">
         <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
-        <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"> VÄLJ HAMBURGARE </button>
+        <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=200></button>
         <br>
-        <div v-if="hamburgerButtons">
+        <div class="hamburgerIngredients" v-if="hamburgerButtons">
           <button v-on:click="changeCategory(1)"> KÖTT </button>
           <button v-on:click="changeCategory(2)"> PÅLÄGG </button>
           <button v-on:click="changeCategory(3)"> SÅS </button>
           <button v-on:click="changeCategory(4)"> BRÖD </button>
         </div>
-        <button v-on:click="changeCategory(5); showBurger(false); showOrder(true)"> VÄLJ TILLBEHÖR </button>
-        <button v-on:click="changeCategory(6); showBurger(false); showOrder(true)"> VÄLJ DRYCK </button>
+          <button v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=200></button>
+          <button v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200></button>
       </div>
     </section>
 
@@ -33,8 +32,11 @@
           <h1>{{ uiLabels.order }}</h1>
           {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
         </div>
-        <button v-on:click="addToOrder(); showOrder(false)">{{ uiLabels.addOrder }}</button>
+        <div id="addOrderButton">
+            <button v-on:click="addToOrder(); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
+        </div>
       </div>
+
       <div v-if="displayOrder == false">
         <h1>{{ uiLabels.order }}</h1>
         <div v-for="ab in outputOrderText">
@@ -226,8 +228,8 @@ export default {
 #ordering {
   display: grid;
   grid-gap: 5px;
-    grid-template-columns: 15% 50% 35%;
-  margin:40px;
+    grid-template-columns: 20% 45% 35%;
+  margin-left: 40px;
 }
 .leftSection{
   grid-column: 1;
@@ -246,6 +248,15 @@ export default {
 
 #menuButtons button{
   width: 100%;
+}
+
+#addOrderButton {
+  font-size: 50em;
+}
+
+.hamburgerIngredients button:focus {
+  background-color: black;
+  color: white;
 }
 
 .example-panel {
