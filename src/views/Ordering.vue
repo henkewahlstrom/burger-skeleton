@@ -175,9 +175,12 @@ export default {
     },
 
     createOutputOrderText: function(){
+      var
+      for (i=0; i <this.chosenIngredients.lenght, i++){
+        if(typeof(this.chosenIngredients[i])==aBurger){
 
-
-    }
+        }
+      }
 
     changeCategory: function(int) {
       this.currentCategory = int;
