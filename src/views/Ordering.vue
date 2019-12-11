@@ -4,7 +4,6 @@
       <div id="menuButtons">
         <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
         <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=200></button>
-        <br>
         <div class="hamburgerIngredients" v-if="hamburgerButtons">
           <button v-on:click="changeCategory(1)"> KÖTT </button>
           <button v-on:click="changeCategory(2)"> PÅLÄGG </button>
@@ -268,7 +267,5 @@ export default {
 .ingredient {
   border: 1px solid #ccd;
   padding: 1em;
-  background-image: url('~@/assets/exampleImage.jpg');
-  color: white;
 }
 </style>
