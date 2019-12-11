@@ -2,15 +2,22 @@
   <div id="ordering">
     <section class="leftSection">
       <div id="menuButtons">
+<<<<<<< HEAD
         <img class="example-panel" src="@/assets/exampleImage.jpg">
         <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
         <button v-on:click="changeCategory(1); showBurger(true)"> VÄLJ HAMBURGARE </button>
+=======
+        <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
+        <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"> ><img src="@/assets/hamburger.png" width=200></button>
+
+>>>>>>> 8b8df840899a014824e061708fefcd28dcd2c980
         <div v-if="hamburgerButtons">
           <button v-on:click="changeCategory(1)"> KÖTT </button>
           <button v-on:click="changeCategory(2)"> PÅLÄGG </button>
           <button v-on:click="changeCategory(3)"> SÅS </button>
           <button v-on:click="changeCategory(4)"> BRÖD </button>
         </div>
+<<<<<<< HEAD
         <button v-on:click="changeCategory(5); showBurger(false)"> VÄLJ TILLBEHÖR </button>
         <button v-on:click="changeCategory(6); showBurger(false)"> VÄLJ DRYCK </button>
         
@@ -36,6 +43,46 @@
       <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
       <button v-on:click="addToOrder()"> </button>
     </section>
+=======
+        <button v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=200></button>
+        <button v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200></button>
+      </div>
+    </section>
+
+    <section class="middleSection" >
+      <div v-if="displayOrder">
+        <h1>{{ uiLabels.ingredients }}</h1>
+        <Ingredient
+          ref="ingredient"
+          v-for= "item  in ingredients"
+          v-show="item.category==currentCategory"
+          v-on:increment="createBurger(item)"
+          :item="item"
+          :lang="lang"
+          :key="item.ingredient_id">
+        </Ingredient>
+        <div v-if="hamburgerButtons">
+          <h1>{{ uiLabels.order }}</h1>
+          {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
+        </div>
+        <div id="addOrderButton">
+          <button v-on:click="addToOrder(); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width=40 >{{ uiLabels.addOrder }}</button>
+        </div>
+      </div>
+
+      <div v-if="displayOrder == false">
+        <h1>{{ uiLabels.order }}</h1>
+        <div v-for="ab in outputOrderText">
+          {{ ab}}
+          <button> delete </button>
+          <br>
+
+        </div>
+        <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
+      </div>
+    </section>
+
+>>>>>>> 8b8df840899a014824e061708fefcd28dcd2c980
     <section class="rightSection">
       <h1>{{ uiLabels.ordersInQueue }}</h1>
       <div>
@@ -78,10 +125,23 @@ export default {
       chosenIngredients: [],
       burgerIngredients: [],
       drinksAndExtras: [],
+      outputOrderText: [],
+      tempFoodObjekt:"",
       price: 0,
       orderNumber: "",
       currentCategory: 1,
-      hamburgerButtons: false
+      hamburgerButtons: false,
+      displayOrder: false,
+      aBurger: {
+        bread: null,
+        meat: [],
+        additionals:[],
+        sauce: []
+      },
+      aDrinkOrExtra: {
+        size: "Small",
+        name: null
+      }
     }
   },
   created: function () {
@@ -102,11 +162,40 @@ export default {
 
     },
     addToOrder: function () {
-      this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
+      this.addToBurger();
+      this.addToDrinkOrExtra();
+      this.chosenIngredients.push(this.aBurger);
+      this.createOutputOrderText();
+      //this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
       this.burgerIngredients = [];
       this.drinksAndExtras = []
     },
-
+    addToBurger: function(){
+      var i;
+      for (i=0; i < this.burgerIngredients.length; i++){
+      if (this.burgerIngredients[i].category == 1) {
+      this.aBurger.meat.push(this.burgerIngredients[i]);
+      }
+      else if (this.burgerIngredients[i].category == 2) {
+        this.aBurger.additionals.push(this.burgerIngredients[i]);
+      }
+      else if (this.burgerIngredients[i].category == 3) {
+        this.aBurger.sauce.push(this.burgerIngredients[i]);
+      }
+      else if (this.burgerIngredients[i].category == 4) {
+        this.aBurger.bread = this.burgerIngredients[i];
+        }
+      }
+    },
+    addToDrinkOrExtra: function(){
+      var j;
+      for (j=0; j< this.drinksAndExtras.length; j++){
+        if (this.drinksAndExtras[j].category >= 5){
+          this.aDrinkOrExtra.name = this.drinksAndExtras[j]
+          this.chosenIngredients.push(this.aDrinkOrExtra);
+        }
+      }
+    },
     placeOrder: function () {
       var i,
       //Wrap the order in an object
@@ -124,12 +213,46 @@ export default {
       this.chosenIngredients = [];
     },
 
+    createOutputOrderText: function(){
+      var i
+      var j
+      this.outputOrderText=[];
+      for (i=0; i <this.chosenIngredients.length; i++){
+        if(this.chosenIngredients[i].bread != null){
+          this.tempFoodObjekt= i +": " + this.chosenIngredients[i].bread.ingredient_sv
+          for (j=0; j < this.chosenIngredients[i].meat.length; j++){
+            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].meat[j].ingredient_sv
+          }
+          for (j=0; j < this.chosenIngredients[i].additionals.length; j++){
+            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].additionals[j].ingredient_sv
+          }
+          for (j=0; j < this.chosenIngredients[i].sauce.length; j++){
+            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].sauce[j].ingredient_sv
+          }
+          this.outputOrderText.push(this.tempFoodObjekt);
+          this.tempFoodObjekt = "";
+        }
+        else {
+          console.log(this.chosenIngredients[i].name.ingredient_sv)
+          this.tempFoodObjekt=this.chosenIngredients[i].name.ingredient_sv + ", " + this.chosenIngredients[i].size
+          this.outputOrderText.push(this.tempFoodObjekt);
+          this.tempFoodObjekt = "";
+        }
+      }
+      console.log(this.outputOrderText);
+    },
     changeCategory: function(int) {
       this.currentCategory = int;
     },
 
     showBurger: function(boolean) {
       this.hamburgerButtons = boolean;
+    },
+    showOrder: function(boolean) {
+      this.displayOrder = boolean;
+    },
+    removeitem: function(){
+
     }
   }
 }
@@ -139,8 +262,13 @@ export default {
 #ordering {
   display: grid;
   grid-gap: 5px;
+<<<<<<< HEAD
 	grid-template-columns: 15% 50% 35%;
   margin:40px;
+=======
+    grid-template-columns: 20% 45% 35%;
+  margin-left: 40px;
+>>>>>>> 8b8df840899a014824e061708fefcd28dcd2c980
 }
 .leftSection{
   grid-column: 1;
@@ -154,11 +282,30 @@ export default {
 #menuButtons{
   display: grid;
   grid-gap: 2px;
+<<<<<<< HEAD
 	grid-template-columns: repeat(1, 1fr);
+=======
+    grid-template-columns: repeat(1, 1fr);
+>>>>>>> 8b8df840899a014824e061708fefcd28dcd2c980
 }
 
 #menuButtons button{
   width: 100%;
+<<<<<<< HEAD
+=======
+}
+#addOrderButton {
+  font-size: 50em;
+}
+
+#addOrderButton {
+  font-size: 50em;
+}
+
+.hamburgerIngredients button:focus {
+  background-color: black;
+  color: white;
+>>>>>>> 8b8df840899a014824e061708fefcd28dcd2c980
 }
 
 .example-panel {
@@ -170,7 +317,6 @@ export default {
 .ingredient {
   border: 1px solid #ccd;
   padding: 1em;
-  background-image: url('~@/assets/exampleImage.jpg');
-  color: white;
+  color: black;
 }
 </style>
