@@ -49,8 +49,8 @@ ingredient_id,ingredient_sv,ingredient_en,category,milk_free,gluten_free,vegan,s
 48,tryffelmajonnäs,truffle mayonnaise,3,1,1,0,5
 49,tzatziki,tzatziki,3,0,1,0,5
 50,brioche,brioche,4,0,0,0,10
-51,glutenfritt bröd,gluten free bread,4,1,1,1,10
-52,veganskt bröd,vegan bun,4,0,0,1,10
+51,glutenfritt bröd, gluten free bread,4,1,1,1,10
+52,veganskt bröd, vegan bun,4,0,0,1,10
 53,fullkornsbrioche,whole wheat brioche,4,0,0,0,10
 54,nachochips,nachos,5,1,0,1,20
 55,potatisstrips,potato fries,5,1,1,1,20
@@ -59,4 +59,4 @@ ingredient_id,ingredient_sv,ingredient_en,category,milk_free,gluten_free,vegan,s
 58,pucko,pucko,6,0,1,0,25
 59,läsk,soda,6,1,1,1,20
 60,jordgubbsmilkshake,strawberry milk shake,6,0,1,0,40
-61,vegansk mango lassi,vegan mango lassi,6,1,1,1,40
+61,vegansk mango lassi, vegan mango lassi,6,1,1,1,40
