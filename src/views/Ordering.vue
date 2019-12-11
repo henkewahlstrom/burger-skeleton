@@ -97,8 +97,9 @@ export default {
       currentCategory: 1,
       hamburgerButtons: false,
       displayOrder: false,
+      isburger: false,
       aBurger: {
-        bread: {},
+        bread: null,
         meat: [],
         additionals:[],
         sauce: []
@@ -146,9 +147,14 @@ export default {
       else if (this.burgerIngredients[i].category == 3) {
         this.aBurger.sauce.push(this.burgerIngredients[i]);
       }
-      else if (this.burgerIngredients[i].category == 4) {
+      else if (this.burgerIngredients[i].category == 4)
+       { this.isBurger=true;
         this.aBurger.bread = this.burgerIngredients[i];
         }
+      }
+      if(this.isBurger){
+        this.chosenIngredients.push(this.aBurger);
+        this.isBurger=false;
       }
       //this.chosenIngredients.push(this.aBurger);
     },
