@@ -98,14 +98,14 @@ export default {
       hamburgerButtons: false,
       displayOrder: false,
       aBurger: {
-        bread: null,
+        bread: {},
         meat: [],
         additionals:[],
         sauce: []
       },
       aDrinkOrExtra: {
         size: "Small",
-        name: null
+        name: {}
       }
     }
   },
@@ -129,7 +129,6 @@ export default {
     addToOrder: function () {
       this.addToBurger();
       this.addToDrinkOrExtra();
-      this.chosenIngredients.push(this.aBurger);
       this.createOutputOrderText();
       //this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
       this.burgerIngredients = [];
@@ -151,6 +150,7 @@ export default {
         this.aBurger.bread = this.burgerIngredients[i];
         }
       }
+      //this.chosenIngredients.push(this.aBurger);
     },
     addToDrinkOrExtra: function(){
       var j;
@@ -184,22 +184,23 @@ export default {
       this.outputOrderText=[];
       for (i=0; i <this.chosenIngredients.length; i++){
         if(this.chosenIngredients[i].bread != null){
-          this.tempFoodObjekt= i +": " + this.chosenIngredients[i].bread.ingredient_sv
+          this.tempFoodObjekt= i +": " + this.chosenIngredients[i].bread["ingredient_" + this.lang]
           for (j=0; j < this.chosenIngredients[i].meat.length; j++){
-            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].meat[j].ingredient_sv
+            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].meat[j]["ingredient_" + this.lang]
           }
           for (j=0; j < this.chosenIngredients[i].additionals.length; j++){
-            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].additionals[j].ingredient_sv
+            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].additionals[j]["ingredient_" + this.lang]
           }
           for (j=0; j < this.chosenIngredients[i].sauce.length; j++){
-            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].sauce[j].ingredient_sv
+            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].sauce[j]["ingredient_" + this.lang]
           }
           this.outputOrderText.push(this.tempFoodObjekt);
           this.tempFoodObjekt = "";
         }
         else {
-          console.log(this.chosenIngredients[i].name.ingredient_sv)
-          this.tempFoodObjekt=this.chosenIngredients[i].name.ingredient_sv + ", " + this.chosenIngredients[i].size
+          console.log(this.chosenIngredients)
+          console.log(this.chosenIngredients[i].name["ingredient_" + this.lang])
+          this.tempFoodObjekt=this.chosenIngredients[i].name["ingredient_" + this.lang] + ", " + this.chosenIngredients[i].size
           this.outputOrderText.push(this.tempFoodObjekt);
           this.tempFoodObjekt = "";
         }
