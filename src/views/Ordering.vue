@@ -128,8 +128,7 @@ export default {
     addToOrder: function () {
       this.addToBurger();
       this.addToDrinkOrExtra();
-      var temporaryBurger = this.aBurger
-      this.chosenIngredients.push(temporaryBurger);
+      this.chosenIngredients.push(this.aBurger);
       console.log(this.chosenIngredients);
       this.createOutputOrderText();
       this.aBurger.bread=null;
