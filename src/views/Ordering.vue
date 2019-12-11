@@ -2,18 +2,17 @@
   <div id="ordering">
     <section class="leftSection">
       <div id="menuButtons">
-        <img class="example-panel" src="@/assets/exampleImage.jpg">
         <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
-        <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"> VÄLJ HAMBURGARE </button>
-        <br>
-        <div v-if="hamburgerButtons">
+        <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=200></button>
+
+        <div class="hamburgerIngredients" v-if="hamburgerButtons">
           <button v-on:click="changeCategory(1)"> KÖTT </button>
           <button v-on:click="changeCategory(2)"> PÅLÄGG </button>
           <button v-on:click="changeCategory(3)"> SÅS </button>
           <button v-on:click="changeCategory(4)"> BRÖD </button>
         </div>
-        <button v-on:click="changeCategory(5); showBurger(false); showOrder(true)"> VÄLJ TILLBEHÖR </button>
-        <button v-on:click="changeCategory(6); showBurger(false); showOrder(true)"> VÄLJ DRYCK </button>
+          <button v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=200></button>
+          <button v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200></button>
       </div>
     </section>
 
@@ -33,20 +32,22 @@
           <h1>{{ uiLabels.order }}</h1>
           {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
         </div>
-        <button v-on:click="addToOrder(); showOrder(false)">{{ uiLabels.addOrder }}</button>
+        <div id="addOrderButton">
+            <button v-on:click="addToOrder(); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
+        </div>
       </div>
+
       <div v-if="displayOrder == false">
         <h1>{{ uiLabels.order }}</h1>
-        <div v-for="(ab, index) in outputOrderText">
-          {{ ab}} {{index}}
-          <button> delete  </button>
+        <div v-for="ab in outputOrderText">
+          {{ab}}
+          <button> delete </button>
           <br>
 
         </div>
         <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
       </div>
     </section>
-
     <section class="rightSection">
       <h1>{{ uiLabels.ordersInQueue }}</h1>
       <div>
@@ -96,6 +97,7 @@ export default {
       currentCategory: 1,
       hamburgerButtons: false,
       displayOrder: false,
+      isburger: false,
       aBurger: {
         bread: null,
         meat: [],
@@ -104,7 +106,7 @@ export default {
       },
       aDrinkOrExtra: {
         size: "Small",
-        name: null
+        name: {}
       }
     }
   },
@@ -128,10 +130,7 @@ export default {
     addToOrder: function () {
       this.addToBurger();
       this.addToDrinkOrExtra();
-      this.chosenIngredients.push(this.aBurger);
-      console.log(this.chosenIngredients);
       this.createOutputOrderText();
-      this.aBurger.bread=null;
       //this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
       this.burgerIngredients = [];
       this.drinksAndExtras = []
@@ -148,10 +147,16 @@ export default {
       else if (this.burgerIngredients[i].category == 3) {
         this.aBurger.sauce.push(this.burgerIngredients[i]);
       }
-      else if (this.burgerIngredients[i].category == 4) {
+      else if (this.burgerIngredients[i].category == 4)
+       { this.isBurger=true;
         this.aBurger.bread = this.burgerIngredients[i];
         }
       }
+      if(this.isBurger){
+        this.chosenIngredients.push(this.aBurger);
+        this.isBurger=false;
+      }
+      //this.chosenIngredients.push(this.aBurger);
     },
     addToDrinkOrExtra: function(){
       var j;
@@ -185,25 +190,28 @@ export default {
       this.outputOrderText=[];
       for (i=0; i <this.chosenIngredients.length; i++){
         if(this.chosenIngredients[i].bread != null){
-          this.tempFoodObjekt= i +": " + this.chosenIngredients[i].bread.ingredient_sv
+          this.tempFoodObjekt= i +": " + this.chosenIngredients[i].bread["ingredient_" + this.lang]
           for (j=0; j < this.chosenIngredients[i].meat.length; j++){
-            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].meat[j].ingredient_sv
+            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].meat[j]["ingredient_" + this.lang]
           }
           for (j=0; j < this.chosenIngredients[i].additionals.length; j++){
-            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].additionals[j].ingredient_sv
+            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].additionals[j]["ingredient_" + this.lang]
           }
           for (j=0; j < this.chosenIngredients[i].sauce.length; j++){
-            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].sauce[j].ingredient_sv
+            this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].sauce[j]["ingredient_" + this.lang]
           }
           this.outputOrderText.push(this.tempFoodObjekt);
           this.tempFoodObjekt = "";
         }
         else {
-          this.tempFoodObjekt=this.chosenIngredients[i].name.ingredient_sv + ", " + this.chosenIngredients[i].size
+          console.log(this.chosenIngredients)
+          console.log(this.chosenIngredients[i].name["ingredient_" + this.lang])
+          this.tempFoodObjekt=this.chosenIngredients[i].name["ingredient_" + this.lang] + ", " + this.chosenIngredients[i].size
           this.outputOrderText.push(this.tempFoodObjekt);
           this.tempFoodObjekt = "";
         }
       }
+      console.log(this.outputOrderText);
     },
     changeCategory: function(int) {
       this.currentCategory = int;
@@ -226,8 +234,8 @@ export default {
 #ordering {
   display: grid;
   grid-gap: 5px;
-    grid-template-columns: 15% 50% 35%;
-  margin:40px;
+    grid-template-columns: 20% 45% 35%;
+  margin-left: 40px;
 }
 .leftSection{
   grid-column: 1;
@@ -248,6 +256,15 @@ export default {
   width: 100%;
 }
 
+#addOrderButton {
+  font-size: 50em;
+}
+
+.hamburgerIngredients button:focus {
+  background-color: black;
+  color: white;
+}
+
 .example-panel {
   position: fixed;
   left:0;
@@ -257,7 +274,5 @@ export default {
 .ingredient {
   border: 1px solid #ccd;
   padding: 1em;
-  background-image: url('~@/assets/exampleImage.jpg');
-  color: white;
 }
 </style>
