@@ -31,13 +31,13 @@
         <div v-if="hamburgerButtons">
           <h1>{{ uiLabels.order }}</h1>
           {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr <br>
-          <div v-if="currentCategory <= 3">
-            <button v-on:click="nextPage()" style="float: right;"><img src="@/assets/frontArrow.png" width = 40> {{ uiLabels.next }}</button>
-          </div>
           <div v-if="currentCategory >= 2">
             <button v-on:click="previousPage()" style="float: left;"><img src="@/assets/backArrow.png" width = 40> {{ uiLabels.previous }}</button>
           </div>
-        </div> <br> <br> <br>
+          <div v-if="currentCategory <= 3">
+            <button v-on:click="nextPage()" style="float: left;"><img src="@/assets/frontArrow.png" width = 40> {{ uiLabels.next }}</button>
+          </div>
+        </div>
         <div id="addOrderButton">
             <button v-on:click="addToOrder(); showBurger(false); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
         </div>
@@ -246,11 +246,11 @@ export default {
       this.price += -item.selling_price;
     },
     nextPage: function(){
-
+      this.currentCategory += 1;
     },
     previousPage: function(){
-
-    },
+      this.currentCategory = this.currentCategory - 1;
+    }
 
   }
 }
