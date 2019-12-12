@@ -30,15 +30,21 @@
         </Ingredient>
         <div v-if="hamburgerButtons">
           <h1>{{ uiLabels.order }}</h1>
-          {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
-        </div>
+          {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr <br>
+          <div v-if="hamburgerButtons <= 3">
+            <button v-on:click="nextPage()" style="float: right;"><img src="@/assets/frontArrow.png" width = 40> {{ uiLabels.next }}</button>
+          </div>
+          <div v-if="hamburgerButtons => 2">
+            <button v-on:click="previousPage()" style="float: left;"><img src="@/assets/backArrow.png" width = 40> {{ uiLabels.previous }}</button>
+          </div>
+        </div> <br> <br> <br>
         <div id="addOrderButton">
             <button v-on:click="addToOrder(); showBurger(false); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
         </div>
       </div>
 
       <div v-if="displayOrder == false">
-        <h1>{{ uiLabels.order }}</h1>
+        <h1>{{ uiLabels.yourOrder }}</h1>
         <div v-for="ab, index in outputOrderText">
           {{ ab}}
           <button v-on:click="removeItem(index)" id= index > delete </button>
@@ -235,10 +241,17 @@ export default {
       this.chosenIngredients.splice(index,1);
       this.createOutputOrderText();
     },
-    removeIngredientNumber(item){
+    removeIngredientNumber: function(item){
       this.burgerIngredients.pop();
       this.price += -item.selling_price;
-    }
+    },
+    nextPage: function(){
+
+    },
+    previousPage: function(){
+
+    },
+
   }
 }
 </script>

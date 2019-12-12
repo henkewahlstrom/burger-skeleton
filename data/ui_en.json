@@ -17,5 +17,6 @@
   "ready" : "Done",
   "order" : "My burger",
   "language" : "Svenska",
-  "addOrder" : "Add Order"
+  "addOrder" : "Add Order",
+  "previous" : "Previous"
 }
