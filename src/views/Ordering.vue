@@ -31,10 +31,10 @@
         <div v-if="hamburgerButtons">
           <h1>{{ uiLabels.order }}</h1>
           {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr <br>
-          <div v-if="hamburgerButtons <= 3">
+          <div v-if="currentCategory <= 3">
             <button v-on:click="nextPage()" style="float: right;"><img src="@/assets/frontArrow.png" width = 40> {{ uiLabels.next }}</button>
           </div>
-          <div v-if="hamburgerButtons => 2">
+          <div v-if="currentCategory >= 2">
             <button v-on:click="previousPage()" style="float: left;"><img src="@/assets/backArrow.png" width = 40> {{ uiLabels.previous }}</button>
           </div>
         </div> <br> <br> <br>
