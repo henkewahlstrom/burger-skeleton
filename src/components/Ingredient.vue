@@ -6,6 +6,9 @@
       {{counter}}
       <button v-on:click="incrementCounter"> + </button>
       {{item["ingredient_"+ lang]}}, {{item.selling_price}}:-
+      <span  id="milk" v-if="item.milk_free == 0"> L </span>
+      <span  id="gluten" v-if="item.gluten_free == 0"> G </span>
+      <span  id="vegan" v-if="item.vegan == 1"> V </span>
     </label>
   </div>
 </template>
@@ -45,4 +48,15 @@ export default {
 </script>
 <style scoped>
 
+#milk {
+  color: blue;
+}
+
+#gluten {
+  color: brown;
+}
+
+#vegan {
+  color: green;
+}
 </style>
