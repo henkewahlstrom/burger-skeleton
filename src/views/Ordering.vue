@@ -32,7 +32,7 @@
           {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
         </div>
         <div id="addOrderButton">
-            <button v-on:click="addToOrder(); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
+            <button v-on:click="addToOrder(); showBurger(false); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
         </div>
       </div>
 
@@ -153,7 +153,12 @@ export default {
         }
       }
       if(this.isBurger){
-        this.chosenIngredients.push(this.aBurger);
+        this.chosenIngredients.push({bread:this.aBurger.bread, meat:this.aBurger.meat,
+          additionals:this.aBurger.additionals, sauce:this.aBurger.sauce});
+          this.aBurger.bread=null;
+          this.aBurger.meat=[];
+          this.aBurger.additionals=[];
+          this.aBurger.sauce=[]
         this.isBurger=false;
       }
       //this.chosenIngredients.push(this.aBurger);
@@ -163,7 +168,9 @@ export default {
       for (j=0; j< this.drinksAndExtras.length; j++){
         if (this.drinksAndExtras[j].category >= 5){
           this.aDrinkOrExtra.name = this.drinksAndExtras[j]
-          this.chosenIngredients.push(this.aDrinkOrExtra);
+          this.chosenIngredients.push({name:this.aDrinkOrExtra.name, size:this.aDrinkOrExtra.size});
+          this.aDrinkOrExtra.name={};
+          this.aDrinkOrExtra.size="Small";
         }
       }
     },
