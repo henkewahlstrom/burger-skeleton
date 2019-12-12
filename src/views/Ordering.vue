@@ -38,9 +38,9 @@
 
       <div v-if="displayOrder == false">
         <h1>{{ uiLabels.order }}</h1>
-        <div v-for="ab in outputOrderText">
+        <div v-for="ab, index in outputOrderText">
           {{ ab}}
-          <button> delete </button>
+          <button v-on:click="removeItem(index)" id= index > delete </button>
           <br>
 
         </div>
@@ -223,8 +223,9 @@ export default {
     showOrder: function(boolean) {
       this.displayOrder = boolean;
     },
-    removeitem: function(){
-
+    removeItem: function(index){
+      this.chosenIngredients.splice(index,1);
+      this.createOutputOrderText();
     }
   }
 }
