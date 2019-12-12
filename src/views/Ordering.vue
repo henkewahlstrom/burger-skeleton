@@ -23,7 +23,7 @@
           v-for= "item  in ingredients"
           v-show="item.category==currentCategory"
           v-on:increment="createBurger(item)"
-          v-on:deincrement="removeIngredientNumber()"
+          v-on:deincrement="removeIngredientNumber(item)"
           :item="item"
           :lang="lang"
           :key="item.ingredient_id">
@@ -235,8 +235,9 @@ export default {
       this.chosenIngredients.splice(index,1);
       this.createOutputOrderText();
     },
-    removeIngredientNumber(){
+    removeIngredientNumber(item){
       this.burgerIngredients.pop();
+      this.price += -item.selling_price;
     }
   }
 }
