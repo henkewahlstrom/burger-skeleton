@@ -4,7 +4,6 @@
       <div id="menuButtons">
         <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
         <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=200></button>
-
         <div class="hamburgerIngredients" v-if="hamburgerButtons">
           <button v-on:click="changeCategory(1)"> KÖTT </button>
           <button v-on:click="changeCategory(2)"> PÅLÄGG </button>
@@ -33,14 +32,14 @@
           {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr
         </div>
         <div id="addOrderButton">
-            <button v-on:click="addToOrder(); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
+            <button v-on:click="addToOrder(); showBurger(false); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
         </div>
       </div>
 
       <div v-if="displayOrder == false">
         <h1>{{ uiLabels.order }}</h1>
         <div v-for="ab in outputOrderText">
-          {{ab}}
+          {{ ab}}
           <button> delete </button>
           <br>
 
@@ -48,6 +47,7 @@
         <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
       </div>
     </section>
+
     <section class="rightSection">
       <h1>{{ uiLabels.ordersInQueue }}</h1>
       <div>
@@ -153,7 +153,12 @@ export default {
         }
       }
       if(this.isBurger){
-        this.chosenIngredients.push(this.aBurger);
+        this.chosenIngredients.push({bread:this.aBurger.bread, meat:this.aBurger.meat,
+          additionals:this.aBurger.additionals, sauce:this.aBurger.sauce});
+          this.aBurger.bread=null;
+          this.aBurger.meat=[];
+          this.aBurger.additionals=[];
+          this.aBurger.sauce=[]
         this.isBurger=false;
       }
       //this.chosenIngredients.push(this.aBurger);
@@ -163,7 +168,9 @@ export default {
       for (j=0; j< this.drinksAndExtras.length; j++){
         if (this.drinksAndExtras[j].category >= 5){
           this.aDrinkOrExtra.name = this.drinksAndExtras[j]
-          this.chosenIngredients.push(this.aDrinkOrExtra);
+          this.chosenIngredients.push({name:this.aDrinkOrExtra.name, size:this.aDrinkOrExtra.size});
+          this.aDrinkOrExtra.name={};
+          this.aDrinkOrExtra.size="Small";
         }
       }
     },
