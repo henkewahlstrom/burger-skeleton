@@ -56,6 +56,11 @@
       </div>
     </section>
     <section class="rightSection">
+      <div id="infoAllergy">
+        <span id="milk"> L </span> = Innehåller laktos <br>
+        <span id="gluten">G</span> = Innehåller gluten <br>
+        <span id="vegan">V</span> = Vegansk
+      </div>
       <h1>{{ uiLabels.ordersInQueue }}</h1>
       <div>
         <OrderItem
@@ -286,6 +291,22 @@ export default {
   font-size: 50em;
 }
 
+#infoAllergy {
+  border: 1px solid #ccd;
+  padding: 1em; 
+
+}
+#milk {
+  color: blue;
+}
+
+#gluten {
+  color: brown;
+}
+
+#vegan {
+  color: green;
+}
 .hamburgerIngredients button:focus {
   background-color: black;
   color: white;
