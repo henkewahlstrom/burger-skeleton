@@ -73,16 +73,19 @@ export default {
     display: grid;
     grid-gap: 5px;
     grid-template-columns: 35% 35% 30%;
-    margin-left: 40px;
+    margin: 40px;
   }
   .leftSection{
     grid-column: 1;
+    background-color: orange;
   }
   .middleSection {
     grid-column: 2;
+    background-color: blue;
   }
   .rightSection{
     grid-column: 3;
+    background-color: green;
   }
 
   h1 {
