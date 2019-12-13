@@ -18,5 +18,6 @@
   "order" : "My burger",
   "language" : "Svenska",
   "addOrder" : "Add Order",
-  "previous" : "Previous"
+  "previous" : "Previous",
+  "drinksAndExtras" : "Drinks and Extras"
 }

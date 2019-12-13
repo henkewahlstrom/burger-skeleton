@@ -19,5 +19,6 @@
   "order" : "Min burgare",
   "language" : "English",
   "addOrder" : "Lägg till order",
-  "previous" : "Föregående"
+  "previous" : "Föregående",
+  "drinksAndExtras" : "Dryck och Tillbehör"
 }

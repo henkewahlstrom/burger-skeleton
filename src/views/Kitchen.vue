@@ -1,5 +1,6 @@
 <template>
 <div id="orders">
+  <section class="leftSection">
   <h1>{{ uiLabels.ordersInQueue }}</h1>
   <div>
     <OrderItemToPrepare
@@ -13,6 +14,16 @@
       :key="key">
     </OrderItemToPrepare>
   </div>
+</section>
+
+<section class="middleSection">
+  <h1>{{ uiLabels.drinksAndExtras }}</h1>
+  <div>
+
+  </div>
+</section>
+
+<section class="rightSection">
   <h1>{{ uiLabels.ordersFinished }}</h1>
   <div>
     <OrderItem
@@ -25,15 +36,16 @@
       :key="key">
     </OrderItem>
   </div>
-</div> 
+</section>
+</div>
 </template>
 <script>
 import OrderItem from '@/components/OrderItem.vue'
 import OrderItemToPrepare from '@/components/OrderItemToPrepare.vue'
- 
+
 //import methods and data that are shared between ordering and kitchen views
 import sharedVueStuff from '@/components/sharedVueStuff.js'
- 
+
 export default {
   name: 'Ordering',
   components: {
@@ -58,8 +70,21 @@ export default {
 <style scoped>
     #orders {
     font-size:24pt;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: 35% 35% 30%;
+    margin-left: 40px;
   }
- 
+  .leftSection{
+    grid-column: 1;
+  }
+  .middleSection {
+    grid-column: 2;
+  }
+  .rightSection{
+    grid-column: 3;
+  }
+
   h1 {
     text-transform: uppercase;
     font-size: 1.4em;
