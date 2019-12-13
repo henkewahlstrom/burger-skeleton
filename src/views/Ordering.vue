@@ -4,6 +4,7 @@
       <div id="menuButtons">
         <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
         <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=200></button>
+
         <div class="hamburgerIngredients" v-if="hamburgerButtons">
           <button v-on:click="changeCategory(1)"> KÖTT </button>
           <button v-on:click="changeCategory(2)"> PÅLÄGG </button>
@@ -31,13 +32,13 @@
         <div v-if="hamburgerButtons">
           <h1>{{ uiLabels.order }}</h1>
           {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr <br>
-          <div v-if="currentCategory <= 3">
-            <button v-on:click="nextPage()" style="float: right;"><img src="@/assets/frontArrow.png" width = 40> {{ uiLabels.next }}</button>
-          </div>
           <div v-if="currentCategory >= 2">
             <button v-on:click="previousPage()" style="float: left;"><img src="@/assets/backArrow.png" width = 40> {{ uiLabels.previous }}</button>
           </div>
-        </div> <br> <br> <br>
+          <div v-if="currentCategory <= 3">
+            <button v-on:click="nextPage()" style="float: left;"><img src="@/assets/frontArrow.png" width = 40> {{ uiLabels.next }}</button>
+          </div>
+        </div>
         <div id="addOrderButton">
             <button v-on:click="addToOrder(); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
         </div>
@@ -54,8 +55,12 @@
         <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
       </div>
     </section>
-
     <section class="rightSection">
+      <div id="infoAllergy">
+        <span id="milk"> L </span> = Innehåller laktos <br>
+        <span id="gluten">G</span> = Innehåller gluten <br>
+        <span id="vegan">V</span> = Vegansk
+      </div>
       <h1>{{ uiLabels.ordersInQueue }}</h1>
       <div>
         <OrderItem
@@ -239,11 +244,11 @@ export default {
       this.price += -item.selling_price;
     },
     nextPage: function(){
-
+      this.currentCategory += 1;
     },
     previousPage: function(){
-
-    },
+      this.currentCategory = this.currentCategory - 1;
+    }
 
   }
 }
@@ -279,6 +284,22 @@ export default {
   font-size: 50em;
 }
 
+#infoAllergy {
+  border: 1px solid #ccd;
+  padding: 1em; 
+
+}
+#milk {
+  color: blue;
+}
+
+#gluten {
+  color: brown;
+}
+
+#vegan {
+  color: green;
+}
 .hamburgerIngredients button:focus {
   background-color: black;
   color: white;
