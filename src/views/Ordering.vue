@@ -1,5 +1,6 @@
 <template>
   <div id="ordering">
+    <img class="examplePanel" src="@/assets/colorsplash.jpg">
     <section class="leftSection">
       <div id="menuButtons">
         <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
@@ -270,21 +271,40 @@ export default {
 </script>
 <style scoped>
 /* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
+.examplePanel {
+  position: fixed;
+  background-size: cover;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: -2;
+}
+
 #ordering {
   display: grid;
-  grid-gap: 5px;
+  grid-gap: 15px;
     grid-template-columns: 20% 45% 35%;
   margin-left: 40px;
+  margin-right: 40px;
 }
 .leftSection{
   grid-column: 1;
 }
 .middleSection{
   grid-column: 2;
+  border: 1px solid #ccd;
+  background-color: white;
+
+  padding: 1em;
 }
 .rightSection{
   grid-column: 3;
+  border: 1px solid #ccd;
+  padding: 1em;
+  background-color: white;
+  
 }
+
 #menuButtons{
   display: grid;
   grid-gap: 2px;
@@ -329,5 +349,6 @@ export default {
 .ingredient {
   border: 1px solid #ccd;
   padding: 1em;
+  background-color: white;
 }
 </style>
