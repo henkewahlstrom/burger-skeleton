@@ -28,7 +28,8 @@ export default {
   name: 'Ingredient',
   props: {
     item: Object,
-    lang: String
+    lang: String,
+    currentCategory: Object
   },
     data: function () {
     return {
@@ -37,10 +38,15 @@ export default {
   },
   methods: {
     incrementCounter: function () {
+      if (this.currentCategory == 4) {
+        
+      }
+      else if (this.currentCategory != 4) {
       this.counter += 1;
       // sending 'increment' message to parent component or view so that it
       // can catch it with v-on:increment in the component declaration
       this.$emit('increment');
+    }
     },
     incrementDeCounter: function () {
       if (this.counter >0) {

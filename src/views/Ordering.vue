@@ -7,14 +7,21 @@
         <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=200></button>
 
         <div class="hamburgerIngredients" v-if="hamburgerButtons">
-          <button v-on:click="changeCategory(1)"> {{ uiLabels.protein }} </button>
-          <button v-on:click="changeCategory(2)"> {{ uiLabels.toppings }} </button>
-          <button v-on:click="changeCategory(3)"> {{ uiLabels.sauce }} </button>
-          <button v-on:click="changeCategory(4)"> {{ uiLabels.bread }} </button>
+          <button :class="['menu-button', {'focused-category' : currentCategory === 1}]" v-on:click="changeCategory(1)"> {{ uiLabels.protein }} </button>
+          <button :class="['menu-button', {'focused-category' : currentCategory === 2}]" v-on:click="changeCategory(2)"> {{ uiLabels.toppings }} </button>
+          <button :class="['menu-button', {'focused-category' : currentCategory === 3}]" v-on:click="changeCategory(3)"> {{ uiLabels.sauce }} </button>
+          <button :class="['menu-button', {'focused-category' : currentCategory === 4}]" v-on:click="changeCategory(4)"> {{ uiLabels.bread }} </button>
         </div>
           <button v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=200></button>
           <button v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200></button>
       </div>
+      <div>
+        <button id="checkoutButton" v-on:click="placeOrder();"> CHECKOUT {{totalOrderPrice}} kr </button>
+      </div>
+    </section>
+
+    <section class="header">
+      <h1> Crusty Burgers </h1>
     </section>
 
     <section class="middleTopSection" >
@@ -28,6 +35,7 @@
           v-on:deincrement="removeIngredientNumber(item)"
           :item="item"
           :lang="lang"
+          :currentCategory=currentCategory
           :key="item.ingredient_id">
         </Ingredient>
         <div v-if="hamburgerButtons">
@@ -43,7 +51,7 @@
       </section>
 
       <section class="middleBottomSection">
-        <div id="addOrderButton">
+        <div id="addOrderButton" v-if="displayOrder">
             <button v-on:click="addToOrder(); showBurger(false); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
         </div>
       <div v-if="displayOrder == false">
@@ -53,7 +61,6 @@
           <button v-on:click="removeItem(index)" id= "index" > delete </button>
           <br>
         </div>
-        <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
       </div>
       </section>
 
@@ -65,6 +72,7 @@
         <span id="vegan">V</span> = {{ uiLabels.vegan }}
       </div>
       <div class="rightInfo">
+        <div id="secondRightBox">
         <div v-if="hamburgerButtons">
           <h1>{{ uiLabels.order }}</h1>
           {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr <br>
@@ -82,6 +90,7 @@
           </OrderItem>
         </div>
       </div>
+    </div>
     </section>
   </div>
 </template>
@@ -114,6 +123,7 @@ export default {
       outputOrderText: [],
       tempFoodObjekt:"",
       price: 0,
+      totalOrderPrice: 0,
       orderNumber: "",
       currentCategory: 1,
       hamburgerButtons: false,
@@ -209,6 +219,7 @@ export default {
         this.$refs.ingredient[i].resetCounter();
       }
       this.price = 0;
+      this.totalOrderPrice = 0;
       this.chosenIngredients = [];
     },
 
@@ -218,7 +229,7 @@ export default {
       this.outputOrderText=[];
       for (i=0; i <this.chosenIngredients.length; i++){
         if(this.chosenIngredients[i].bread != null){
-          this.tempFoodObjekt= i +": " + this.chosenIngredients[i].bread["ingredient_" + this.lang]
+          this.tempFoodObjekt= (i+1) +": " + this.chosenIngredients[i].bread["ingredient_" + this.lang]
           for (j=0; j < this.chosenIngredients[i].meat.length; j++){
             this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].meat[j]["ingredient_" + this.lang]
           }
@@ -232,14 +243,12 @@ export default {
           this.tempFoodObjekt = "";
         }
         else {
-          console.log(this.chosenIngredients)
-          console.log(this.chosenIngredients[i].name["ingredient_" + this.lang])
-          this.tempFoodObjekt=this.chosenIngredients[i].name["ingredient_" + this.lang] + ", " + this.chosenIngredients[i].size
+          this.tempFoodObjekt= (i+1) + ": " + this.chosenIngredients[i].name["ingredient_" + this.lang] + ", " + this.chosenIngredients[i].size
           this.outputOrderText.push(this.tempFoodObjekt);
           this.tempFoodObjekt = "";
         }
+      this.totalOrderPrice=this.price;
       }
-      console.log(this.outputOrderText);
     },
     changeCategory: function(int) {
       this.currentCategory = int;
@@ -253,6 +262,7 @@ export default {
     },
     removeItem: function(index){
       this.chosenIngredients.splice(index,1);
+      console.log(this.chosenIngredients[index])
       this.createOutputOrderText();
     },
 
@@ -300,6 +310,11 @@ export default {
 .leftSection{
   grid-column: 1;
   grid-row: 1 / span 3;
+}
+
+.header{
+  grid-column: 2;
+  grid-row: 1;
 }
 .middleTopSection{
   grid-column: 2;
@@ -351,6 +366,12 @@ export default {
 #addOrderButton {
   font-size: 50em;
 }
+#checkoutButton {
+  width: 270px;
+  height: 80px;
+  margin-top: 10px;
+  font-size: 18px;
+}
 
 #infoAllergy {
   border: 4px groove #ccd;
@@ -358,6 +379,11 @@ export default {
   background-color: white;
 
 }
+
+#secondRightBox {
+  padding: 1em;
+}
+
 #milk {
   color: blue;
 }
@@ -369,7 +395,7 @@ export default {
 #vegan {
   color: green;
 }
-.hamburgerIngredients button:focus {
+.focused-category {
   background-color: black;
   color: white;
 }
@@ -385,4 +411,5 @@ export default {
   padding: 1em;
   background-color: white;
 }
+
 </style>
