@@ -45,10 +45,13 @@
       </div>
  
       <div v-if="displayOrder == false">
+<<<<<<< HEAD
         <h1>{{ uiLabels.order }}</h1>
         <div v-for="ab in outputOrderText">
           {{ab}}
           <button> delete </button>
+=======
+>>>>>>> aa13372fd4f3745030cc6bed3ced6cad947b5717
         <h1>{{ uiLabels.yourOrder }}</h1>
         <div v-for="ab, index in outputOrderText">
           {{ ab}}
