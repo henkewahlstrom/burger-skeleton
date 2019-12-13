@@ -18,7 +18,7 @@
     </section>
 
     <section class="middleTopSection" >
-      <div v-if="displayOrder">
+      <div v-if="displayOrder" class="ingdiv">
         <h1>{{ uiLabels.ingredients }}</h1>
         <Ingredient
           ref="ingredient"
@@ -327,7 +327,10 @@ export default {
   padding: 1em;
 }
 
-
+.ingdiv{
+  overflow-y:scroll;
+  height:50vh;
+}
 
 .rightInfo {
   margin-top: 30px;
