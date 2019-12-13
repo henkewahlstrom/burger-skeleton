@@ -6,16 +6,16 @@
         <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=200></button>
 
         <div class="hamburgerIngredients" v-if="hamburgerButtons">
-          <button v-on:click="changeCategory(1)"> KÖTT </button>
-          <button v-on:click="changeCategory(2)"> PÅLÄGG </button>
-          <button v-on:click="changeCategory(3)"> SÅS </button>
-          <button v-on:click="changeCategory(4)"> BRÖD </button>
+          <button v-on:click="changeCategory(1)"> KÃ–TT </button>
+          <button v-on:click="changeCategory(2)"> PÃ…LÃ„GG </button>
+          <button v-on:click="changeCategory(3)"> SÃ…S </button>
+          <button v-on:click="changeCategory(4)"> BRÃ–D </button>
         </div>
           <button v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=200></button>
           <button v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200></button>
       </div>
     </section>
- 
+
     <section class="middleSection" >
       <div v-if="displayOrder">
         <h1>{{ uiLabels.ingredients }}</h1>
@@ -43,21 +43,14 @@
             <button v-on:click="addToOrder(); showBurger(false); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
         </div>
       </div>
- 
+
       <div v-if="displayOrder == false">
-<<<<<<< HEAD
-        <h1>{{ uiLabels.order }}</h1>
-        <div v-for="ab in outputOrderText">
-          {{ab}}
-          <button> delete </button>
-=======
->>>>>>> aa13372fd4f3745030cc6bed3ced6cad947b5717
         <h1>{{ uiLabels.yourOrder }}</h1>
         <div v-for="ab, index in outputOrderText">
           {{ ab}}
           <button v-on:click="removeItem(index)" id= index > delete </button>
           <br>
- 
+
         </div>
         <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
       </div>
@@ -79,16 +72,16 @@
   </div>
 </template>
 <script>
- 
+
 //import the components that are used in the template, the name that you
 //use for importing will be used in the template above and also below in
 //components
 import Ingredient from '@/components/Ingredient.vue'
 import OrderItem from '@/components/OrderItem.vue'
- 
+
 //import methods and data that are shared between ordering and kitchen views
 import sharedVueStuff from '@/components/sharedVueStuff.js'
- 
+
 /* instead of defining a Vue instance, export default allows the only
 necessary Vue instance (found in main.js) to import your data and methods */
 export default {
@@ -139,7 +132,7 @@ export default {
         this.drinksAndExtras.push(item);
         this.price += +item.selling_price;
       }
- 
+
     },
     addToOrder: function () {
       this.addToBurger();
@@ -204,7 +197,7 @@ export default {
       this.price = 0;
       this.chosenIngredients = [];
     },
- 
+
     createOutputOrderText: function(){
       var i
       var j
@@ -237,7 +230,7 @@ export default {
     changeCategory: function(int) {
       this.currentCategory = int;
     },
- 
+
     showBurger: function(boolean) {
       this.hamburgerButtons = boolean;
     },
@@ -284,20 +277,20 @@ export default {
   grid-gap: 2px;
     grid-template-columns: repeat(1, 1fr);
 }
- 
+
 #menuButtons button{
   width: 100%;
 }
- 
+
 #addOrderButton {
   font-size: 50em;
 }
- 
+
 .hamburgerIngredients button:focus {
   background-color: black;
   color: white;
 }
- 
+
 .example-panel {
   position: fixed;
   left:0;
