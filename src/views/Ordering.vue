@@ -1,22 +1,23 @@
 <template>
   <div id="ordering">
+    <img class="examplePanel" src="@/assets/colorsplash.jpg">
     <section class="leftSection">
       <div id="menuButtons">
         <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
         <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=200></button>
 
         <div class="hamburgerIngredients" v-if="hamburgerButtons">
-          <button v-on:click="changeCategory(1)"> KÖTT </button>
-          <button v-on:click="changeCategory(2)"> PÅLÄGG </button>
-          <button v-on:click="changeCategory(3)"> SÅS </button>
-          <button v-on:click="changeCategory(4)"> BRÖD </button>
+          <button v-on:click="changeCategory(1)"> {{ uiLabels.protein }} </button>
+          <button v-on:click="changeCategory(2)"> {{ uiLabels.toppings }} </button>
+          <button v-on:click="changeCategory(3)"> {{ uiLabels.sauce }} </button>
+          <button v-on:click="changeCategory(4)"> {{ uiLabels.bread }} </button>
         </div>
           <button v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=200></button>
           <button v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200></button>
       </div>
     </section>
 
-    <section class="middleSection" >
+    <section class="middleTopSection" >
       <div v-if="displayOrder">
         <h1>{{ uiLabels.ingredients }}</h1>
         <Ingredient
@@ -29,9 +30,11 @@
           :lang="lang"
           :key="item.ingredient_id">
         </Ingredient>
+      </div>
+      </section>
+
+      <section class="middleBottomSection">
         <div v-if="hamburgerButtons">
-          <h1>{{ uiLabels.order }}</h1>
-          {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr <br>
           <div v-if="currentCategory >= 2">
             <button v-on:click="previousPage()" style="float: left;"><img src="@/assets/backArrow.png" width = 40> {{ uiLabels.previous }}</button>
           </div>
@@ -40,38 +43,45 @@
           </div>
         </div>
         <div id="addOrderButton">
-            <button v-on:click="addToOrder(); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
+            <button v-on:click="addToOrder(); showBurger(false); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
         </div>
-      </div>
+
 
       <div v-if="displayOrder == false">
         <h1>{{ uiLabels.yourOrder }}</h1>
         <div v-for="ab, index in outputOrderText">
           {{ ab}}
-          <button v-on:click="removeItem(index)" id= index > delete </button>
+          <button v-on:click="removeItem(index)" id= "index" > delete </button>
           <br>
-
         </div>
         <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
       </div>
-    </section>
+      </section>
+
+
     <section class="rightSection">
       <div id="infoAllergy">
-        <span id="milk"> L </span> = Innehåller laktos <br>
-        <span id="gluten">G</span> = Innehåller gluten <br>
-        <span id="vegan">V</span> = Vegansk
+        <span id="milk"> L </span> = {{ uiLabels.contains }} {{ uiLabels.lactose }} <br>
+        <span id="gluten">G</span> = {{ uiLabels.contains }} {{ uiLabels.gluten }} <br>
+        <span id="vegan">V</span> = {{ uiLabels.vegan }}
       </div>
-      <h1>{{ uiLabels.ordersInQueue }}</h1>
-      <div>
-        <OrderItem
-          v-for="(order, key) in orders"
-          v-if="order.status !== 'done'"
-          :order-id="key"
-          :order="order"
-          :ui-labels="uiLabels"
-          :lang="lang"
-          :key="key">
-        </OrderItem>
+      <div class="rightInfo">
+        <div v-if="hamburgerButtons">
+          <h1>{{ uiLabels.order }}</h1>
+          {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr <br>
+        </div>
+        <h1>{{ uiLabels.ordersInQueue }}</h1>
+        <div>
+          <OrderItem
+            v-for="(order, key) in orders"
+            v-if="order.status !== 'done'"
+            :order-id="key"
+            :order="order"
+            :ui-labels="uiLabels"
+            :lang="lang"
+            :key="key">
+          </OrderItem>
+        </div>
       </div>
     </section>
   </div>
@@ -165,7 +175,12 @@ export default {
         }
       }
       if(this.isBurger){
-        this.chosenIngredients.push(this.aBurger);
+        this.chosenIngredients.push({bread:this.aBurger.bread, meat:this.aBurger.meat,
+          additionals:this.aBurger.additionals, sauce:this.aBurger.sauce});
+          this.aBurger.bread=null;
+          this.aBurger.meat=[];
+          this.aBurger.additionals=[];
+          this.aBurger.sauce=[]
         this.isBurger=false;
       }
       //this.chosenIngredients.push(this.aBurger);
@@ -175,7 +190,9 @@ export default {
       for (j=0; j< this.drinksAndExtras.length; j++){
         if (this.drinksAndExtras[j].category >= 5){
           this.aDrinkOrExtra.name = this.drinksAndExtras[j]
-          this.chosenIngredients.push(this.aDrinkOrExtra);
+          this.chosenIngredients.push({name:this.aDrinkOrExtra.name, size:this.aDrinkOrExtra.size});
+          this.aDrinkOrExtra.name={};
+          this.aDrinkOrExtra.size="Small";
         }
       }
     },
@@ -239,9 +256,19 @@ export default {
       this.chosenIngredients.splice(index,1);
       this.createOutputOrderText();
     },
+
+
+
     removeIngredientNumber: function(item){
-      this.burgerIngredients.pop();
-      this.price += -item.selling_price;
+      if (this.currentCategory <= 4){
+        this.burgerIngredients.splice( this.burgerIngredients.indexOf(item),1);
+
+        this.price += -item.selling_price;
+      }
+      else {
+        this.drinksAndExtras.splice( this.drinksAndExtras.indexOf(item),1);
+        this.price += -item.selling_price;
+      }
     },
     nextPage: function(){
       this.currentCategory += 1;
@@ -255,21 +282,60 @@ export default {
 </script>
 <style scoped>
 /* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
+.examplePanel {
+  position: fixed;
+  background-size: cover;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: -2;
+}
+
 #ordering {
   display: grid;
-  grid-gap: 5px;
+  grid-gap: 15px;
     grid-template-columns: 20% 45% 35%;
   margin-left: 40px;
+  margin-right: 40px;
 }
 .leftSection{
   grid-column: 1;
+  grid-row: 1 / span 3;
 }
-.middleSection{
+.middleTopSection{
   grid-column: 2;
+  grid-row: 1 / span 2;
+  border: 4px groove #ccd;
+  background-color: white;
+  margin-left: 15px;
+  padding: 1em;
 }
+
+.middleBottomSection{
+  grid-column: 2;
+  grid-row: 3;
+  border: 4px groove #ccd;
+  background-color: white;
+  margin-left: 15px;
+  padding: 1em;
+
+}
+
 .rightSection{
   grid-column: 3;
+  grid-row: 1 / span 3;
+
+  padding: 1em;
 }
+
+
+
+.rightInfo {
+  margin-top: 30px;
+  border: 4px groove #ccd;
+  background-color: white;
+}
+
 #menuButtons{
   display: grid;
   grid-gap: 2px;
@@ -285,8 +351,9 @@ export default {
 }
 
 #infoAllergy {
-  border: 1px solid #ccd;
-  padding: 1em; 
+  border: 4px groove #ccd;
+  padding: 1em;
+  background-color: white;
 
 }
 #milk {
@@ -314,5 +381,6 @@ export default {
 .ingredient {
   border: 1px solid #ccd;
   padding: 1em;
+  background-color: white;
 }
 </style>
