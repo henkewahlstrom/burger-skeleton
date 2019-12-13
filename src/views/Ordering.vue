@@ -1,5 +1,6 @@
 <template>
   <div id="ordering">
+    <img class="examplePanel" src="@/assets/colorsplash.jpg">
     <section class="leftSection">
       <div id="menuButtons">
         <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
@@ -16,7 +17,7 @@
       </div>
     </section>
 
-    <section class="middleSection" >
+    <section class="middleTopSection" >
       <div v-if="displayOrder">
         <h1>{{ uiLabels.ingredients }}</h1>
         <Ingredient
@@ -29,6 +30,10 @@
           :lang="lang"
           :key="item.ingredient_id">
         </Ingredient>
+      </div>
+      </section>
+
+      <section class="middleBottomSection">
         <div v-if="hamburgerButtons">
           <div v-if="currentCategory >= 2">
             <button v-on:click="previousPage()" style="float: left;"><img src="@/assets/backArrow.png" width = 40> {{ uiLabels.previous }}</button>
@@ -40,40 +45,43 @@
         <div id="addOrderButton">
             <button v-on:click="addToOrder(); showBurger(false); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
         </div>
-      </div>
+
 
       <div v-if="displayOrder == false">
         <h1>{{ uiLabels.yourOrder }}</h1>
         <div v-for="ab, index in outputOrderText">
           {{ ab}}
-          <button v-on:click="removeItem(index)" id= index > delete </button>
+          <button v-on:click="removeItem(index)" id= "index" > delete </button>
           <br>
-
         </div>
         <button v-on:click="placeOrder()">{{ uiLabels.placeOrder }}</button>
       </div>
-    </section>
+      </section>
+
+
     <section class="rightSection">
       <div id="infoAllergy">
         <span id="milk"> L </span> = {{ uiLabels.contains }} {{ uiLabels.lactose }} <br>
         <span id="gluten">G</span> = {{ uiLabels.contains }} {{ uiLabels.gluten }} <br>
         <span id="vegan">V</span> = {{ uiLabels.vegan }}
       </div>
-      <div v-if="hamburgerButtons">
-        <h1>{{ uiLabels.order }}</h1>
-        {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr <br>
-      </div>
-      <h1>{{ uiLabels.ordersInQueue }}</h1>
-      <div>
-        <OrderItem
-          v-for="(order, key) in orders"
-          v-if="order.status !== 'done'"
-          :order-id="key"
-          :order="order"
-          :ui-labels="uiLabels"
-          :lang="lang"
-          :key="key">
-        </OrderItem>
+      <div class="rightInfo">
+        <div v-if="hamburgerButtons">
+          <h1>{{ uiLabels.order }}</h1>
+          {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr <br>
+        </div>
+        <h1>{{ uiLabels.ordersInQueue }}</h1>
+        <div>
+          <OrderItem
+            v-for="(order, key) in orders"
+            v-if="order.status !== 'done'"
+            :order-id="key"
+            :order="order"
+            :ui-labels="uiLabels"
+            :lang="lang"
+            :key="key">
+          </OrderItem>
+        </div>
       </div>
     </section>
   </div>
@@ -274,21 +282,60 @@ export default {
 </script>
 <style scoped>
 /* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
+.examplePanel {
+  position: fixed;
+  background-size: cover;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: -2;
+}
+
 #ordering {
   display: grid;
-  grid-gap: 5px;
+  grid-gap: 15px;
     grid-template-columns: 20% 45% 35%;
   margin-left: 40px;
+  margin-right: 40px;
 }
 .leftSection{
   grid-column: 1;
+  grid-row: 1 / span 3;
 }
-.middleSection{
+.middleTopSection{
   grid-column: 2;
+  grid-row: 1 / span 2;
+  border: 4px groove #ccd;
+  background-color: white;
+  margin-left: 15px;
+  padding: 1em;
 }
+
+.middleBottomSection{
+  grid-column: 2;
+  grid-row: 3;
+  border: 4px groove #ccd;
+  background-color: white;
+  margin-left: 15px;
+  padding: 1em;
+
+}
+
 .rightSection{
   grid-column: 3;
+  grid-row: 1 / span 3;
+
+  padding: 1em;
 }
+
+
+
+.rightInfo {
+  margin-top: 30px;
+  border: 4px groove #ccd;
+  background-color: white;
+}
+
 #menuButtons{
   display: grid;
   grid-gap: 2px;
@@ -304,8 +351,9 @@ export default {
 }
 
 #infoAllergy {
-  border: 1px solid #ccd;
+  border: 4px groove #ccd;
   padding: 1em;
+  background-color: white;
 
 }
 #milk {
@@ -333,5 +381,6 @@ export default {
 .ingredient {
   border: 1px solid #ccd;
   padding: 1em;
+  background-color: white;
 }
 </style>
