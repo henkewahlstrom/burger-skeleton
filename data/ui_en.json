@@ -19,5 +19,13 @@
   "language" : "Svenska",
   "addOrder" : "Add Order",
   "previous" : "Previous",
+  "protein" : "Protein",
+  "toppings" : "Toppings",
+  "sauce" : "Sauce",
+  "bread" : "Bread",
+  "contains" : "Contains",
+  "lactose" : "Lactose",
+  "gluten" : "Gluten",
+  "vegan" : "Vegan",
   "drinksAndExtras" : "Drinks and Extras"
 }

@@ -6,10 +6,10 @@
         <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=200></button>
 
         <div class="hamburgerIngredients" v-if="hamburgerButtons">
-          <button v-on:click="changeCategory(1)"> KÖTT </button>
-          <button v-on:click="changeCategory(2)"> PÅLÄGG </button>
-          <button v-on:click="changeCategory(3)"> SÅS </button>
-          <button v-on:click="changeCategory(4)"> BRÖD </button>
+          <button v-on:click="changeCategory(1)"> {{ uiLabels.protein }} </button>
+          <button v-on:click="changeCategory(2)"> {{ uiLabels.toppings }} </button>
+          <button v-on:click="changeCategory(3)"> {{ uiLabels.sauce }} </button>
+          <button v-on:click="changeCategory(4)"> {{ uiLabels.bread }} </button>
         </div>
           <button v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=200></button>
           <button v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200></button>
@@ -30,8 +30,6 @@
           :key="item.ingredient_id">
         </Ingredient>
         <div v-if="hamburgerButtons">
-          <h1>{{ uiLabels.order }}</h1>
-          {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr <br>
           <div v-if="currentCategory >= 2">
             <button v-on:click="previousPage()" style="float: left;"><img src="@/assets/backArrow.png" width = 40> {{ uiLabels.previous }}</button>
           </div>
@@ -57,9 +55,13 @@
     </section>
     <section class="rightSection">
       <div id="infoAllergy">
-        <span id="milk"> L </span> = Innehåller laktos <br>
-        <span id="gluten">G</span> = Innehåller gluten <br>
-        <span id="vegan">V</span> = Vegansk
+        <span id="milk"> L </span> = {{ uiLabels.contains }} {{ uiLabels.lactose }} <br>
+        <span id="gluten">G</span> = {{ uiLabels.contains }} {{ uiLabels.gluten }} <br>
+        <span id="vegan">V</span> = {{ uiLabels.vegan }}
+      </div>
+      <div v-if="hamburgerButtons">
+        <h1>{{ uiLabels.order }}</h1>
+        {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr <br>
       </div>
       <h1>{{ uiLabels.ordersInQueue }}</h1>
       <div>
@@ -246,9 +248,19 @@ export default {
       this.chosenIngredients.splice(index,1);
       this.createOutputOrderText();
     },
+
+
+
     removeIngredientNumber: function(item){
-      this.burgerIngredients.pop();
-      this.price += -item.selling_price;
+      if (this.currentCategory <= 4){
+        this.burgerIngredients.splice( this.burgerIngredients.indexOf(item),1);
+
+        this.price += -item.selling_price;
+      }
+      else {
+        this.drinksAndExtras.splice( this.drinksAndExtras.indexOf(item),1);
+        this.price += -item.selling_price;
+      }
     },
     nextPage: function(){
       this.currentCategory += 1;
@@ -293,7 +305,7 @@ export default {
 
 #infoAllergy {
   border: 1px solid #ccd;
-  padding: 1em; 
+  padding: 1em;
 
 }
 #milk {
