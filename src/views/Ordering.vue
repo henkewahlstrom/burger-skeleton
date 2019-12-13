@@ -247,8 +247,14 @@ export default {
       this.createOutputOrderText();
     },
     removeIngredientNumber: function(item){
-      this.burgerIngredients.pop();
-      this.price += -item.selling_price;
+      if (this.currentCategory <= 4){
+        this.burgerIngredients.pop();
+        this.price += -item.selling_price;
+      }
+      else {
+        this.drinksAndExtras.pop();
+        this.price += -item.selling_price;
+      }
     },
     nextPage: function(){
       this.currentCategory += 1;
@@ -293,7 +299,7 @@ export default {
 
 #infoAllergy {
   border: 1px solid #ccd;
-  padding: 1em; 
+  padding: 1em;
 
 }
 #milk {
