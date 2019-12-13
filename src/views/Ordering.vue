@@ -30,10 +30,6 @@
           :lang="lang"
           :key="item.ingredient_id">
         </Ingredient>
-      </div>
-      </section>
-
-      <section class="middleBottomSection">
         <div v-if="hamburgerButtons">
           <div v-if="currentCategory >= 2">
             <button v-on:click="previousPage()" style="float: left;"><img src="@/assets/backArrow.png" width = 40> {{ uiLabels.previous }}</button>
@@ -42,11 +38,14 @@
             <button v-on:click="nextPage()" style="float: left;"><img src="@/assets/frontArrow.png" width = 40> {{ uiLabels.next }}</button>
           </div>
         </div>
+
+      </div>
+      </section>
+
+      <section class="middleBottomSection">
         <div id="addOrderButton">
             <button v-on:click="addToOrder(); showBurger(false); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
         </div>
-
-
       <div v-if="displayOrder == false">
         <h1>{{ uiLabels.yourOrder }}</h1>
         <div v-for="ab, index in outputOrderText">
