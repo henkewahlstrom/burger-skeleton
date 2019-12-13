@@ -248,13 +248,17 @@ export default {
       this.chosenIngredients.splice(index,1);
       this.createOutputOrderText();
     },
+
+
+
     removeIngredientNumber: function(item){
       if (this.currentCategory <= 4){
-        this.burgerIngredients.pop();
+        this.burgerIngredients.splice( this.burgerIngredients.indexOf(item),1);
+
         this.price += -item.selling_price;
       }
       else {
-        this.drinksAndExtras.pop();
+        this.drinksAndExtras.splice( this.drinksAndExtras.indexOf(item),1);
         this.price += -item.selling_price;
       }
     },
