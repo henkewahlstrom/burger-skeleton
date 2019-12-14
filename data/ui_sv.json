@@ -28,5 +28,7 @@
   "gluten" : "Gluten",
   "vegan" : "Vegansk",
   "drinksAndExtras" : "Dryck och Tillbehör",
-  "checkout":"BETALNING"
+  "checkout":"BETALNING",
+  "breaddemand":"bröd saknas",
+  "burgerprice" :"burgarens pris: "
 }

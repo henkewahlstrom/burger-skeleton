@@ -73,27 +73,24 @@
         <div id="secondRightBox">
         <div v-if="hamburgerButtons">
           <h1>{{ uiLabels.order }}</h1>
-          {{uiLabels.protein}} :
+          <h4>{{uiLabels.protein}} </h4>
           <span v-for="ingri in this.burgerIngredients">
-          <span v-if="ingri.category==1">{{ ingri["ingredient_"+lang] }},  </span>
+          <li v-if="ingri.category==1">{{ ingri["ingredient_"+lang] }},  </li>
         </span>
-        <br>
-        {{ uiLabels.toppings }} :
+        <h4>{{ uiLabels.toppings }}</h4>
         <span v-for="ingri in this.burgerIngredients">
-          <span v-if="ingri.category==2">{{ ingri["ingredient_"+lang] }},  </span>
+          <li v-if="ingri.category==2">{{ ingri["ingredient_"+lang] }}</li>
         </span>
-        <br>
-        {{ uiLabels.sauce }} :
+        <h4>{{ uiLabels.sauce }}</h4>
         <span v-for="ingri in this.burgerIngredients">
-        <span v-if="ingri.category==3">{{ ingri["ingredient_"+lang] }},  </span>
+        <li v-if="ingri.category==3">{{ ingri["ingredient_"+lang] }},  </li>
         </span>
-        <br>
-        {{ uiLabels.bread }}:
-        <span v-for="ingri in this.burgerIngredients">
-        <span v-if="ingri.category==4">{{ ingri["ingredient_"+lang] }},  </span>
+        <h4>{{ uiLabels.bread }}</h4>
+        <li v-if="isbreadin()!==true">  {{uiLabels.breaddemand}} </li>
+        <span  v-if="isbreadin()" v-for="ingri in this.burgerIngredients">
+          <li v-if="ingri.category==4">{{ ingri["ingredient_"+lang] }}  </li>
         </span>
-        <br>
-        burgerprice: {{ price }} kr
+        <h4>{{uiLabels.burgerprice}} {{ price }} kr </h4>
         </div>
         <h1>{{ uiLabels.ordersInQueue }}</h1>
         <div>

@@ -28,5 +28,7 @@
   "gluten" : "Gluten",
   "vegan" : "Vegan",
   "drinksAndExtras" : "Drinks and Extras",
-  "checkout":"CHECKOUT"
+  "checkout":"CHECKOUT",
+  "breaddemand":"bread is missing",
+  "burgerprice" :"burgerprice"
 }
