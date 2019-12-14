@@ -268,6 +268,22 @@ export default {
       this.createOutputOrderText();
     },
 
+    getbreadindex: function(ingri){
+      if(ingri.category==4){
+        return ingri
+      }
+    },
+
+      isbreadin:function(){
+        for(ing in burgerIngredients){
+          console.log(ing.catagory)
+          if (ing.catagory==4){
+            return true
+          }
+        }
+        return false
+      },
+
 
 
     removeIngredientNumber: function(item){
@@ -277,9 +293,13 @@ export default {
         this.price += -item.selling_price;
       }
       else if (this.currentCategory == 4){
-        this.burgerIngredients.splice( this.burgerIngredients.indexOf(previousItem),1);
+        var bread_index;
+        if(this.isbreadin){
+          bread_index=this.burgerIngredients.findIndex(this.getbreadindex);
+          this.price += -this.burgerIngredients[bread_index].selling_price;
+          this.burgerIngredients.splice(bread_index,1);
 
-        this.price += -item.selling_price;
+          }
       }
       else {
         this.drinksAndExtras.splice( this.drinksAndExtras.indexOf(item),1);
