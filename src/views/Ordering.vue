@@ -256,13 +256,17 @@ export default {
       this.chosenIngredients.splice(index,1);
       this.createOutputOrderText();
     },
+
+
+
     removeIngredientNumber: function(item){
       if (this.currentCategory <= 4){
-        this.burgerIngredients.pop();
+        this.burgerIngredients.splice( this.burgerIngredients.indexOf(item),1);
+
         this.price += -item.selling_price;
       }
       else {
-        this.drinksAndExtras.pop();
+        this.drinksAndExtras.splice( this.drinksAndExtras.indexOf(item),1);
         this.price += -item.selling_price;
       }
     },
@@ -297,6 +301,7 @@ export default {
 .leftSection{
   grid-column: 1;
   grid-row: 1 / span 3;
+<<<<<<< HEAD
 }
 .middleTopSection{
   grid-column: 2;
@@ -309,6 +314,20 @@ export default {
 
 .middleBottomSection{
   grid-column: 2;
+=======
+}
+.middleTopSection{
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  border: 4px groove #ccd;
+  background-color: white;
+  margin-left: 15px;
+  padding: 1em;
+}
+
+.middleBottomSection{
+  grid-column: 2;
+>>>>>>> f6df53f44a04b62768cd263c3f96a62d9283964d
   grid-row: 3;
   border: 4px groove #ccd;
   background-color: white;
@@ -322,6 +341,7 @@ export default {
   grid-row: 1 / span 3;
 
   padding: 1em;
+<<<<<<< HEAD
 }
 
 
@@ -332,6 +352,18 @@ export default {
   background-color: white;
 }
 
+=======
+}
+
+
+
+.rightInfo {
+  margin-top: 30px;
+  border: 4px groove #ccd;
+  background-color: white;
+}
+
+>>>>>>> f6df53f44a04b62768cd263c3f96a62d9283964d
 #menuButtons{
   display: grid;
   grid-gap: 2px;
