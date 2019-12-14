@@ -62,6 +62,8 @@
 
 
     <section class="rightSection">
+      <button v-if="this.langBoolData" v-on:click="switchLang(); langBool(false)"><img src="@/assets/Sverige.png" width=100%></button>
+      <button v-if="this.langBoolData==false" v-on:click="switchLang(); langBool(true)"><img src="@/assets/Storbritannien.png" width=100%></button>
       <div id="infoAllergy">
         <span id="milk"> L </span> = {{ uiLabels.contains }} {{ uiLabels.lactose }} <br>
         <span id="gluten">G</span> = {{ uiLabels.contains }} {{ uiLabels.gluten }} <br>
@@ -87,7 +89,7 @@
         </div>
       </div>
     </div>
-    <button v-on:click="switchLang()"><img src={{ uiLabels.language }}>{{ uiLabels.language }}</button>
+
     </section>
   </div>
 </template>
@@ -114,6 +116,7 @@ export default {
                             // the ordering system and the kitchen
   data: function() { //Not that data is a function!
     return {
+      langBoolData:true,
       chosenIngredients: [],
       burgerIngredients: [],
       drinksAndExtras: [],
@@ -257,6 +260,10 @@ export default {
     showOrder: function(boolean) {
       this.displayOrder = boolean;
     },
+    langBool: function(boolean){
+      this.langBoolData=boolean;
+    },
+
     removeItem: function(index){
       this.chosenIngredients.splice(index,1);
       console.log(this.chosenIngredients[index])
@@ -369,12 +376,17 @@ export default {
 }
 
 .menu-button{
-  font-size: 0.94em;
+  font-size: 0.90em;
   border: 4px groove #ccd;
 }
 
 #bigButtons {
+  background-color: white;
   border: 4px groove #ccd;
+  display: inline-block;
+}
+.hamburgerIngredients {
+  text-align: center;
 }
 
 .middleSection{
@@ -393,6 +405,13 @@ export default {
   grid-row: 1 / span 3;
   margin-top: 135px;
   padding: 1em;
+}
+
+.rightSection button{
+  margin-bottom: 30px;
+  background-color: white;
+  border: 4px groove #ccd;
+  display: inline-block;
 }
 
 .ingdiv{
