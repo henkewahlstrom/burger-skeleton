@@ -15,7 +15,7 @@
           <button v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=200></button>
           <button v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200></button>
       </div>
-      <div>
+      <div class="popupClass">
         <button id="checkoutButton" v-on:click="popupFunction();"> CHECKOUT {{totalOrderPrice}} kr </button>
         <span class="popuptext" id="myPopup"> </span>
       </div>
@@ -210,7 +210,7 @@ export default {
       var i,
       //Wrap the order in an object
         order = {
-          ingredients: this.chosenIngredients,
+          ingredients: this.outputOrderText,
           price: this.price
         };
       // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
@@ -383,6 +383,12 @@ export default {
   height: 80px;
   margin-top: 10px;
   font-size: 18px;
+
+}
+
+.popupClass .popuptext{
+  width:300px;
+  background-color: black;
 }
 
 #infoAllergy {
