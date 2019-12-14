@@ -39,6 +39,7 @@
           :currentCategory=currentCategory
           :key="item.ingredient_id">
         </Ingredient>
+      </div>
         <div v-if="hamburgerButtons">
           <div v-if="currentCategory >= 2">
             <button v-on:click="previousPage()" style="float: left;"><img src="@/assets/backArrow.png" width = 40> {{ uiLabels.previous }}</button>
@@ -48,7 +49,7 @@
           </div>
         </div>
 
-      </div>
+
       </section>
 
       <section class="middleBottomSection">
