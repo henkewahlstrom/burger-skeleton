@@ -3,8 +3,7 @@
     <img class="examplePanel" src="@/assets/colorsplash.jpg">
     <section class="leftSection">
       <div id="menuButtons">
-        <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
-        <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=200px></button>
+        <button id = "bigButtons" v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=200px></button>
 
         <div class="hamburgerIngredients" v-if="hamburgerButtons">
           <button :class="['menu-button', {'focused-category' : currentCategory === 1}]" v-on:click="changeCategory(1)"> {{ uiLabels.protein }} </button>
@@ -12,8 +11,8 @@
           <button :class="['menu-button', {'focused-category' : currentCategory === 3}]" v-on:click="changeCategory(3)"> {{ uiLabels.sauce }} </button>
           <button :class="['menu-button', {'focused-category' : currentCategory === 4}]" v-on:click="changeCategory(4)"> {{ uiLabels.bread }} </button>
         </div>
-          <button v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=200px></button>
-          <button v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200px></button>
+          <button id = "bigButtons" v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=200px></button>
+          <button id = "bigButtons" v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200px></button>
       <div class="popupClass">
         <button id="checkoutButton" v-on:click="popupFunction();"> {{ uiLabels.checkout }} {{totalOrderPrice}} kr </button>
         <span class="popuptext" id="myPopup"> </span>
@@ -88,6 +87,7 @@
         </div>
       </div>
     </div>
+    <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
     </section>
   </div>
 </template>
@@ -369,9 +369,14 @@ export default {
 }
 
 .menu-button{
-  border: 2px solid black;
-  border-color: black;
+  font-size: 0.94em;
+  border: 4px groove #ccd;
 }
+
+#bigButtons {
+  border: 4px groove #ccd;
+}
+
 .middleSection{
   grid-column: 2;
   grid-row: 2;
@@ -380,7 +385,7 @@ export default {
   margin-left: 15px;
   padding: 1em;
   width:700px;
-  margin-top: -50px;
+  margin-top: -73px;
 }
 
 .rightSection{
@@ -416,14 +421,15 @@ export default {
   height: 80px;
   margin-top: 10px;
   font-size: 18px;
-  font-family: "Comic Sans MS"
+  font-family: "Comic Sans MS";
+  border: 4px groove #ccd;
 }
 
 #infoAllergy {
   border: 4px groove #ccd;
   padding: 1em;
   background-color: white;
-  width: 185px;
+  width: 198px;
 
 }
 
