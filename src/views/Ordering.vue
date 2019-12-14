@@ -4,7 +4,7 @@
     <section class="leftSection">
       <div id="menuButtons">
         <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
-        <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=200></button>
+        <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=200px></button>
 
         <div class="hamburgerIngredients" v-if="hamburgerButtons">
           <button :class="['menu-button', {'focused-category' : currentCategory === 1}]" v-on:click="changeCategory(1)"> {{ uiLabels.protein }} </button>
@@ -12,20 +12,20 @@
           <button :class="['menu-button', {'focused-category' : currentCategory === 3}]" v-on:click="changeCategory(3)"> {{ uiLabels.sauce }} </button>
           <button :class="['menu-button', {'focused-category' : currentCategory === 4}]" v-on:click="changeCategory(4)"> {{ uiLabels.bread }} </button>
         </div>
-          <button v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=200></button>
-          <button v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200></button>
-      </div>
+          <button v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=200px></button>
+          <button v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200px></button>
       <div class="popupClass">
-        <button id="checkoutButton" v-on:click="popupFunction();"> CHECKOUT {{totalOrderPrice}} kr </button>
+        <button id="checkoutButton" v-on:click="popupFunction();"> {{ uiLabels.checkout }} {{totalOrderPrice}} kr </button>
         <span class="popuptext" id="myPopup"> </span>
       </div>
+    </div>
     </section>
 
     <section class="header">
       <h1> Crusty Burgers </h1>
     </section>
 
-    <section class="middleTopSection" >
+    <section class="middleSection" >
       <div v-if="displayOrder" class="ingdiv">
         <h1>{{ uiLabels.ingredients }}</h1>
         <Ingredient
@@ -47,20 +47,18 @@
           <div v-if="currentCategory <= 3">
             <button v-on:click="nextPage()" style="float: left;"><img src="@/assets/frontArrow.png" width = 40> {{ uiLabels.next }}</button>
           </div>
-          <div id="addOrderButton" v-if="displayOrder">
-              <button v-on:click="addToOrder(); showBurger(false); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
-          </div>
-        <div v-if="displayOrder == false">
-          <h1>{{ uiLabels.yourOrder }}</h1>
-          <div v-for="ab, index in outputOrderText">
-            {{ ab}}
-            <button v-on:click="removeItem(index)" id= "index" > delete </button>
-            <br>
-          </div>
         </div>
+        <div id="addOrderButton" v-if="displayOrder">
+            <button v-on:click="addToOrder(); showBurger(false); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
         </div>
-
-
+      <div v-if="displayOrder == false">
+        <h1>{{ uiLabels.yourOrder }}</h1>
+        <div v-for="ab, index in outputOrderText">
+          {{ ab}}
+          <button v-on:click="removeItem(index)" id= "index" > delete </button>
+          <br>
+        </div>
+      </div>
       </section>
 
 
@@ -270,6 +268,7 @@ export default {
         return ingri
       }
     },
+
       isbreadin:function(){
         for(ing in burgerIngredients){
           console.log(ing.catagory)
@@ -280,6 +279,8 @@ export default {
         return false
       },
 
+
+
     removeIngredientNumber: function(item){
       if (this.currentCategory <= 3){
         this.burgerIngredients.splice( this.burgerIngredients.indexOf(item),1);
@@ -288,7 +289,9 @@ export default {
       }
       else if (this.currentCategory == 4){
         var bread_index;
+        console.log("tja")
         if(this.isbreadin){
+          console.log("hej")
           bread_index=this.burgerIngredients.findIndex(this.getbreadindex);
           this.price += -this.burgerIngredients[bread_index].selling_price;
           this.burgerIngredients.splice(bread_index,1);
@@ -318,6 +321,17 @@ export default {
 </script>
 <style scoped>
 /* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
+@media all and (max-width: 700px) {
+  .examplePanel {
+    position: fixed;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: -2;
+  }
+}
 .examplePanel {
   position: fixed;
   background-size: cover;
@@ -330,42 +344,49 @@ export default {
 #ordering {
   display: grid;
   grid-gap: 15px;
-    grid-template-columns: 20% 45% 35%;
-  margin-left: 40px;
-  margin-right: 40px;
+    grid-template-columns: 20% 60% 20%;
+  margin: auto;
+  width: 90%;
+  min-width: 1000px;
+  font-family: "Comic Sans MS";
 }
 .leftSection{
   grid-column: 1;
   grid-row: 1 / span 3;
+  margin-top: 150px
 }
 
 .header{
   grid-column: 2;
   grid-row: 1;
+  font-size: 3.5em;
+  color: white;
+  -webkit-text-fill-color: black;
+  -webkit-text-stroke-width: 1.5px;
+  -webkit-text-stroke-color: white;
+  margin-top: -50px;
+  text-align: center;
 }
-.middleTopSection{
+
+.menu-button{
+  border: 2px solid black;
+  border-color: black;
+}
+.middleSection{
   grid-column: 2;
-  grid-row: 1 / span 2;
+  grid-row: 2;
   border: 4px groove #ccd;
   background-color: white;
   margin-left: 15px;
   padding: 1em;
-}
-
-.middleBottomSection{
-  grid-column: 2;
-  grid-row: 3;
-  border: 4px groove #ccd;
-  background-color: white;
-  margin-left: 15px;
-  padding: 1em;
-
+  width:700px;
+  margin-top: -50px;
 }
 
 .rightSection{
   grid-column: 3;
   grid-row: 1 / span 3;
-
+  margin-top: 135px;
   padding: 1em;
 }
 
@@ -383,12 +404,8 @@ export default {
 
 #menuButtons{
   display: grid;
-  grid-gap: 2px;
+  grid-gap: 20px;
     grid-template-columns: repeat(1, 1fr);
-}
-
-#menuButtons button{
-  width: 100%;
 }
 
 #addOrderButton {
@@ -399,18 +416,14 @@ export default {
   height: 80px;
   margin-top: 10px;
   font-size: 18px;
-
-}
-
-.popupClass .popuptext{
-  width:300px;
-  background-color: black;
+  font-family: "Comic Sans MS"
 }
 
 #infoAllergy {
   border: 4px groove #ccd;
   padding: 1em;
   background-color: white;
+  width: 185px;
 
 }
 

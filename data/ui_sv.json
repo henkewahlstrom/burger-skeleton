@@ -28,5 +28,6 @@
   "lactose" : "Laktos",
   "gluten" : "Gluten",
   "vegan" : "Vegansk",
-  "drinksAndExtras" : "Dryck och Tillbehör"
+  "drinksAndExtras" : "Dryck och Tillbehör",
+  "checkout":"BETALNING"
 }

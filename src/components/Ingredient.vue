@@ -1,5 +1,4 @@
-
- <template>
+<template>
   <div class="ingredient">
     <div v-if="item.category != 4">
     <label>
@@ -29,6 +28,7 @@ export default {
   props: {
     item: Object,
     lang: String,
+    currentCategory: Object
   },
     data: function () {
     return {

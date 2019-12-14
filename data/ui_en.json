@@ -27,5 +27,6 @@
   "lactose" : "Lactose",
   "gluten" : "Gluten",
   "vegan" : "Vegan",
-  "drinksAndExtras" : "Drinks and Extras"
+  "drinksAndExtras" : "Drinks and Extras",
+  "checkout":"CHECKOUT"
 }
