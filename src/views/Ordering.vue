@@ -73,7 +73,27 @@
         <div id="secondRightBox">
         <div v-if="hamburgerButtons">
           <h1>{{ uiLabels.order }}</h1>
-          {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr <br>
+          {{uiLabels.protein}} :
+          <span v-for="ingri in this.burgerIngredients">
+          <span v-if="ingri.category==1">{{ ingri["ingredient_"+lang] }},  </span>
+        </span>
+        <br>
+        {{ uiLabels.toppings }} :
+        <span v-for="ingri in this.burgerIngredients">
+          <span v-if="ingri.category==2">{{ ingri["ingredient_"+lang] }},  </span>
+        </span>
+        <br>
+        {{ uiLabels.sauce }} :
+        <span v-for="ingri in this.burgerIngredients">
+        <span v-if="ingri.category==3">{{ ingri["ingredient_"+lang] }},  </span>
+        </span>
+        <br>
+        {{ uiLabels.bread }}:
+        <span v-for="ingri in this.burgerIngredients">
+        <span v-if="ingri.category==4">{{ ingri["ingredient_"+lang] }},  </span>
+        </span>
+        <br>
+        burgerprice: {{ price }} kr
         </div>
         <h1>{{ uiLabels.ordersInQueue }}</h1>
         <div>
@@ -412,7 +432,7 @@ export default {
 #ordering {
   display: grid;
   grid-gap: 15px;
-    grid-template-columns: 20% 60% 20%;
+  grid-template-columns: 20% 60% 20%;
   margin: auto;
   width: 90%;
   min-width: 1000px;
