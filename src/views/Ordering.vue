@@ -16,7 +16,8 @@
           <button v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200></button>
       </div>
       <div>
-        <button id="checkoutButton" v-on:click="placeOrder();"> CHECKOUT {{totalOrderPrice}} kr </button>
+        <button id="checkoutButton" v-on:click="popupFunction();"> CHECKOUT {{totalOrderPrice}} kr </button>
+        <span class="popuptext" id="myPopup"> </span>
       </div>
     </section>
 
@@ -289,6 +290,12 @@ export default {
     },
     previousPage: function(){
       this.currentCategory = this.currentCategory - 1;
+    },
+
+    popupFunction: function(){
+      if (confirm("Place order")){
+        this.placeOrder()
+      };
     }
 
   }
