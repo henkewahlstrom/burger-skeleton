@@ -2,9 +2,11 @@
   <div class="ingredient">
     <div v-if="item.category != 4">
     <label>
+      <span class="ingrtext">
       <button v-on:click="incrementDeCounter"> - </button>
       {{counter}}
       <button v-on:click="incrementCounter"> + </button>
+    </span>
       {{item["ingredient_"+ lang]}}, {{item.selling_price}}:-
       <span  id="milk" v-if="item.milk_free == 0"> L </span>
       <span  id="gluten" v-if="item.gluten_free == 0"> G </span>
@@ -13,9 +15,11 @@
     </div>
     <div v-if="item.category == 4">
     <label>
+      <label class="ingrtext">
       <button :class="['menu-button', {'focused-category' : item.category === 4}]" type: v-on:click="incrementCounter"> Välj </button>
       {{item["ingredient_"+ lang]}}, {{item.selling_price}}:-
-      <span  id="milk" v-if="item.milk_free == 0"> L </span>
+    </label>
+      <span id="milk" v-if="item.milk_free == 0"> L </span>
       <span  id="gluten" v-if="item.gluten_free == 0"> G </span>
       <span  id="vegan" v-if="item.vegan == 1"> V </span>
     </label>
@@ -28,7 +32,7 @@ export default {
   props: {
     item: Object,
     lang: String,
-    currentCategory: Object
+    currentCategory:Number
   },
     data: function () {
     return {
@@ -64,6 +68,18 @@ export default {
 }
 </script>
 <style scoped>
+.ingredient {
+  display: grid;
+  grid-row-gap: 10cm;
+
+}
+
+.ingrtext{
+  grid-row: 1;
+  grid-column: 1;
+  grid-row-gap: 0.5cm;
+  grid-template-columns: 20% 60% 20%;
+}
 
 .focused-category {
   background-color: black;
@@ -75,13 +91,22 @@ export default {
 }
 #milk {
   color: blue;
+  grid-column: 1 ;
+  grid-row: 3;
+  grid-row-gap: 10cm;
 }
 
 #gluten {
   color: brown;
+  grid-column: 1 ;
+  grid-row: 3;
+  grid-row-gap: 10cm;
 }
 
 #vegan {
   color: green;
+  grid-column: 1 ;
+  grid-row: 4;
+  grid-row-gap: 10cm;
 }
 </style>
