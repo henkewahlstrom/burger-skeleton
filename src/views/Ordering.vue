@@ -87,7 +87,7 @@
         </div>
       </div>
     </div>
-    <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
+    <button v-on:click="switchLang()"><img src={{ uiLabels.language }}>{{ uiLabels.language }}</button>
     </section>
   </div>
 </template>

@@ -1,4 +1,3 @@
-
 {
   "cancelOrder" : "Avbryt köp",
   "next" : "Nästa",
@@ -17,7 +16,7 @@
   "ingredients" : "Ingredienser",
   "ready" : "Klart",
   "order" : "Min burgare",
-  "language" : "English",
+  "language" : "@/assets/Storbritannien.png",
   "addOrder" : "Lägg till order",
   "previous" : "Föregående",
   "protein" : "Protein",

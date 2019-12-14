@@ -16,7 +16,7 @@
   "ingredients" : "Ingredients",
   "ready" : "Done",
   "order" : "My burger",
-  "language" : "Svenska",
+  "language" : "@/assets/Sverige.png",
   "addOrder" : "Add Order",
   "previous" : "Previous",
   "protein" : "Protein",
