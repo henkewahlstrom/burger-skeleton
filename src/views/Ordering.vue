@@ -269,8 +269,13 @@ export default {
 
 
     removeIngredientNumber: function(item){
-      if (this.currentCategory <= 4){
+      if (this.currentCategory <= 3){
         this.burgerIngredients.splice( this.burgerIngredients.indexOf(item),1);
+
+        this.price += -item.selling_price;
+      }
+      else if (this.currentCategory == 4){
+        this.burgerIngredients.splice( this.burgerIngredients.indexOf(previousItem),1);
 
         this.price += -item.selling_price;
       }

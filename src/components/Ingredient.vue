@@ -39,7 +39,8 @@ export default {
   methods: {
     incrementCounter: function () {
       if (this.currentCategory == 4) {
-        
+        this.$emit('deincrement');
+        this.$emit('increment');
       }
       else if (this.currentCategory != 4) {
       this.counter += 1;
