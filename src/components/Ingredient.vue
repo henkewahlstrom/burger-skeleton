@@ -70,15 +70,13 @@ export default {
 <style scoped>
 .ingredient {
   display: grid;
-  grid-row-gap: 10cm;
+  grid-column-gap: 10cm;
 
 }
 
 .ingrtext{
   grid-row: 1;
   grid-column: 1;
-  grid-row-gap: 0.5cm;
-  grid-template-columns: 20% 60% 20%;
 }
 
 .focused-category {
@@ -91,22 +89,19 @@ export default {
 }
 #milk {
   color: blue;
-  grid-column: 1 ;
-  grid-row: 3;
-  grid-row-gap: 10cm;
+  grid-column: 2 ;
+  grid-row: 1;
 }
 
 #gluten {
   color: brown;
-  grid-column: 1 ;
-  grid-row: 3;
-  grid-row-gap: 10cm;
+  grid-column: 3 ;
+  grid-row: 1;
 }
 
 #vegan {
   color: green;
   grid-column: 1 ;
   grid-row: 4;
-  grid-row-gap: 10cm;
 }
 </style>
