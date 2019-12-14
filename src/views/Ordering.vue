@@ -270,7 +270,6 @@ export default {
         return ingri
       }
     },
-
       isbreadin:function(){
         for(ing in burgerIngredients){
           console.log(ing.catagory)
