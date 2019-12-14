@@ -29,7 +29,6 @@ export default {
   props: {
     item: Object,
     lang: String,
-    currentCategory: Object
   },
     data: function () {
     return {

@@ -39,7 +39,7 @@
           :currentCategory=currentCategory
           :key="item.ingredient_id">
         </Ingredient>
-      </div>
+      </div> <br> <br>
         <div v-if="hamburgerButtons">
           <div v-if="currentCategory >= 2">
             <button v-on:click="previousPage()" style="float: left;"><img src="@/assets/backArrow.png" width = 40> {{ uiLabels.previous }}</button>
@@ -47,23 +47,20 @@
           <div v-if="currentCategory <= 3">
             <button v-on:click="nextPage()" style="float: left;"><img src="@/assets/frontArrow.png" width = 40> {{ uiLabels.next }}</button>
           </div>
+          <div id="addOrderButton" v-if="displayOrder">
+              <button v-on:click="addToOrder(); showBurger(false); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
+          </div>
+        <div v-if="displayOrder == false">
+          <h1>{{ uiLabels.yourOrder }}</h1>
+          <div v-for="ab, index in outputOrderText">
+            {{ ab}}
+            <button v-on:click="removeItem(index)" id= "index" > delete </button>
+            <br>
+          </div>
+        </div>
         </div>
 
 
-      </section>
-
-      <section class="middleBottomSection">
-        <div id="addOrderButton" v-if="displayOrder">
-            <button v-on:click="addToOrder(); showBurger(false); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
-        </div>
-      <div v-if="displayOrder == false">
-        <h1>{{ uiLabels.yourOrder }}</h1>
-        <div v-for="ab, index in outputOrderText">
-          {{ ab}}
-          <button v-on:click="removeItem(index)" id= "index" > delete </button>
-          <br>
-        </div>
-      </div>
       </section>
 
 
@@ -268,7 +265,21 @@ export default {
       this.createOutputOrderText();
     },
 
+    getbreadindex: function(ingri){
+      if(ingri.category==4){
+        return ingri
+      }
+    },
 
+      isbreadin:function(){
+        for(ing in burgerIngredients){
+          console.log(ing.catagory)
+          if (ing.catagory==4){
+            return true
+          }
+        }
+        return false
+      },
 
     removeIngredientNumber: function(item){
       if (this.currentCategory <= 3){
@@ -277,9 +288,13 @@ export default {
         this.price += -item.selling_price;
       }
       else if (this.currentCategory == 4){
-        this.burgerIngredients.splice( this.burgerIngredients.indexOf(previousItem),1);
+        var bread_index;
+        if(this.isbreadin){
+          bread_index=this.burgerIngredients.findIndex(this.getbreadindex);
+          this.price += -this.burgerIngredients[bread_index].selling_price;
+          this.burgerIngredients.splice(bread_index,1);
 
-        this.price += -item.selling_price;
+          }
       }
       else {
         this.drinksAndExtras.splice( this.drinksAndExtras.indexOf(item),1);
@@ -358,6 +373,7 @@ export default {
 .ingdiv{
   overflow-y:scroll;
   height:50vh;
+  box-shadow: 0px 12px 5px -2px lightgray
 }
 
 .rightInfo {
