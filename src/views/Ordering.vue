@@ -26,7 +26,12 @@
 
     <section class="middleSection" >
       <div v-if="displayOrder" class="ingdiv">
-        <h1>{{ uiLabels.ingredients }}</h1>
+        <h1 v-if="this.currentCategory==1">{{ uiLabels.protein}}</h1>
+        <h1 v-if="this.currentCategory==2">{{ uiLabels.toppings}}</h1>
+        <h1 v-if="this.currentCategory==3">{{ uiLabels.sauce}}</h1>
+        <h1 v-if="this.currentCategory==4">{{ uiLabels.bread}}</h1>
+        <h1 v-if="this.currentCategory==5">{{ uiLabels.extras}}</h1>
+        <h1 v-if="this.currentCategory==6">{{ uiLabels.drinks}}</h1>
         <Ingredient
           ref="ingredient"
           v-for= "item  in ingredients"
