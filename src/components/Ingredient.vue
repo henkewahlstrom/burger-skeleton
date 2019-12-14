@@ -13,7 +13,7 @@
     </div>
     <div v-if="item.category == 4">
     <label>
-      <button type: v-on:click="incrementCounter"> Välj </button>
+      <button :class="['menu-button', {'focused-category' : item.category === 4}]" type: v-on:click="incrementCounter"> Välj </button>
       {{item["ingredient_"+ lang]}}, {{item.selling_price}}:-
       <span  id="milk" v-if="item.milk_free == 0"> L </span>
       <span  id="gluten" v-if="item.gluten_free == 0"> G </span>
@@ -65,6 +65,14 @@ export default {
 </script>
 <style scoped>
 
+.focused-category {
+  background-color: black;
+  color: white;
+}
+.menu-button {
+  background-color: white;
+  color: black;
+}
 #milk {
   color: blue;
 }

@@ -48,7 +48,7 @@
           </div>
         </div>
         <div id="addOrderButton" v-if="displayOrder">
-            <button v-on:click="addToOrder(); showBurger(false); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
+            <button v-on:click="addButtonK()" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
         </div>
       <div v-if="displayOrder == false">
         <h1>{{ uiLabels.yourOrder }}</h1>
@@ -116,6 +116,7 @@ export default {
                             // the ordering system and the kitchen
   data: function() { //Not that data is a function!
     return {
+      itemprice: 0,
       langBoolData:true,
       chosenIngredients: [],
       burgerIngredients: [],
@@ -133,11 +134,13 @@ export default {
         bread: null,
         meat: [],
         additionals:[],
-        sauce: []
+        sauce: [],
+        price: 0
       },
       aDrinkOrExtra: {
         size: "Small",
-        name: {}
+        name: {},
+        price: 0
       }
     }
   },
@@ -154,7 +157,6 @@ export default {
       }
       else if (this.currentCategory>=5) {
         this.drinksAndExtras.push(item);
-        this.price += +item.selling_price;
       }
 
     },
@@ -164,8 +166,30 @@ export default {
       this.createOutputOrderText();
       //this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
       this.burgerIngredients = [];
-      this.drinksAndExtras = []
+      this.drinksAndExtras = [];
+      this.price=0;
     },
+
+    addButtonK: function(){
+      if(this.isbreadin()){
+        console.log("test1");
+      this.addToOrder()
+      this.showBurger(false)
+      this.showOrder(false)
+      }
+
+    else if (this.isNotBurger()) {
+      console.log("test 2")
+      this.addToOrder();
+      this.showBurger(false);
+      this.showOrder(false);
+    }
+    else {
+      this.showBurger(true)
+      this.showOrder(true)
+    }
+    },
+
     addToBurger: function(){
       var i;
       for (i=0; i < this.burgerIngredients.length; i++){
@@ -184,8 +208,10 @@ export default {
         }
       }
       if(this.isBurger){
+        this.getpriceofburger(this.aBurger)
         this.chosenIngredients.push({bread:this.aBurger.bread, meat:this.aBurger.meat,
-          additionals:this.aBurger.additionals, sauce:this.aBurger.sauce});
+          additionals:this.aBurger.additionals, sauce:this.aBurger.sauce, price:this.itemprice});
+          this.itemprice=0;
           this.aBurger.bread=null;
           this.aBurger.meat=[];
           this.aBurger.additionals=[];
@@ -198,8 +224,11 @@ export default {
       var j;
       for (j=0; j< this.drinksAndExtras.length; j++){
         if (this.drinksAndExtras[j].category >= 5){
+          this.getpriceofburger(this.drinksAndExtras[j])
+          console.log(this.itemprice)
           this.aDrinkOrExtra.name = this.drinksAndExtras[j]
-          this.chosenIngredients.push({name:this.aDrinkOrExtra.name, size:this.aDrinkOrExtra.size});
+          this.chosenIngredients.push({name:this.aDrinkOrExtra.name, size:this.aDrinkOrExtra.size, price:this.itemprice});
+          this.itemprice=0;
           this.aDrinkOrExtra.name={};
           this.aDrinkOrExtra.size="Small";
         }
@@ -227,6 +256,7 @@ export default {
       var i
       var j
       this.outputOrderText=[];
+      this.totalOrderPrice=0;
       for (i=0; i <this.chosenIngredients.length; i++){
         if(this.chosenIngredients[i].bread != null){
           this.tempFoodObjekt= (i+1) +": " + this.chosenIngredients[i].bread["ingredient_" + this.lang]
@@ -239,15 +269,18 @@ export default {
           for (j=0; j < this.chosenIngredients[i].sauce.length; j++){
             this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].sauce[j]["ingredient_" + this.lang]
           }
+          this.tempFoodObjekt=this.tempFoodObjekt+", " + this.chosenIngredients[i].price
           this.outputOrderText.push(this.tempFoodObjekt);
           this.tempFoodObjekt = "";
+          this.totalOrderPrice+=this.chosenIngredients[i].price
         }
         else {
-          this.tempFoodObjekt= (i+1) + ": " + this.chosenIngredients[i].name["ingredient_" + this.lang] + ", " + this.chosenIngredients[i].size
+          this.tempFoodObjekt= (i+1) + ": " + this.chosenIngredients[i].name["ingredient_" + this.lang] + ", " + this.chosenIngredients[i].size + ", " + this.chosenIngredients[i].price
           this.outputOrderText.push(this.tempFoodObjekt);
           this.tempFoodObjekt = "";
+          console.log(this.chosenIngredients[i].price)
+          this.totalOrderPrice+=this.chosenIngredients[i].price
         }
-      this.totalOrderPrice=this.price;
       }
     },
     changeCategory: function(int) {
@@ -264,6 +297,27 @@ export default {
       this.langBoolData=boolean;
     },
 
+    getpriceofburger: function(item){
+      var j
+        if(item.bread!=null){
+        this.itemprice=parseInt(item.bread.selling_price);
+        for (j=0; j < item.meat.length; j++){
+          this.itemprice+=parseInt(item.meat[j].selling_price);
+        }
+        for (j=0; j < item.additionals.length; j++){
+          this.itemprice+=parseInt(item.additionals[j].selling_price);
+
+        }
+        for (j=0; j < item.sauce.length; j++){
+          this.itemprice+=parseInt(item.sauce[j].selling_price);
+
+        }
+      }
+        else {
+          this.itemprice=parseInt(item.selling_price);
+        }
+      },
+
     removeItem: function(index){
       this.chosenIngredients.splice(index,1);
       console.log(this.chosenIngredients[index])
@@ -276,17 +330,25 @@ export default {
       }
     },
 
-      isbreadin:function(){
-        for(ing in burgerIngredients){
-          console.log(ing.catagory)
-          if (ing.catagory==4){
-            return true
-          }
+    isbreadin:function(){
+      var i
+      for(i=0; i <this.burgerIngredients.length; i++){
+
+        if (this.burgerIngredients[i].category==4){
+          return true
         }
-        return false
-      },
+      }
+      return false
+    },
 
-
+    isNotBurger:function(){
+        var i
+        for(i=0; i <this.drinksAndExtras.length; i++){
+          if (this.drinksAndExtras[i].category>4){
+            return true
+      }}
+      return false
+    },
 
     removeIngredientNumber: function(item){
       if (this.currentCategory <= 3){
@@ -296,9 +358,7 @@ export default {
       }
       else if (this.currentCategory == 4){
         var bread_index;
-        console.log("tja")
-        if(this.isbreadin){
-          console.log("hej")
+        if(this.isbreadin()){
           bread_index=this.burgerIngredients.findIndex(this.getbreadindex);
           this.price += -this.burgerIngredients[bread_index].selling_price;
           this.burgerIngredients.splice(bread_index,1);
@@ -310,6 +370,7 @@ export default {
         this.price += -item.selling_price;
       }
     },
+
     nextPage: function(){
       this.currentCategory += 1;
     },
