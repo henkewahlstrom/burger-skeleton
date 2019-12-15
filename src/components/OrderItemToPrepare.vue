@@ -2,23 +2,46 @@
   <!-- Note in this component that it is using another component -->
 <div>
   <span v-if="this.run"> <span v-if="divideorder()"> </span></span>
+  <span v-if="itemscreen">
   <OrderItem
     v-if="burgerordrink"
     :ui-labels="uiLabels"
     :lang="lang"
     :order-id="orderId"
-    :order="this.burgers"
-    :burgerordrink="burgerordrink">
+    :itemscreen="itemscreen"
+    :burgers="this.burgers"
+    :burgerordrink="burgerordrink"
+    :drinksAndExtras="this.drinksAndExtras">
   </OrderItem>
   <OrderItem
     v-if="burgerordrink!==true"
     :ui-labels="uiLabels"
     :lang="lang"
     :order-id="orderId"
-    :order="this.drinksAndExtras"
+    :burgers="this.burgers"
+    :itemscreen="itemscreen"
+    :drinksAndExtras="this.drinksAndExtras"
     :burgerordrink="burgerordrink">
   </OrderItem>
-  <span v-if="burgerordrink!==true">
+  </span>
+
+  <OrderItem
+    v-if="itemscreen!==true"
+    :ui-labels="uiLabels"
+    :lang="lang"
+    :order-id="orderId"
+    :burgers="this.burgers"
+    :itemscreen="itemscreen"
+    :drinksAndExtras="this.drinksAndExtras"
+    :burgerordrink="burgerordrink">
+  </OrderItem>
+  <span v-if="status!==true">
+  <button v-if="itemscreen!==true" v-on:click="orderDone">
+    {{uiLabels.ready}}
+  </button>
+</span>
+
+<!--  <span v-if="burgerordrink!==true">
     <button v-on:click="holddrink()">drink</button>
   <button v-if="this.burgerdone" v-on:click="orderDone">
     {{uiLabels.ready}}
@@ -30,6 +53,7 @@
     {{uiLabels.ready}}
   </button>
   </span>
+-->
 </div>
 </template>
 <script>
@@ -45,7 +69,9 @@ export default {
     order: Object,
     orderId: String,
     lang: String,
-    burgerordrink:Boolean
+    burgerordrink:Boolean,
+    itemscreen:Boolean,
+    status:Boolean
   },
   data: function(){
     return{

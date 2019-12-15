@@ -1,7 +1,7 @@
 <template>
 <div id="orders">
-  <section class="leftSection">
-  <h1>{{ uiLabels.ordersInQueue }}</h1>
+  <section class="middleSection">
+  <h1>BURGERS</h1>
   <div>
     <OrderItemToPrepare
       v-for="(order, key) in orders"
@@ -12,12 +12,14 @@
       :ui-labels="uiLabels"
       :lang="lang"
       :burgerordrink="doburger"
-      :key="key">
+      :status="false"
+      :key="key"
+      :itemscreen="true">
     </OrderItemToPrepare>
   </div>
 </section>
 
-<section class="middleSection">
+<section class="rightSection">
   <h1>{{ uiLabels.drinksAndExtras }}</h1>
 
   <div>
@@ -30,13 +32,32 @@
       :ui-labels="uiLabels"
       :lang="lang"
       :burgerordrink="dodrink"
+      :status="false"
+      :itemscreen="true"
       :key="key">
     </OrderItemToPrepare>
 
   </div>
 </section>
 
-<section class="rightSection">
+<section class="leftSection">
+  <h1>{{ uiLabels.ordersInQueue }}</h1>
+  <OrderItemToPrepare
+  v-for="(order, key) in orders"
+  v-if="order.status !== 'done'"
+  v-on:done="markDone(key)"
+  :order-id="key"
+  :order="order"
+  :ui-labels="uiLabels"
+  :lang="lang"
+  :burgerordrink="dodrink"
+  :status="false"
+  :itemscreen="false"
+  :key="key">
+</OrderItemToPrepare>
+</section>
+
+<section class="mostRightSection">
   <h1>{{ uiLabels.ordersFinished }}</h1>
   <OrderItemToPrepare
   v-for="(order, key) in orders"
@@ -45,10 +66,11 @@
   :order="order"
   :ui-labels="uiLabels"
   :lang="lang"
+  :status="true"
   :burgerordrink="dodrink"
+  :itemscreen="false"
   :key="key">
 </OrderItemToPrepare>
-
 
 </section>
 </div>
@@ -88,7 +110,7 @@ export default {
     font-size:24pt;
     display: grid;
     grid-gap: 5px;
-    grid-template-columns: 35% 35% 30%;
+    grid-template-columns: 25% 25% 25% 25%;
     margin: 40px;
   }
   .leftSection{
@@ -101,6 +123,10 @@ export default {
   }
   .rightSection{
     grid-column: 3;
+    background-color: green;
+  }
+  .mostRightSection{
+    grid-column: 4;
     background-color: green;
   }
 
