@@ -8,9 +8,9 @@
       <button v-on:click="incrementCounter"> + </button>
     </span>
       {{item["ingredient_"+ lang]}}, {{item.selling_price}}:-
-      <span  id="milk" v-if="item.milk_free == 0"> L </span>
-      <span  id="gluten" v-if="item.gluten_free == 0"> G </span>
-      <span  id="vegan" v-if="item.vegan == 1"> V </span>
+      <span  id="milk" v-if="item.milk_free == 0" style="float: right;"> &nbsp; &nbsp; L </span>
+      <span  id="gluten" v-if="item.gluten_free == 0" style="float: right;"> &nbsp; &nbsp; G </span>
+      <span  id="vegan" v-if="item.vegan == 1" style="float: right;"> &nbsp; &nbsp; V </span>
     </label>
     </div>
     <div v-if="item.category == 4">
@@ -19,9 +19,9 @@
       <button :class="['menu-button', {'focused-category' : item.category === 4}]" type: v-on:click="incrementCounter"> Välj </button>
       {{item["ingredient_"+ lang]}}, {{item.selling_price}}:-
     </label>
-      <span id="milk" v-if="item.milk_free == 0"> L </span>
-      <span  id="gluten" v-if="item.gluten_free == 0"> G </span>
-      <span  id="vegan" v-if="item.vegan == 1"> V </span>
+      <span id="milk" v-if="item.milk_free == 0" style="float: right;"> &nbsp; &nbsp; L </span>
+      <span  id="gluten" v-if="item.gluten_free == 0" style="float: right;"> &nbsp; &nbsp; G </span>
+      <span  id="vegan" v-if="item.vegan == 1" style="float: right;"> &nbsp; &nbsp; V </span>
     </label>
     </div>
   </div>
@@ -69,8 +69,6 @@ export default {
 </script>
 <style scoped>
 .ingredient {
-  display: grid;
-  grid-column-gap: 10cm;
 
 }
 
@@ -89,19 +87,13 @@ export default {
 }
 #milk {
   color: blue;
-  grid-column: 2 ;
-  grid-row: 1;
 }
 
 #gluten {
   color: brown;
-  grid-column: 3 ;
-  grid-row: 1;
 }
 
 #vegan {
   color: green;
-  grid-column: 1 ;
-  grid-row: 4;
 }
 </style>
