@@ -32,5 +32,6 @@
   "drinksAndExtras" : "Drinks and Extras",
   "checkout":"CHECKOUT",
   "breaddemand":"bread is missing",
-  "burgerprice" :"burgerprice"
+  "burgerprice" :"burgerprice",
+  "welcome": "Welcome to Crusty Burgers. Please start your order by clicking one of the buttons to the left. Follow us on all social media @crustyburgers"
 }

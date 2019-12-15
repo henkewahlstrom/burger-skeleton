@@ -32,5 +32,6 @@
   "drinksAndExtras" : "Dryck och Tillbehör",
   "checkout":"BETALNING",
   "breaddemand":"bröd saknas",
-  "burgerprice" :"burgarens pris: "
+  "burgerprice" :"burgarens pris: ",
+  "welcome": "Välkommen till Crusty Burgers! Påbörja din order genom att klicka på en av knapparna till vänster. Följ oss gärna på sociala medier @crustyburgers."
 }

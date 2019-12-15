@@ -25,58 +25,63 @@
     </section>
 
     <section class="middleSection" >
-      <h1 v-if="this.currentCategory==1">{{ uiLabels.protein}}</h1>
-      <h1 v-if="this.currentCategory==2">{{ uiLabels.toppings}}</h1>
-      <h1 v-if="this.currentCategory==3">{{ uiLabels.sauce}}</h1>
-      <h1 v-if="this.currentCategory==4">{{ uiLabels.bread}}</h1>
-      <h1 v-if="this.currentCategory==5">{{ uiLabels.extras}}</h1>
-      <h1 v-if="this.currentCategory==6">{{ uiLabels.drinks}}</h1>
-      <div v-if="displayOrder || this.currentCategory<=3"   class="ingdiv">
-        <Ingredient
-          ref="ingredient"
-          v-for= "item  in ingredients"
-          v-show="item.category==currentCategory"
-          v-on:increment="createBurger(item)"
-          v-on:deincrement="removeIngredientNumber(item)"
-          :item="item"
-          :lang="lang"
-          :currentCategory=currentCategory
-          :key="item.ingredient_id">
-        </Ingredient>
+      <div id="welcomePage" v-if="buttonIsPressed == false">
+        {{ uiLabels.welcome}}
       </div>
-      <div v-else="displayOrder || this.currentCategory>=4" class="ingdiv2">
-        <Ingredient
-          ref="ingredient"
-          v-for= "item  in ingredients"
-          v-show="item.category==currentCategory"
-          v-on:increment="createBurger(item)"
-          v-on:deincrement="removeIngredientNumber(item)"
-          :item="item"
-          :lang="lang"
-          :currentCategory=currentCategory
-          :key="item.ingredient_id">
-        </Ingredient>
-      </div> <br> <br>
-        <div v-if="hamburgerButtons">
-          <div v-if="currentCategory >= 2">
-            <button v-on:click="previousPage()" style="float: left;"><img src="@/assets/backArrow.png" width = 40> {{ uiLabels.previous }}</button>
-          </div>
-          <div v-if="currentCategory <= 3">
-            <button v-on:click="nextPage()" style="float: left;"><img src="@/assets/frontArrow.png" width = 40> {{ uiLabels.next }}</button>
-          </div>
+      <div v-else>
+        <h1 v-if="this.currentCategory==1">{{ uiLabels.protein}}</h1>
+        <h1 v-if="this.currentCategory==2">{{ uiLabels.toppings}}</h1>
+        <h1 v-if="this.currentCategory==3">{{ uiLabels.sauce}}</h1>
+        <h1 v-if="this.currentCategory==4">{{ uiLabels.bread}}</h1>
+        <h1 v-if="this.currentCategory==5">{{ uiLabels.extras}}</h1>
+        <h1 v-if="this.currentCategory==6">{{ uiLabels.drinks}}</h1>
+        <div v-if="displayOrder && this.currentCategory<=3"   class="ingdiv">
+          <Ingredient
+            ref="ingredient"
+            v-for= "item  in ingredients"
+            v-show="item.category==currentCategory"
+            v-on:increment="createBurger(item)"
+            v-on:deincrement="removeIngredientNumber(item)"
+            :item="item"
+            :lang="lang"
+            :currentCategory=currentCategory
+            :key="item.ingredient_id">
+          </Ingredient>
         </div>
-        <div id="addOrderButton" v-if="displayOrder">
-            <button v-on:click="addButtonK()" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
-        </div>
-      <div v-if="displayOrder == false">
-        <h1>{{ uiLabels.yourOrder }}</h1>
-        <div v-for="ab, index in outputOrderText">
-          {{ ab}}
-          <button v-on:click="removeItem(index)" id= "index" > delete </button>
-          <br>
+        <div v-else="displayOrder && this.currentCategory>=4" class="ingdiv2">
+          <Ingredient
+            ref="ingredient"
+            v-for= "item  in ingredients"
+            v-show="item.category==currentCategory"
+            v-on:increment="createBurger(item)"
+            v-on:deincrement="removeIngredientNumber(item)"
+            :item="item"
+            :lang="lang"
+            :currentCategory=currentCategory
+            :key="item.ingredient_id">
+          </Ingredient>
+        </div> <br> <br>
+          <div v-if="hamburgerButtons">
+            <div v-if="currentCategory >= 2">
+              <button v-on:click="previousPage()" style="float: left;"><img src="@/assets/backArrow.png" width = 40> {{ uiLabels.previous }}</button>
+            </div>
+            <div v-if="currentCategory <= 3">
+              <button v-on:click="nextPage()" style="float: left;"><img src="@/assets/frontArrow.png" width = 40> {{ uiLabels.next }}</button>
+            </div>
+          </div>
+          <div id="addOrderButton" v-if="displayOrder">
+              <button v-on:click="addButtonK()" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
+          </div>
+        <div v-if="displayOrder == false">
+          <h1>{{ uiLabels.yourOrder }}</h1>
+          <div v-for="ab, index in outputOrderText">
+            {{ ab}}
+            <button v-on:click="removeItem(index)" id= "index" > delete </button>
+            <br>
+          </div>
         </div>
       </div>
-      </section>
+    </section>
 
 
     <section class="rightSection">
@@ -162,6 +167,7 @@ export default {
       totalOrderPrice: 0,
       orderNumber: "",
       currentCategory: 1,
+      buttonIsPressed: false,
       hamburgerButtons: false,
       displayOrder: false,
       isburger: false,
@@ -324,6 +330,7 @@ export default {
 
     showBurger: function(boolean) {
       this.hamburgerButtons = boolean;
+      this.buttonIsPressed=true;
     },
     showOrder: function(boolean) {
       this.displayOrder = boolean;
@@ -495,7 +502,9 @@ export default {
   width:700px;
   margin-top: -73px;
 }
-
+#welcomePage{
+  font-size: 1.5em;
+}
 .rightSection{
   grid-column: 3;
   grid-row: 1 / span 3;
@@ -513,7 +522,7 @@ export default {
 .ingdiv{
   overflow-y:scroll;
   height:50vh;
-  box-shadow: 0px 12px 5px -2px lightgray
+  box-shadow: 0px 12px 5px -2px lightgray;
 }
 
 .rightInfo {
