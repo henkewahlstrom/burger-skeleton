@@ -63,6 +63,9 @@ export default {
     },
     resetCounter: function () {
       this.counter = 0;
+    },
+    addtoCounterto:function(){
+    this.counter+=1;
     }
   }
 }

@@ -79,6 +79,7 @@
           <div v-for="ab, index in outputOrderText">
             {{ ab}} &nbsp;
             <button v-on:click="removeItem(index)" id= "index" > X </button>
+            <button v-on:click="changeburger(index)" id="index2"> redoburger</button>
             <br>
           </div>
           <div id="totalPrice" >
@@ -302,7 +303,6 @@ export default {
       for (j=0; j< this.drinksAndExtras.length; j++){
         if (this.drinksAndExtras[j].category >= 5){
           this.getpriceofburger(this.drinksAndExtras[j])
-          console.log(this.itemprice)
           this.aDrinkOrExtra.name = this.drinksAndExtras[j]
           this.chosenIngredients.push({name:this.aDrinkOrExtra.name, size:this.aDrinkOrExtra.size, price:this.itemprice});
           this.itemprice=0;
@@ -311,6 +311,44 @@ export default {
         }
       }
     },
+    redoburgeringridientburger: function(i){
+     var j
+
+      for(j=0; j<this.chosenIngredients[i].meat.length; j++){
+        this.burgerIngredients.push(this.chosenIngredients[i].meat[j])
+      }
+      for(j=0; j<this.chosenIngredients[i].additionals.length; j++){
+        this.burgerIngredients.push(this.chosenIngredients[i].additionals[j])
+      }
+      for(j=0; j<this.chosenIngredients[i].sauce.length; j++){
+        this.burgerIngredients.push(this.chosenIngredients[i].sauce[j])
+      }
+      this.burgerIngredients.push(this.chosenIngredients[i].bread)
+
+    },
+    changeburger: function(i){
+      var j
+      var k
+      this.displayOrder=true
+      this.redoburgeringridientburger(i)
+      this.hamburgerButtons=true
+      this.currentCategory=1;
+      this.chosenIngredients.splice(i,1);
+      this.createOutputOrderText()
+      this.displayOrder=true
+      console.log(ingredient.length)
+      for (j= 0; j < ingredient.length; j+= 1) {
+        if(this.redoburgeringridientburger.indexof(ingredient[j])>-1){
+        ingredient[j].addtoCounter();}
+      }
+
+
+
+    },
+
+
+
+
     placeOrder: function () {
       var i,
       //Wrap the order in an object
@@ -356,7 +394,7 @@ export default {
           this.tempFoodObjekt= (i+1) + ": " + this.chosenIngredients[i].name["ingredient_" + this.lang] + ", "  + this.chosenIngredients[i].price + ":-";
           this.outputOrderText.push(this.tempFoodObjekt);
           this.tempFoodObjekt = "";
-          console.log(this.chosenIngredients[i].price)
+
           this.totalOrderPrice+=this.chosenIngredients[i].price
         }
       }
@@ -402,7 +440,6 @@ export default {
 
     removeItem: function(index){
       this.chosenIngredients.splice(index,1);
-      console.log(this.chosenIngredients[index])
       this.createOutputOrderText();
     },
 
@@ -639,6 +676,14 @@ export default {
   border: 2px solid;
   height:0.95;
 }
+
+#index2{
+  background-color: OrangeRed;
+  font-size: 0.9em;
+  font-weight: bold;
+  border: 2px solid;
+  height:0.95;}
+
 .focused-category {
   background-color: black;
   color: white;
