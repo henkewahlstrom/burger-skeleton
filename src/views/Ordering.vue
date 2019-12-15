@@ -81,13 +81,17 @@
             <button v-on:click="removeItem(index)" id= "index" > X </button>
             <br>
           </div>
-          <div id="totalPrice">
+          <div id="totalPrice" >
             {{uiLabels.totalPriceLang}} {{totalOrderPrice}} :-
           </div>
+          <br>
+          <br>
+          <br>
         <div v-if="placeOrderBoolean">
-          <button id="placeOrderButton" v-on:click="placeOrder(); popupFunction()" style="float: right;"> {{uiLabels.placeOrder}} </button>
+          <button id="placeOrderButton" v-on:click="popupFunction()" style="float: right;"> {{uiLabels.placeOrder}} </button>
           <span class="popuptext" id="myPopup"> </span>
         </div>
+
       </div>
       </div>
     </section>
@@ -101,9 +105,8 @@
         <span id="gluten">G</span> = {{ uiLabels.contains }} {{ uiLabels.gluten }} <br>
         <span id="vegan">V</span> = {{ uiLabels.vegan }}
       </div>
-      <div class="rightInfo">
+      <div class="rightInfo" v-if="hamburgerButtons">
         <div id="secondRightBox">
-        <div v-if="hamburgerButtons">
           <h1>{{ uiLabels.order }}</h1>
           <h4>{{uiLabels.protein}} </h4>
           <span v-for="ingri in this.burgerIngredients">
@@ -124,7 +127,7 @@
         </span>
         <h4>{{uiLabels.burgerprice}} {{ price }} kr </h4>
         </div>
-        <h1>{{ uiLabels.ordersInQueue }}</h1>
+      <!--<h1>{{ uiLabels.ordersInQueue }}</h1>
         <div>
           <OrderItem
             v-for="(order, key) in orders"
@@ -135,8 +138,7 @@
             :lang="lang"
             :key="key">
           </OrderItem>
-        </div>
-      </div>
+        </div> -->
     </div>
 
     </section>
@@ -235,7 +237,10 @@ export default {
       this.showBurger(false);
       this.showOrder(false);
     }
-    else {
+    if(this.isbreadin()==false) {
+      if(this.currentCategory <= 3) {
+        window.alert( "Please choose a bread");
+      }
     }
     },
 
@@ -324,7 +329,7 @@ export default {
           this.totalOrderPrice+=this.chosenIngredients[i].price
         }
         else {
-          this.tempFoodObjekt= (i+1) + ": " + this.chosenIngredients[i].name["ingredient_" + this.lang] + ", " + this.chosenIngredients[i].size + ", " + this.chosenIngredients[i].price + ":-";
+          this.tempFoodObjekt= (i+1) + ": " + this.chosenIngredients[i].name["ingredient_" + this.lang] + ", "  + this.chosenIngredients[i].price + ":-";
           this.outputOrderText.push(this.tempFoodObjekt);
           this.tempFoodObjekt = "";
           console.log(this.chosenIngredients[i].price)
@@ -392,6 +397,7 @@ export default {
         }
       }
       return false
+
     },
 
     isNotBurger:function(){
@@ -432,7 +438,7 @@ export default {
     },
 
     popupFunction: function(){
-      if (confirm("Place order")){
+      if (confirm("Are you sure you want to place the order?")){
         this.placeOrder()
       };
     }
@@ -491,6 +497,7 @@ export default {
 
 .menu-button{
   font-size: 0.90em;
+  font-family: "Comic Sans MS";
   border: 4px groove #ccd;
 }
 
@@ -522,8 +529,9 @@ export default {
   font-size: 1.3em;
   border: 2px solid;
   padding-left: 10px;
-  margin-right: 500px;
+
   margin-top: 30px;
+  float: right;
 }
 
 .rightSection{

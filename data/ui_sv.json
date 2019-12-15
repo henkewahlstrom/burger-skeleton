@@ -31,8 +31,8 @@
   "vegan" : "Vegansk",
   "drinksAndExtras" : "Dryck och Tillbehör",
   "checkout":"Gå till min beställning",
-  "breaddemand":"bröd saknas",
-  "burgerprice" :"burgarens pris: ",
+  "breaddemand":"Bröd saknas",
+  "burgerprice" :"Burgarens pris: ",
   "welcome": "Välkommen till Crusty Burgers! Påbörja din order genom att klicka på en av knapparna till vänster. Följ oss gärna på sociala medier @crustyburgers.",
   "totalPriceLang": "Totalpris: "
 }
