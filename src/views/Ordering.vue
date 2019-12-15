@@ -85,7 +85,7 @@
             {{uiLabels.totalPriceLang}} {{totalOrderPrice}} :-
           </div>
         <div v-if="placeOrderBoolean">
-          <button id="placeOrderButton" v-on:click="placeOrder(); popupFunction()"> {{uiLabels.placeOrder}} </button>
+          <button id="placeOrderButton" v-on:click="placeOrder(); popupFunction()"> <img src="@/assets/checkout.jpg" width = 60> {{uiLabels.placeOrder}} </button>
           <span class="popuptext" id="myPopup"> </span>
         </div>
       </div>
