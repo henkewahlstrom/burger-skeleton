@@ -3,8 +3,7 @@
     <img class="examplePanel" src="@/assets/colorsplash.jpg">
     <section class="leftSection">
       <div id="menuButtons">
-        <button v-on:click="switchLang()">{{ uiLabels.language }}</button>
-        <button v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=200></button>
+        <button id = "bigButtons" v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=200px></button>
 
         <div class="hamburgerIngredients" v-if="hamburgerButtons">
           <button :class="['menu-button', {'focused-category' : currentCategory === 1}]" v-on:click="changeCategory(1)"> {{ uiLabels.protein }} </button>
@@ -12,21 +11,27 @@
           <button :class="['menu-button', {'focused-category' : currentCategory === 3}]" v-on:click="changeCategory(3)"> {{ uiLabels.sauce }} </button>
           <button :class="['menu-button', {'focused-category' : currentCategory === 4}]" v-on:click="changeCategory(4)"> {{ uiLabels.bread }} </button>
         </div>
-          <button v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=200></button>
-          <button v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200></button>
+          <button id = "bigButtons" v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=200px></button>
+          <button id = "bigButtons" v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200px></button>
+      <div class="popupClass">
+        <button id="checkoutButton" v-on:click="popupFunction();"> {{ uiLabels.checkout }} {{totalOrderPrice}} kr </button>
+        <span class="popuptext" id="myPopup"> </span>
       </div>
-      <div>
-        <button id="checkoutButton" v-on:click="placeOrder();"> CHECKOUT {{totalOrderPrice}} kr </button>
-      </div>
+    </div>
     </section>
 
     <section class="header">
       <h1> Crusty Burgers </h1>
     </section>
 
-    <section class="middleTopSection" >
+    <section class="middleSection" >
       <div v-if="displayOrder" class="ingdiv">
-        <h1>{{ uiLabels.ingredients }}</h1>
+        <h1 v-if="this.currentCategory==1">{{ uiLabels.protein}}</h1>
+        <h1 v-if="this.currentCategory==2">{{ uiLabels.toppings}}</h1>
+        <h1 v-if="this.currentCategory==3">{{ uiLabels.sauce}}</h1>
+        <h1 v-if="this.currentCategory==4">{{ uiLabels.bread}}</h1>
+        <h1 v-if="this.currentCategory==5">{{ uiLabels.extras}}</h1>
+        <h1 v-if="this.currentCategory==6">{{ uiLabels.drinks}}</h1>
         <Ingredient
           ref="ingredient"
           v-for= "item  in ingredients"
@@ -38,6 +43,7 @@
           :currentCategory=currentCategory
           :key="item.ingredient_id">
         </Ingredient>
+      </div> <br> <br>
         <div v-if="hamburgerButtons">
           <div v-if="currentCategory >= 2">
             <button v-on:click="previousPage()" style="float: left;"><img src="@/assets/backArrow.png" width = 40> {{ uiLabels.previous }}</button>
@@ -46,13 +52,8 @@
             <button v-on:click="nextPage()" style="float: left;"><img src="@/assets/frontArrow.png" width = 40> {{ uiLabels.next }}</button>
           </div>
         </div>
-
-      </div>
-      </section>
-
-      <section class="middleBottomSection">
         <div id="addOrderButton" v-if="displayOrder">
-            <button v-on:click="addToOrder(); showBurger(false); showOrder(false)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
+            <button v-on:click="addButtonK()" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
         </div>
       <div v-if="displayOrder == false">
         <h1>{{ uiLabels.yourOrder }}</h1>
@@ -66,6 +67,8 @@
 
 
     <section class="rightSection">
+      <button v-if="this.langBoolData" v-on:click="switchLang(); langBool(false)"><img src="@/assets/Sverige.png" width=100%></button>
+      <button v-if="this.langBoolData==false" v-on:click="switchLang(); langBool(true)"><img src="@/assets/Storbritannien.png" width=100%></button>
       <div id="infoAllergy">
         <span id="milk"> L </span> = {{ uiLabels.contains }} {{ uiLabels.lactose }} <br>
         <span id="gluten">G</span> = {{ uiLabels.contains }} {{ uiLabels.gluten }} <br>
@@ -75,7 +78,24 @@
         <div id="secondRightBox">
         <div v-if="hamburgerButtons">
           <h1>{{ uiLabels.order }}</h1>
-          {{ burgerIngredients.map(item => item["ingredient_"+lang]).join(', ') }}, {{ price }} kr <br>
+          <h4>{{uiLabels.protein}} </h4>
+          <span v-for="ingri in this.burgerIngredients">
+          <li v-if="ingri.category==1">{{ ingri["ingredient_"+lang] }},  </li>
+        </span>
+        <h4>{{ uiLabels.toppings }}</h4>
+        <span v-for="ingri in this.burgerIngredients">
+          <li v-if="ingri.category==2">{{ ingri["ingredient_"+lang] }}</li>
+        </span>
+        <h4>{{ uiLabels.sauce }}</h4>
+        <span v-for="ingri in this.burgerIngredients">
+        <li v-if="ingri.category==3">{{ ingri["ingredient_"+lang] }},  </li>
+        </span>
+        <h4>{{ uiLabels.bread }}</h4>
+        <li v-if="isbreadin()!==true">  {{uiLabels.breaddemand}} </li>
+        <span  v-if="isbreadin()" v-for="ingri in this.burgerIngredients">
+          <li v-if="ingri.category==4">{{ ingri["ingredient_"+lang] }}  </li>
+        </span>
+        <h4>{{uiLabels.burgerprice}} {{ price }} kr </h4>
         </div>
         <h1>{{ uiLabels.ordersInQueue }}</h1>
         <div>
@@ -91,6 +111,7 @@
         </div>
       </div>
     </div>
+
     </section>
   </div>
 </template>
@@ -117,6 +138,8 @@ export default {
                             // the ordering system and the kitchen
   data: function() { //Not that data is a function!
     return {
+      itemprice: 0,
+      langBoolData:true,
       chosenIngredients: [],
       burgerIngredients: [],
       drinksAndExtras: [],
@@ -133,11 +156,13 @@ export default {
         bread: null,
         meat: [],
         additionals:[],
-        sauce: []
+        sauce: [],
+        price: 0
       },
       aDrinkOrExtra: {
         size: "Small",
-        name: {}
+        name: {},
+        price: 0
       }
     }
   },
@@ -154,7 +179,6 @@ export default {
       }
       else if (this.currentCategory>=5) {
         this.drinksAndExtras.push(item);
-        this.price += +item.selling_price;
       }
 
     },
@@ -164,8 +188,30 @@ export default {
       this.createOutputOrderText();
       //this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
       this.burgerIngredients = [];
-      this.drinksAndExtras = []
+      this.drinksAndExtras = [];
+      this.price=0;
     },
+
+    addButtonK: function(){
+      if(this.isbreadin()){
+        console.log("test1");
+      this.addToOrder()
+      this.showBurger(false)
+      this.showOrder(false)
+      }
+
+    else if (this.isNotBurger()) {
+      console.log("test 2")
+      this.addToOrder();
+      this.showBurger(false);
+      this.showOrder(false);
+    }
+    else {
+      this.showBurger(true)
+      this.showOrder(true)
+    }
+    },
+
     addToBurger: function(){
       var i;
       for (i=0; i < this.burgerIngredients.length; i++){
@@ -184,8 +230,10 @@ export default {
         }
       }
       if(this.isBurger){
+        this.getpriceofburger(this.aBurger)
         this.chosenIngredients.push({bread:this.aBurger.bread, meat:this.aBurger.meat,
-          additionals:this.aBurger.additionals, sauce:this.aBurger.sauce});
+          additionals:this.aBurger.additionals, sauce:this.aBurger.sauce, price:this.itemprice});
+          this.itemprice=0;
           this.aBurger.bread=null;
           this.aBurger.meat=[];
           this.aBurger.additionals=[];
@@ -198,8 +246,11 @@ export default {
       var j;
       for (j=0; j< this.drinksAndExtras.length; j++){
         if (this.drinksAndExtras[j].category >= 5){
+          this.getpriceofburger(this.drinksAndExtras[j])
+          console.log(this.itemprice)
           this.aDrinkOrExtra.name = this.drinksAndExtras[j]
-          this.chosenIngredients.push({name:this.aDrinkOrExtra.name, size:this.aDrinkOrExtra.size});
+          this.chosenIngredients.push({name:this.aDrinkOrExtra.name, size:this.aDrinkOrExtra.size, price:this.itemprice});
+          this.itemprice=0;
           this.aDrinkOrExtra.name={};
           this.aDrinkOrExtra.size="Small";
         }
@@ -209,7 +260,7 @@ export default {
       var i,
       //Wrap the order in an object
         order = {
-          ingredients: this.chosenIngredients,
+          ingredients: this.outputOrderText,
           price: this.price
         };
       // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
@@ -227,6 +278,7 @@ export default {
       var i
       var j
       this.outputOrderText=[];
+      this.totalOrderPrice=0;
       for (i=0; i <this.chosenIngredients.length; i++){
         if(this.chosenIngredients[i].bread != null){
           this.tempFoodObjekt= (i+1) +": " + this.chosenIngredients[i].bread["ingredient_" + this.lang]
@@ -239,15 +291,18 @@ export default {
           for (j=0; j < this.chosenIngredients[i].sauce.length; j++){
             this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].sauce[j]["ingredient_" + this.lang]
           }
+          this.tempFoodObjekt=this.tempFoodObjekt+", " + this.chosenIngredients[i].price
           this.outputOrderText.push(this.tempFoodObjekt);
           this.tempFoodObjekt = "";
+          this.totalOrderPrice+=this.chosenIngredients[i].price
         }
         else {
-          this.tempFoodObjekt= (i+1) + ": " + this.chosenIngredients[i].name["ingredient_" + this.lang] + ", " + this.chosenIngredients[i].size
+          this.tempFoodObjekt= (i+1) + ": " + this.chosenIngredients[i].name["ingredient_" + this.lang] + ", " + this.chosenIngredients[i].size + ", " + this.chosenIngredients[i].price
           this.outputOrderText.push(this.tempFoodObjekt);
           this.tempFoodObjekt = "";
+          console.log(this.chosenIngredients[i].price)
+          this.totalOrderPrice+=this.chosenIngredients[i].price
         }
-      this.totalOrderPrice=this.price;
       }
     },
     changeCategory: function(int) {
@@ -260,13 +315,62 @@ export default {
     showOrder: function(boolean) {
       this.displayOrder = boolean;
     },
+    langBool: function(boolean){
+      this.langBoolData=boolean;
+    },
+
+    getpriceofburger: function(item){
+      var j
+        if(item.bread!=null){
+        this.itemprice=parseInt(item.bread.selling_price);
+        for (j=0; j < item.meat.length; j++){
+          this.itemprice+=parseInt(item.meat[j].selling_price);
+        }
+        for (j=0; j < item.additionals.length; j++){
+          this.itemprice+=parseInt(item.additionals[j].selling_price);
+
+        }
+        for (j=0; j < item.sauce.length; j++){
+          this.itemprice+=parseInt(item.sauce[j].selling_price);
+
+        }
+      }
+        else {
+          this.itemprice=parseInt(item.selling_price);
+        }
+      },
+
     removeItem: function(index){
       this.chosenIngredients.splice(index,1);
       console.log(this.chosenIngredients[index])
       this.createOutputOrderText();
     },
 
+    getbreadindex: function(ingri){
+      if(ingri.category==4){
+        return ingri
+      }
+    },
 
+    isbreadin:function(){
+      var i
+      for(i=0; i <this.burgerIngredients.length; i++){
+
+        if (this.burgerIngredients[i].category==4){
+          return true
+        }
+      }
+      return false
+    },
+
+    isNotBurger:function(){
+        var i
+        for(i=0; i <this.drinksAndExtras.length; i++){
+          if (this.drinksAndExtras[i].category>4){
+            return true
+      }}
+      return false
+    },
 
     removeIngredientNumber: function(item){
       if (this.currentCategory <= 3){
@@ -275,20 +379,31 @@ export default {
         this.price += -item.selling_price;
       }
       else if (this.currentCategory == 4){
-        this.burgerIngredients.splice( this.burgerIngredients.indexOf(previousItem),1);
+        var bread_index;
+        if(this.isbreadin()){
+          bread_index=this.burgerIngredients.findIndex(this.getbreadindex);
+          this.price += -this.burgerIngredients[bread_index].selling_price;
+          this.burgerIngredients.splice(bread_index,1);
 
-        this.price += -item.selling_price;
+          }
       }
       else {
         this.drinksAndExtras.splice( this.drinksAndExtras.indexOf(item),1);
         this.price += -item.selling_price;
       }
     },
+
     nextPage: function(){
       this.currentCategory += 1;
     },
     previousPage: function(){
       this.currentCategory = this.currentCategory - 1;
+    },
+
+    popupFunction: function(){
+      if (confirm("Place order")){
+        this.placeOrder()
+      };
     }
 
   }
@@ -296,6 +411,17 @@ export default {
 </script>
 <style scoped>
 /* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
+@media all and (max-width: 700px) {
+  .examplePanel {
+    position: fixed;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: -2;
+  }
+}
 .examplePanel {
   position: fixed;
   background-size: cover;
@@ -308,30 +434,47 @@ export default {
 #ordering {
   display: grid;
   grid-gap: 15px;
-    grid-template-columns: 20% 45% 35%;
-  margin-left: 40px;
-  margin-right: 40px;
+  grid-template-columns: 20% 60% 20%;
+  margin: auto;
+  width: 90%;
+  min-width: 1000px;
+  font-family: "Comic Sans MS";
 }
 .leftSection{
   grid-column: 1;
   grid-row: 1 / span 3;
+  margin-top: 150px
 }
 
 .header{
   grid-column: 2;
   grid-row: 1;
-}
-.middleTopSection{
-  grid-column: 2;
-  grid-row: 1 / span 2;
-  border: 4px groove #ccd;
-  background-color: white;
-  margin-left: 15px;
-  padding: 1em;
+  font-size: 3.5em;
+  color: white;
+  -webkit-text-fill-color: black;
+  -webkit-text-stroke-width: 1.5px;
+  -webkit-text-stroke-color: white;
+  margin-top: -50px;
+  text-align: center;
 }
 
-.middleBottomSection{
+.menu-button{
+  font-size: 0.90em;
+  border: 4px groove #ccd;
+}
+
+#bigButtons {
+  background-color: white;
+  border: 4px groove #ccd;
+  display: inline-block;
+}
+.hamburgerIngredients {
+  text-align: center;
+}
+
+.middleSection{
   grid-column: 2;
+<<<<<<< HEAD
 
 }
 .middleTopSection{
@@ -346,21 +489,26 @@ export default {
 .middleBottomSection{
   grid-column: 2;
   grid-row: 3;
+=======
+  grid-row: 2;
+>>>>>>> 1988f33c1e7ff8e475373de267000d436f32aeef
   border: 4px groove #ccd;
   background-color: white;
   margin-left: 15px;
   padding: 1em;
-
+  width:700px;
+  margin-top: -73px;
 }
 
 .rightSection{
   grid-column: 3;
   grid-row: 1 / span 3;
-
+  margin-top: 135px;
   padding: 1em;
 
 }
 
+<<<<<<< HEAD
 
 
 .rightInfo {
@@ -370,9 +518,19 @@ export default {
 }
 
 
+=======
+.rightSection button{
+  margin-bottom: 30px;
+  background-color: white;
+  border: 4px groove #ccd;
+  display: inline-block;
+}
+
+>>>>>>> 1988f33c1e7ff8e475373de267000d436f32aeef
 .ingdiv{
   overflow-y:scroll;
   height:50vh;
+  box-shadow: 0px 12px 5px -2px lightgray
 }
 
 .rightInfo {
@@ -383,12 +541,8 @@ export default {
 
 #menuButtons{
   display: grid;
-  grid-gap: 2px;
+  grid-gap: 20px;
     grid-template-columns: repeat(1, 1fr);
-}
-
-#menuButtons button{
-  width: 100%;
 }
 
 #addOrderButton {
@@ -399,12 +553,15 @@ export default {
   height: 80px;
   margin-top: 10px;
   font-size: 18px;
+  font-family: "Comic Sans MS";
+  border: 4px groove #ccd;
 }
 
 #infoAllergy {
   border: 4px groove #ccd;
   padding: 1em;
   background-color: white;
+  width: 198px;
 
 }
 

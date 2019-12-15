@@ -16,7 +16,7 @@
   "ingredients" : "Ingredients",
   "ready" : "Done",
   "order" : "My burger",
-  "language" : "Svenska",
+  "language" : "@/assets/Sverige.png",
   "addOrder" : "Add Order",
   "previous" : "Previous",
   "protein" : "Protein",
@@ -25,7 +25,12 @@
   "bread" : "Bread",
   "contains" : "Contains",
   "lactose" : "Lactose",
+  "drinks" : "Drinks",
+  "extras" : "Extras",
   "gluten" : "Gluten",
   "vegan" : "Vegan",
-  "drinksAndExtras" : "Drinks and Extras"
+  "drinksAndExtras" : "Drinks and Extras",
+  "checkout":"CHECKOUT",
+  "breaddemand":"bread is missing",
+  "burgerprice" :"burgerprice"
 }
