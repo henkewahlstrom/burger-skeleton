@@ -85,7 +85,7 @@
             {{uiLabels.totalPriceLang}} {{totalOrderPrice}} :-
           </div>
         <div v-if="placeOrderBoolean">
-          <button id="placeOrderButton" v-on:click="placeOrder(); popupFunction()"> <img src="@/assets/checkout.jpg" width = 60> {{uiLabels.placeOrder}} </button>
+          <button id="placeOrderButton" v-on:click="placeOrder(); popupFunction()" style="float: right;"> {{uiLabels.placeOrder}} </button>
           <span class="popuptext" id="myPopup"> </span>
         </div>
       </div>
@@ -558,6 +558,12 @@ export default {
     grid-template-columns: repeat(1, 1fr);
 }
 
+#placeOrderButton{
+  font-size: 30px;
+  font-family: "Comic Sans MS";
+  background-color: LightSkyBlue;
+  border: 2px solid;
+}
 #addOrderButton {
   font-size: 50em;
 }
