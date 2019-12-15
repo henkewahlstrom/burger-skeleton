@@ -463,6 +463,7 @@ export default {
 
     popupFunction: function(){
       if (confirm("Are you sure you want to place the order?")){
+        this.redochosen(this.chosenIngredients)
         this.placeOrder()
       };
     }
