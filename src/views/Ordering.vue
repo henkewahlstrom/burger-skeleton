@@ -138,6 +138,7 @@ export default {
                             // the ordering system and the kitchen
   data: function() { //Not that data is a function!
     return {
+      ingredientstosend:[],
       itemprice: 0,
       langBoolData:true,
       chosenIngredients: [],
@@ -211,6 +212,28 @@ export default {
       this.showOrder(true)
     }
     },
+    redochosen: function(thechoseningredient){
+      var i
+      var j
+      for(i=0; i<thechoseningredient.length; i++){
+        if(thechoseningredient[i].bread != null){
+          for(j=0; j<thechoseningredient[i].meat.length; j++){
+            this.ingredientstosend.push(thechoseningredient[i].meat[j])
+          }
+          for(j=0; j<thechoseningredient[i].additionals.length; j++){
+            this.ingredientstosend.push(thechoseningredient[i].additionals[j])
+          }
+          for(j=0; j<thechoseningredient[i].sauce.length; j++){
+            this.ingredientstosend.push(thechoseningredient[i].sauce[j])
+          }
+          this.ingredientstosend.push(thechoseningredient[i].bread)
+        }
+        else {
+          this.ingredientstosend.push(thechoseningredient[i].name)
+        }
+      }
+
+    },
 
     addToBurger: function(){
       var i;
@@ -260,8 +283,8 @@ export default {
       var i,
       //Wrap the order in an object
         order = {
-          ingredients: this.outputOrderText,
-          price: this.price
+          ingredients: this.ingredientstosend,
+          price: this.totalOrderPrice
         };
       // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
       this.$store.state.socket.emit('order', {order: order});
@@ -272,6 +295,7 @@ export default {
       this.price = 0;
       this.totalOrderPrice = 0;
       this.chosenIngredients = [];
+      this.ingredientstosend= [];
     },
 
     createOutputOrderText: function(){
@@ -402,7 +426,8 @@ export default {
 
     popupFunction: function(){
       if (confirm("Place order")){
-        this.placeOrder()
+        this.redochosen(this.chosenIngredients);
+        this.placeOrder();
       };
     }
 
@@ -566,5 +591,4 @@ export default {
   padding: 1em;
   background-color: white;
 }
-
 </style>

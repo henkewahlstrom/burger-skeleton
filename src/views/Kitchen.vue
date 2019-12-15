@@ -11,6 +11,7 @@
       :order="order"
       :ui-labels="uiLabels"
       :lang="lang"
+      :burgerordrink="doburger"
       :key="key">
     </OrderItemToPrepare>
   </div>
@@ -18,24 +19,37 @@
 
 <section class="middleSection">
   <h1>{{ uiLabels.drinksAndExtras }}</h1>
+
   <div>
+    <OrderItemToPrepare
+      v-for="(order, key) in orders"
+      v-if="order.status !== 'done'"
+      v-on:done="markDone(key)"
+      :order-id="key"
+      :order="order"
+      :ui-labels="uiLabels"
+      :lang="lang"
+      :burgerordrink="dodrink"
+      :key="key">
+    </OrderItemToPrepare>
 
   </div>
 </section>
 
 <section class="rightSection">
   <h1>{{ uiLabels.ordersFinished }}</h1>
-  <div>
-    <OrderItem
-      v-for="(order, key) in orders"
-      v-if="order.status === 'done'"
-      :order-id="key"
-      :order="order"
-      :lang="lang"
-      :ui-labels="uiLabels"
-      :key="key">
-    </OrderItem>
-  </div>
+  <OrderItemToPrepare
+  v-for="(order, key) in orders"
+  v-if="order.status === 'done'"
+  :order-id="key"
+  :order="order"
+  :ui-labels="uiLabels"
+  :lang="lang"
+  :burgerordrink="dodrink"
+  :key="key">
+</OrderItemToPrepare>
+
+
 </section>
 </div>
 </template>
@@ -57,7 +71,9 @@ export default {
   data: function(){
     return {
       chosenIngredients: [],
-      price: 0
+      price: 0,
+      doburger: true,
+      dodrink: false
     }
   },
   methods: {
