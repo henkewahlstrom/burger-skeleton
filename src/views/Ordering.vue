@@ -27,6 +27,7 @@
     <section class="middleSection" >
       <div id="welcomePage" v-if="buttonIsPressed == false">
         {{ uiLabels.welcome}}
+        <img src="@/assets/welcome.jpg" width=200px>
       </div>
       <div v-else>
         <h1 v-if="this.currentCategory==1">{{ uiLabels.protein}}</h1>
