@@ -30,7 +30,9 @@
   "gluten" : "Gluten",
   "vegan" : "Vegan",
   "drinksAndExtras" : "Drinks and Extras",
-  "checkout":"CHECKOUT",
-  "breaddemand":"bread is missing",
-  "burgerprice" :"burgerprice"
+  "checkout":"Go to my order",
+  "breaddemand":"Bread is missing",
+  "burgerprice" :"Burger price",
+  "welcome": "Welcome to Crusty Burgers. Please start your order by clicking one of the buttons to the left. Follow us on all social media @crustyburgers",
+  "totalPriceLang": "Total price: "
 }

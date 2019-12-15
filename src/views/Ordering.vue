@@ -14,8 +14,7 @@
           <button id = "bigButtons" v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=200px></button>
           <button id = "bigButtons" v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200px></button>
       <div class="popupClass">
-        <button id="checkoutButton" v-on:click="popupFunction();"> {{ uiLabels.checkout }} {{totalOrderPrice}} kr </button>
-        <span class="popuptext" id="myPopup"> </span>
+        <button id="checkoutButton" v-on:click=" showOrder(false); showPlaceOrder(true);showBurger(false)"> {{ uiLabels.checkout }} </button>
       </div>
     </div>
     </section>
@@ -25,58 +24,89 @@
     </section>
 
     <section class="middleSection" >
-      <div v-if="displayOrder" class="ingdiv">
+      <div id="welcomePage" v-if="buttonIsPressed == false">
+        {{ uiLabels.welcome}} <br>
+        <img src="@/assets/welcome.jpg" width=400px >
+      </div>
+      <div v-else>
+        <div v-if="displayOrder">
         <h1 v-if="this.currentCategory==1">{{ uiLabels.protein}}</h1>
         <h1 v-if="this.currentCategory==2">{{ uiLabels.toppings}}</h1>
         <h1 v-if="this.currentCategory==3">{{ uiLabels.sauce}}</h1>
         <h1 v-if="this.currentCategory==4">{{ uiLabels.bread}}</h1>
         <h1 v-if="this.currentCategory==5">{{ uiLabels.extras}}</h1>
         <h1 v-if="this.currentCategory==6">{{ uiLabels.drinks}}</h1>
-        <Ingredient
-          ref="ingredient"
-          v-for= "item  in ingredients"
-          v-show="item.category==currentCategory"
-          v-on:increment="createBurger(item)"
-          v-on:deincrement="removeIngredientNumber(item)"
-          :item="item"
-          :lang="lang"
-          :currentCategory=currentCategory
-          :key="item.ingredient_id">
-        </Ingredient>
-      </div> <br> <br>
-        <div v-if="hamburgerButtons">
-          <div v-if="currentCategory >= 2">
-            <button v-on:click="previousPage()" style="float: left;"><img src="@/assets/backArrow.png" width = 40> {{ uiLabels.previous }}</button>
-          </div>
-          <div v-if="currentCategory <= 3">
-            <button v-on:click="nextPage()" style="float: left;"><img src="@/assets/frontArrow.png" width = 40> {{ uiLabels.next }}</button>
-          </div>
+        <div v-if="this.currentCategory<=3" class="ingdiv">
+          <Ingredient
+            ref="ingredient"
+            v-for= "item  in ingredients"
+            v-show="item.category==currentCategory"
+            v-on:increment="createBurger(item)"
+            v-on:deincrement="removeIngredientNumber(item)"
+            :item="item"
+            :lang="lang"
+            :currentCategory=currentCategory
+            :key="item.ingredient_id">
+          </Ingredient>
         </div>
-        <div id="addOrderButton" v-if="displayOrder">
-            <button v-on:click="addButtonK()" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
+        <div v-else="this.currentCategory>=4" class="ingdiv2">
+          <Ingredient
+            ref="ingredient"
+            v-for= "item  in ingredients"
+            v-show="item.category==currentCategory"
+            v-on:increment="createBurger(item)"
+            v-on:deincrement="removeIngredientNumber(item)"
+            :item="item"
+            :lang="lang"
+            :currentCategory=currentCategory
+            :key="item.ingredient_id">
+          </Ingredient>
+        </div> <br> <br>
         </div>
-      <div v-if="displayOrder == false">
-        <h1>{{ uiLabels.yourOrder }}</h1>
-        <div v-for="ab, index in outputOrderText">
-          {{ ab}}
-          <button v-on:click="removeItem(index)" id= "index" > delete </button>
+          <div v-if="hamburgerButtons">
+            <div v-if="currentCategory >= 2">
+              <button v-on:click="previousPage()" style="float: left;"><img src="@/assets/backArrow.png" width = 40> {{ uiLabels.previous }}</button>
+            </div>
+            <div v-if="currentCategory <= 3">
+              <button v-on:click="nextPage()" style="float: left;"><img src="@/assets/frontArrow.png" width = 40> {{ uiLabels.next }}</button>
+            </div>
+          </div>
+          <div id="addOrderButton" v-if="displayOrder">
+              <button v-on:click="addButtonK(); showPlaceOrder(true)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
+          </div>
+        <div id="currentOrder" v-if="displayOrder == false">
+          <h1>{{ uiLabels.yourOrder }}</h1>
+          <div v-for="ab, index in outputOrderText">
+            {{ ab}} &nbsp;
+            <button v-on:click="removeItem(index)" id= "index" > X </button>
+            <br>
+          </div>
+          <div id="totalPrice" >
+            {{uiLabels.totalPriceLang}} {{totalOrderPrice}} :-
+          </div>
           <br>
+          <br>
+          <br>
+        <div v-if="placeOrderBoolean">
+          <button id="placeOrderButton" v-on:click="popupFunction()" style="float: right;"> {{uiLabels.placeOrder}} </button>
+          <span class="popuptext" id="myPopup"> </span>
         </div>
+
       </div>
-      </section>
+      </div>
+    </section>
 
 
     <section class="rightSection">
-      <button v-if="this.langBoolData" v-on:click="switchLang(); langBool(false)"><img src="@/assets/Sverige.png" width=100%></button>
-      <button v-if="this.langBoolData==false" v-on:click="switchLang(); langBool(true)"><img src="@/assets/Storbritannien.png" width=100%></button>
+      <button id="langButton" v-if="this.langBoolData" v-on:click="switchLang(); langBool(false)"><img src="@/assets/Sverige.png" width=100%></button>
+      <button id="langButton" v-if="this.langBoolData==false" v-on:click="switchLang(); langBool(true)"><img src="@/assets/Storbritannien.png" width=100%></button>
       <div id="infoAllergy">
         <span id="milk"> L </span> = {{ uiLabels.contains }} {{ uiLabels.lactose }} <br>
         <span id="gluten">G</span> = {{ uiLabels.contains }} {{ uiLabels.gluten }} <br>
         <span id="vegan">V</span> = {{ uiLabels.vegan }}
       </div>
-      <div class="rightInfo">
+      <div class="rightInfo" v-if="hamburgerButtons">
         <div id="secondRightBox">
-        <div v-if="hamburgerButtons">
           <h1>{{ uiLabels.order }}</h1>
           <h4>{{uiLabels.protein}} </h4>
           <span v-for="ingri in this.burgerIngredients">
@@ -97,7 +127,7 @@
         </span>
         <h4>{{uiLabels.burgerprice}} {{ price }} kr </h4>
         </div>
-        <h1>{{ uiLabels.ordersInQueue }}</h1>
+      <!--<h1>{{ uiLabels.ordersInQueue }}</h1>
         <div>
           <OrderItem
             v-for="(order, key) in orders"
@@ -108,8 +138,7 @@
             :lang="lang"
             :key="key">
           </OrderItem>
-        </div>
-      </div>
+        </div> -->
     </div>
 
     </section>
@@ -150,9 +179,11 @@ export default {
       totalOrderPrice: 0,
       orderNumber: "",
       currentCategory: 1,
+      buttonIsPressed: false,
       hamburgerButtons: false,
       displayOrder: false,
       isburger: false,
+      placeOrderBoolean: false,
       aBurger: {
         bread: null,
         meat: [],
@@ -207,9 +238,10 @@ export default {
       this.showBurger(false);
       this.showOrder(false);
     }
-    else {
-      this.showBurger(true)
-      this.showOrder(true)
+    if(this.isbreadin()==false) {
+      if(this.currentCategory <= 3) {
+        window.alert( "Please choose a bread");
+      }
     }
     },
     redochosen: function(thechoseningredient){
@@ -315,13 +347,13 @@ export default {
           for (j=0; j < this.chosenIngredients[i].sauce.length; j++){
             this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].sauce[j]["ingredient_" + this.lang]
           }
-          this.tempFoodObjekt=this.tempFoodObjekt+", " + this.chosenIngredients[i].price
+          this.tempFoodObjekt=this.tempFoodObjekt+", " + this.chosenIngredients[i].price + ":-";
           this.outputOrderText.push(this.tempFoodObjekt);
           this.tempFoodObjekt = "";
           this.totalOrderPrice+=this.chosenIngredients[i].price
         }
         else {
-          this.tempFoodObjekt= (i+1) + ": " + this.chosenIngredients[i].name["ingredient_" + this.lang] + ", " + this.chosenIngredients[i].size + ", " + this.chosenIngredients[i].price
+          this.tempFoodObjekt= (i+1) + ": " + this.chosenIngredients[i].name["ingredient_" + this.lang] + ", "  + this.chosenIngredients[i].price + ":-";
           this.outputOrderText.push(this.tempFoodObjekt);
           this.tempFoodObjekt = "";
           console.log(this.chosenIngredients[i].price)
@@ -335,12 +367,16 @@ export default {
 
     showBurger: function(boolean) {
       this.hamburgerButtons = boolean;
+      this.buttonIsPressed=true;
     },
     showOrder: function(boolean) {
       this.displayOrder = boolean;
     },
     langBool: function(boolean){
       this.langBoolData=boolean;
+    },
+    showPlaceOrder: function(boolean){
+      this.placeOrderBoolean = boolean;
     },
 
     getpriceofburger: function(item){
@@ -385,6 +421,7 @@ export default {
         }
       }
       return false
+
     },
 
     isNotBurger:function(){
@@ -425,9 +462,8 @@ export default {
     },
 
     popupFunction: function(){
-      if (confirm("Place order")){
-        this.redochosen(this.chosenIngredients);
-        this.placeOrder();
+      if (confirm("Are you sure you want to place the order?")){
+        this.placeOrder()
       };
     }
 
@@ -485,6 +521,7 @@ export default {
 
 .menu-button{
   font-size: 0.90em;
+  font-family: "Comic Sans MS";
   border: 4px groove #ccd;
 }
 
@@ -507,6 +544,19 @@ export default {
   width:700px;
   margin-top: -73px;
 }
+#welcomePage{
+  font-size: 1.5em;
+  text-align: center;
+}
+
+#totalPrice{
+  font-size: 1.3em;
+  border: 2px solid;
+  padding-left: 10px;
+
+  margin-top: 30px;
+  float: right;
+}
 
 .rightSection{
   grid-column: 3;
@@ -525,7 +575,7 @@ export default {
 .ingdiv{
   overflow-y:scroll;
   height:50vh;
-  box-shadow: 0px 12px 5px -2px lightgray
+  box-shadow: 0px 12px 5px -2px lightgray;
 }
 
 .rightInfo {
@@ -540,6 +590,12 @@ export default {
     grid-template-columns: repeat(1, 1fr);
 }
 
+#placeOrderButton{
+  font-size: 30px;
+  font-family: "Comic Sans MS";
+  background-color: LightSkyBlue;
+  border: 2px solid;
+}
 #addOrderButton {
   font-size: 50em;
 }
@@ -574,6 +630,13 @@ export default {
 
 #vegan {
   color: green;
+}
+#index{
+  background-color: OrangeRed;
+  font-size: 0.9em;
+  font-weight: bold;
+  border: 2px solid;
+  height:0.95;
 }
 .focused-category {
   background-color: black;
