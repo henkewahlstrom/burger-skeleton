@@ -1,30 +1,29 @@
-<template>
-	<div v-if="itemscreen">
+<template >
+	<div class="orderBox" v-if="itemscreen">
     <div v-if="burgerordrink" >
-			<span v-for="(burger ,index) in burgers">
-        {{orderId}} burger: {{index+1}}{{uiLabels.ingredients}}:
-				 <span v-for="ing in burger"> {{ing["ingredient_"+ lang]}}, </span>
-				 <br>
-				 </span>
-				 </div>
+			<b><i>#{{orderId}}:</i></b>
+			<span v-for="(burger, index) in burgers">
+				<ul><li>{{index+1}}:</li></ul>
+				 <span v-for="ing in burger"><ul id="burgerIngredients"><li>- {{ing["ingredient_"+ lang]}}</li></ul></span>
+			</span>
+		</div>
     <div v-else-if="burgerordrink!==true" >
-			<span v-for="(drink ,index) in drinksAndExtras">
-        {{orderId}} aDrinkOrExtra {{index +1}} {{drink["ingredient_"+ lang]}}</span>
+			<b><i>#{{orderId}}:</i></b>
+			<span v-for="drink in drinksAndExtras">
+				<ul id="burgerIngredients"><li>- {{drink["ingredient_"+ lang]}}</li></ul>
+			</span>
     </div>
 	</div>
-	<div v-else-if="itemscreen!==true">
-    <div>
-			{{orderId}}
+	<div class="orderBox" v-else-if="itemscreen!==true">
+			<b><i>#{{orderId}}:</i></b><br>
+			<b>Burgers:</b>
 			<span v-for="(burger ,index) in burgers">
-         burger: {{index}}{{uiLabels.ingredients}}:
-				 <span v-for="ing in burger"> {{ing["ingredient_"+ lang]}}, </span>
-				 <br>
-				 </span>
-				 </div>
-    <div >
-			<span v-for="(drink ,index) in drinksAndExtras">
-      {{index}} {{drink["ingredient_"+ lang]}}</span>
-    </div>
+          <ul><li>{{index+1}}:</li></ul>
+				 <span v-for="ing in burger"><ul id="burgerIngredients"><li>- {{ing["ingredient_"+ lang]}} </li></ul></span>
+			</span>
+			<b>Drinks:</b>
+				 <span v-for="(drink ,index) in drinksAndExtras">
+      		<ul id="burgerIngredients"><li>{{drink["ingredient_"+ lang]}}</li></ul></span>
 	</div>
 
 </template>
@@ -43,5 +42,20 @@ export default {
 }
 </script>
 <style scoped>
+.orderBox{
+	overflow-y: scroll;
+	max-height: 20vh;
 
+}
+#burgerIngredients {
+	list-style-type: none;
+	line-height: 20%;
+}
+
+div{
+	line-height: 80%;
+}
+div span{
+	line-height: 20%;
+}
 </style>

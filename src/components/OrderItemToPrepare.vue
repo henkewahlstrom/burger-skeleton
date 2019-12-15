@@ -39,6 +39,7 @@
   <button v-if="itemscreen!==true" v-on:click="orderDone">
     {{uiLabels.ready}}
   </button>
+  <br>
 </span>
 
 <!--  <span v-if="burgerordrink!==true">
