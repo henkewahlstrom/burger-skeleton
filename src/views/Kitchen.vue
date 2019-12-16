@@ -109,20 +109,25 @@ export default {
 </script>
 <style scoped>
     #orders {
+
     font-size:18pt;
     display: grid;
-    grid-gap: 5px;
+    grid-gap: 6px;
     grid-template-columns: 25% 25% 25% 25%;
     grid-template-rows: auto;
     margin: 40px;
   }
   #orders section{
     min-height: 90vh;
+    border-style: outset;
+    border-width: 2px;
   }
+
   .leftSection{
     grid-column: 1;
     grid-row: 1;
     background-color: orange;
+
   }
   .middleSection {
     grid-column: 2;
@@ -142,6 +147,7 @@ export default {
 
   h1 {
     text-transform: uppercase;
+    text-align: center;
     font-size: 1.4em;
   }
 </style>

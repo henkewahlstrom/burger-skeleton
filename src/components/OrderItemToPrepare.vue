@@ -35,8 +35,8 @@
     :drinksAndExtras="this.drinksAndExtras"
     :burgerordrink="burgerordrink">
   </OrderItem>
-  <span v-if="status!==true">
-  <button v-if="itemscreen!==true" v-on:click="orderDone">
+  <span  v-if="status!==true">
+  <button id="doneButton"  v-if="itemscreen!==true" v-on:click="orderDone">
     {{uiLabels.ready}}
   </button>
   <br>
@@ -135,5 +135,27 @@ export default {
 }
 </script>
 <style scoped>
+div {
+  background-color: lightgray;
+  color: black;
+  padding: 1%;
+  margin: 1%;
+  border-style: double;
+  border-color: black;
+  border-radius: 3%;
+  min-height: 20vh;
+}
 
+#doneButton{
+  width: 100%;
+  display: inline-block;
+  border: 2px groove #ccd;
+  border-radius: 3%;
+  text-align: center;
+  background-color: Lightgreen;
+}
+#doneButton:hover{
+  background-color: green;
+  cursor: pointer;
+}
 </style>
