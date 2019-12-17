@@ -4,7 +4,7 @@
     <label>
       <span class="ingrtext">
       <button v-on:click="incrementDeCounter"> - </button>
-      {{counter}}
+      {{thecounter}}
       <button v-on:click="incrementCounter"> + </button>
     </span>
       {{item["ingredient_"+ lang]}}, {{item.selling_price}}:-
@@ -32,7 +32,8 @@ export default {
   props: {
     item: Object,
     lang: String,
-    currentCategory:Number
+    currentCategory:Number,
+    thecounter:Number
   },
     data: function () {
     return {

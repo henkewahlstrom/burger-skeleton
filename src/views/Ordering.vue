@@ -39,28 +39,33 @@
         <div v-if="this.currentCategory<=3" class="ingdiv">
           <Ingredient
             ref="ingredient"
-            v-for= "item  in ingredients"
+            v-for= "(item,index)  in ingredients"
             v-show="item.category==currentCategory"
-            v-on:increment="createBurger(item)"
-            v-on:deincrement="removeIngredientNumber(item)"
+            v-on:increment="createBurger(item,index)"
+            v-on:deincrement="removeIngredientNumber(item,index)"
             :item="item"
             :lang="lang"
+            :thecounter="ingridentcounts[index]"
             :currentCategory=currentCategory
             :key="item.ingredient_id">
           </Ingredient>
         </div>
         <div v-else="this.currentCategory>=4" class="ingdiv2">
+          <span>
           <Ingredient
+          key="renderkey"
             ref="ingredient"
-            v-for= "item  in ingredients"
+            v-for= "(item,index)  in ingredients"
             v-show="item.category==currentCategory"
-            v-on:increment="createBurger(item)"
-            v-on:deincrement="removeIngredientNumber(item)"
+            v-on:increment="createBurger(item,index)"
+            v-on:deincrement="removeIngredientNumber(item,index)"
             :item="item"
             :lang="lang"
+            :thecounter="ingridentcounts[index]"
             :currentCategory=currentCategory
             :key="item.ingredient_id">
           </Ingredient>
+          </span>
         </div> <br> <br>
         </div>
           <div v-if="hamburgerButtons">
@@ -128,18 +133,10 @@
         </span>
         <h4>{{uiLabels.burgerprice}} {{ price }} kr </h4>
         </div>
-      <!--<h1>{{ uiLabels.ordersInQueue }}</h1>
-        <div>
-          <OrderItem
-            v-for="(order, key) in orders"
-            v-if="order.status !== 'done'"
-            :order-id="key"
-            :order="order"
-            :ui-labels="uiLabels"
-            :lang="lang"
-            :key="key">
-          </OrderItem>
-        </div> -->
+
+    </div>
+    <div v-else-if="currentCategory>=5">
+          {{this.drinkprice}}
     </div>
 
     </section>
@@ -168,6 +165,7 @@ export default {
                             // the ordering system and the kitchen
   data: function() { //Not that data is a function!
     return {
+      drinkprice:0,
       ingredientstosend:[],
       itemprice: 0,
       langBoolData:true,
@@ -178,6 +176,7 @@ export default {
       tempFoodObjekt:"",
       price: 0,
       totalOrderPrice: 0,
+      ingridentcounts:Array(61).fill(0),
       orderNumber: "",
       currentCategory: 1,
       buttonIsPressed: false,
@@ -205,13 +204,16 @@ export default {
     }.bind(this));
   },
   methods: {
-    createBurger: function (item) {
+    createBurger: function (item,index) {
       if (this.currentCategory<=4){
         this.burgerIngredients.push(item);
         this.price += +item.selling_price;
+        this.ingridentcounts[index]++
       }
       else if (this.currentCategory>=5) {
         this.drinksAndExtras.push(item);
+        this.ingridentcounts[index]++
+        this.drinkprice += +item.selling_price;
       }
 
     },
@@ -219,6 +221,7 @@ export default {
       this.addToBurger();
       this.addToDrinkOrExtra();
       this.createOutputOrderText();
+      this.ingridentcounts=Array(61).fill(0);
       //this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
       this.burgerIngredients = [];
       this.drinksAndExtras = [];
@@ -227,7 +230,6 @@ export default {
 
     addButtonK: function(){
       if(this.isbreadin()){
-        console.log("test1");
       this.addToOrder()
       this.showBurger(false)
       this.showOrder(false)
@@ -328,7 +330,6 @@ export default {
     },
     changeburger: function(i){
       var j
-      var k
       this.displayOrder=true
       this.redoburgeringridientburger(i)
       this.hamburgerButtons=true
@@ -336,11 +337,11 @@ export default {
       this.chosenIngredients.splice(i,1);
       this.createOutputOrderText()
       this.displayOrder=true
-      console.log(ingredient.length)
-      for (j= 0; j < ingredient.length; j+= 1) {
-        if(this.redoburgeringridientburger.indexof(ingredient[j])>-1){
-        ingredient[j].addtoCounter();}
+      for (j= 0; j < this.burgerIngredients.length; j+= 1) {
+        if(this.ingredients.indexOf(this.burgerIngredients[j])>-1){
+        this.ingridentcounts[this.ingredients.indexOf(this.burgerIngredients[j])]++
       }
+    }
 
 
 
@@ -359,13 +360,12 @@ export default {
       // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
       this.$store.state.socket.emit('order', {order: order});
       //set all counters to 0. Notice the use of $refs
-      for (i = 0; i < this.$refs.ingredient.length; i += 1) {
-        this.$refs.ingredient[i].resetCounter();
-      }
+
       this.price = 0;
       this.totalOrderPrice = 0;
       this.chosenIngredients = [];
       this.ingredientstosend= [];
+      this.ingridentcounts.fill(0);
     },
 
     createOutputOrderText: function(){
@@ -406,6 +406,7 @@ export default {
     showBurger: function(boolean) {
       this.hamburgerButtons = boolean;
       this.buttonIsPressed=true;
+      console.log(this.ingridentcounts);
     },
     showOrder: function(boolean) {
       this.displayOrder = boolean;
@@ -470,7 +471,7 @@ export default {
       return false
     },
 
-    removeIngredientNumber: function(item){
+    removeIngredientNumber: function(item,index){
       if (this.currentCategory <= 3){
         this.burgerIngredients.splice( this.burgerIngredients.indexOf(item),1);
 
@@ -487,8 +488,9 @@ export default {
       }
       else {
         this.drinksAndExtras.splice( this.drinksAndExtras.indexOf(item),1);
-        this.price += -item.selling_price;
+        this.drinkprice += -item.selling_price;
       }
+      this.ingridentcounts[index]--
     },
 
     nextPage: function(){
