@@ -83,7 +83,7 @@
             </div>
           </div>
           <div id="addOrderButton" v-if="displayOrder">
-              <button v-on:click="addButtonK(); showPlaceOrder(true); redoBurgerBolFunc(false)" style="float: right;"><img src="@/assets/cart.png" width = 50%> {{ uiLabels.addOrder }}</button>
+              <button v-on:click="addButtonK(); showPlaceOrder(true); redoBurgerBolFunc(false)" style="float: right;"><img src="@/assets/cart.png" width = 50%><br>{{ uiLabels.addOrder }}</button>
           </div>
         </div>
         <div id="currentOrder" v-if="displayOrder == false">
@@ -624,13 +624,14 @@ export default {
 .allPrevNextAdd{
   display:grid;
   grid-template-columns: 50% 50%;
-  grid-gap: 25%;
+  grid-gap: 28.8%;
 }
 .previousAndNext{
   display: grid;
   grid-template-columns: 50% 50%;
   grid-gap: 1%;
   width: 50%;
+  padding: 1%
 }
 .rightSection{
   grid-column: 3;
@@ -671,8 +672,9 @@ export default {
 }
 #addOrderButton {
   display: grid;
-  font-size: 50em;
-  width: 50%;
+  font-size: 100%;
+  width: 40%;
+  padding:1%;
 }
 #checkoutButton {
   width: 100%;
