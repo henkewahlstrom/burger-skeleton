@@ -14,7 +14,12 @@
           <button id = "bigButtons" v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=100%></button>
           <button id = "bigButtons" v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=100%></button>
       <div class="popupClass">
-        <button id="checkoutButton" v-on:click=" showOrder(false); showPlaceOrder(true);showBurger(false)"> {{ uiLabels.checkout }} </button>
+        <div v-if="redoBurgerBol">
+          <button id="checkoutButton" v-on:click="redoPopUp()" > {{ uiLabels.checkout }} </button>
+        </div>
+        <div v-else>
+          <button id="checkoutButton" v-on:click=" showOrder(false); showPlaceOrder(true);showBurger(false); redoBurgerBolFunc(false)"> {{ uiLabels.checkout }} </button>
+        </div>
       </div>
     </div>
     </section>
@@ -78,7 +83,7 @@
             </div>
           </div>
           <div id="addOrderButton" v-if="displayOrder">
-              <button v-on:click="addButtonK(); showPlaceOrder(true)" style="float: right;"><img src="@/assets/cart.png" width = 50%> {{ uiLabels.addOrder }}</button>
+              <button v-on:click="addButtonK(); showPlaceOrder(true); redoBurgerBolFunc(false)" style="float: right;"><img src="@/assets/cart.png" width = 50%> {{ uiLabels.addOrder }}</button>
           </div>
         </div>
         <div id="currentOrder" v-if="displayOrder == false">
@@ -87,7 +92,7 @@
             {{ ab}} &nbsp;
             <button v-on:click="removeItem(index)" id= "index" > X </button>
             <span  v-if="ab.includes('Burger')">
-            <button v-on:click="changeburger(index)" id="index2"> redoburger</button>
+            <button v-on:click="changeburger(index)" id="index2"> {{uiLabels.redoburger}}</button>
             </span>
             <br>
           </div>
@@ -188,6 +193,7 @@ export default {
       displayOrder: false,
       isburger: false,
       placeOrderBoolean: false,
+      redoBurgerBol: false,
       aBurger: {
         bread: null,
         meat: [],
@@ -338,9 +344,10 @@ export default {
     },
     changeburger: function(i){
       var j
-      this.displayOrder=true
-      this.redoburgeringridientburger(i)
-      this.hamburgerButtons=true
+      this.displayOrder=true;
+      this.redoBurgerBol=true;
+      this.redoburgeringridientburger(i);
+      this.hamburgerButtons=true;
       this.currentCategory=1;
       this.chosenIngredients.splice(i,1);
       this.createOutputOrderText()
@@ -423,6 +430,9 @@ export default {
     },
     showPlaceOrder: function(boolean){
       this.placeOrderBoolean = boolean;
+    },
+    redoBurgerBolFunc: function(boolean){
+      this.redoburger =boolean;
     },
 
     getpriceofburger: function(item){
@@ -507,11 +517,15 @@ export default {
       this.currentCategory = this.currentCategory - 1;
     },
 
+
     popupFunction: function(){
       if (confirm("Are you sure you want to place the order?")){
         this.redochosen(this.chosenIngredients)
         this.placeOrder()
       };
+    },
+    redoPopUp: function(){
+      window.alert( "Please add the changed burger to your order");
     }
 
   }
@@ -698,7 +712,8 @@ export default {
 }
 
 #index2{
-  background-color: OrangeRed;
+  background-color: Orange;
+  margin-left: 1%;
   font-size: 0.9em;
   font-weight: bold;
   border: 2px solid;
