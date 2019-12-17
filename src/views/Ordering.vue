@@ -3,7 +3,7 @@
     <img class="examplePanel" src="@/assets/colorsplash.jpg">
     <section class="leftSection">
       <div id="menuButtons">
-        <button id = "bigButtons" v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=200px></button>
+        <button id = "bigButtons" v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=100%></button>
 
         <div class="hamburgerIngredients" v-if="hamburgerButtons">
           <button :class="['menu-button', {'focused-category' : currentCategory === 1}]" v-on:click="changeCategory(1)"> {{ uiLabels.protein }} </button>
@@ -11,8 +11,8 @@
           <button :class="['menu-button', {'focused-category' : currentCategory === 3}]" v-on:click="changeCategory(3)"> {{ uiLabels.sauce }} </button>
           <button :class="['menu-button', {'focused-category' : currentCategory === 4}]" v-on:click="changeCategory(4)"> {{ uiLabels.bread }} </button>
         </div>
-          <button id = "bigButtons" v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=200px></button>
-          <button id = "bigButtons" v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=200px></button>
+          <button id = "bigButtons" v-on:click="changeCategory(5); showBurger(false); showOrder(true)"><img src="@/assets/fries.png" width=100%></button>
+          <button id = "bigButtons" v-on:click="changeCategory(6); showBurger(false); showOrder(true)"><img src="@/assets/drink.png" width=100%></button>
       <div class="popupClass">
         <button id="checkoutButton" v-on:click=" showOrder(false); showPlaceOrder(true);showBurger(false)"> {{ uiLabels.checkout }} </button>
       </div>
@@ -26,7 +26,7 @@
     <section class="middleSection" >
       <div id="welcomePage" v-if="buttonIsPressed == false">
         {{ uiLabels.welcome}} <br>
-        <img src="@/assets/welcome.jpg" width=400px >
+        <img src="@/assets/welcome.jpg" width=50% >
       </div>
       <div v-else>
         <div v-if="displayOrder">
@@ -68,17 +68,19 @@
           </span>
         </div> <br> <br>
         </div>
-          <div v-if="hamburgerButtons">
+        <div class="allPrevNextAdd">
+          <div class="previousAndNext" v-if="hamburgerButtons">
             <div v-if="currentCategory >= 2">
-              <button v-on:click="previousPage()" style="float: left;"><img src="@/assets/backArrow.png" width = 40> {{ uiLabels.previous }}</button>
+              <button v-on:click="previousPage()" style="float: left;" ><img src="@/assets/backArrow.png" width = 100%>  {{ uiLabels.previous }}</button>
             </div>
             <div v-if="currentCategory <= 3">
-              <button v-on:click="nextPage()" style="float: left;"><img src="@/assets/frontArrow.png" width = 40> {{ uiLabels.next }}</button>
+              <button v-on:click="nextPage()" style="float: right;"><img src="@/assets/frontArrow.png" width = 100%> {{ uiLabels.next }}</button>
             </div>
           </div>
           <div id="addOrderButton" v-if="displayOrder">
-              <button v-on:click="addButtonK(); showPlaceOrder(true)" style="float: right;"><img src="@/assets/cart.png" width = 40> {{ uiLabels.addOrder }}</button>
+              <button v-on:click="addButtonK(); showPlaceOrder(true)" style="float: right;"><img src="@/assets/cart.png" width = 50%> {{ uiLabels.addOrder }}</button>
           </div>
+        </div>
         <div id="currentOrder" v-if="displayOrder == false">
           <h1>{{ uiLabels.yourOrder }}</h1>
           <div v-for="ab, index in outputOrderText">
@@ -136,7 +138,7 @@
 
     </div>
     <div v-else-if="currentCategory>=5">
-          {{this.drinkprice}}
+
     </div>
 
     </section>
@@ -538,7 +540,6 @@ export default {
   grid-template-columns: 20% 60% 20%;
   margin: auto;
   width: 90%;
-  min-width: 1000px;
   font-family: "Comic Sans MS";
 }
 .leftSection{
@@ -597,7 +598,17 @@ export default {
   margin-top: 30px;
   float: right;
 }
-
+.allPrevNextAdd{
+  display:grid;
+  grid-template-columns: 50% 50%;
+  grid-gap: 25%;
+}
+.previousAndNext{
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-gap: 1%;
+  width: 50%;
+}
 .rightSection{
   grid-column: 3;
   grid-row: 1 / span 3;
@@ -637,7 +648,9 @@ export default {
   border: 2px solid;
 }
 #addOrderButton {
+  display: grid;
   font-size: 50em;
+  width: 50%;
 }
 #checkoutButton {
   width: 270px;
