@@ -145,7 +145,7 @@
 
     </div>
     <div v-else-if="currentCategory>=5">
-
+      {{drinkprice}}
     </div>
 
     </section>
