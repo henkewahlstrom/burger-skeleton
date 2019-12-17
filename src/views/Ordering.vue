@@ -86,7 +86,9 @@
           <div v-for="ab, index in outputOrderText">
             {{ ab}} &nbsp;
             <button v-on:click="removeItem(index)" id= "index" > X </button>
+            <span  v-if="ab.includes('Burger')">
             <button v-on:click="changeburger(index)" id="index2"> redoburger</button>
+            </span>
             <br>
           </div>
           <div id="totalPrice" >
@@ -231,6 +233,8 @@ export default {
     },
 
     addButtonK: function(){
+      var breadbol
+      breadbol=this.isbreadin()
       if(this.isbreadin()){
       this.addToOrder()
       this.showBurger(false)
@@ -243,7 +247,7 @@ export default {
       this.showBurger(false);
       this.showOrder(false);
     }
-    if(this.isbreadin()==false) {
+    if(breadbol!==true) {
       if(this.currentCategory <= 3) {
         window.alert( "Please choose a bread");
       }
@@ -320,6 +324,8 @@ export default {
 
       for(j=0; j<this.chosenIngredients[i].meat.length; j++){
         this.burgerIngredients.push(this.chosenIngredients[i].meat[j])
+        this.ingridentcounts[this.ingredients.indexOf(this.burgerIngredients[j])]++
+
       }
       for(j=0; j<this.chosenIngredients[i].additionals.length; j++){
         this.burgerIngredients.push(this.chosenIngredients[i].additionals[j])
@@ -377,7 +383,7 @@ export default {
       this.totalOrderPrice=0;
       for (i=0; i <this.chosenIngredients.length; i++){
         if(this.chosenIngredients[i].bread != null){
-          this.tempFoodObjekt= (i+1) +": " + this.chosenIngredients[i].bread["ingredient_" + this.lang]
+          this.tempFoodObjekt= (i+1) +": Burger(" + this.chosenIngredients[i].bread["ingredient_" + this.lang]
           for (j=0; j < this.chosenIngredients[i].meat.length; j++){
             this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].meat[j]["ingredient_" + this.lang]
           }
@@ -387,7 +393,7 @@ export default {
           for (j=0; j < this.chosenIngredients[i].sauce.length; j++){
             this.tempFoodObjekt=this.tempFoodObjekt + ", " + this.chosenIngredients[i].sauce[j]["ingredient_" + this.lang]
           }
-          this.tempFoodObjekt=this.tempFoodObjekt+", " + this.chosenIngredients[i].price + ":-";
+          this.tempFoodObjekt=this.tempFoodObjekt+", )" + this.chosenIngredients[i].price + ":-";
           this.outputOrderText.push(this.tempFoodObjekt);
           this.tempFoodObjekt = "";
           this.totalOrderPrice+=this.chosenIngredients[i].price
@@ -408,7 +414,6 @@ export default {
     showBurger: function(boolean) {
       this.hamburgerButtons = boolean;
       this.buttonIsPressed=true;
-      console.log(this.ingridentcounts);
     },
     showOrder: function(boolean) {
       this.displayOrder = boolean;
