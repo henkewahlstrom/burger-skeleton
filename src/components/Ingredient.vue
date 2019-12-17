@@ -54,13 +54,14 @@ export default {
     }
     },
     incrementDeCounter: function () {
-      if (this.counter >0) {
-      this.counter -= 1;
+
+      if(this.thecounter>0){
       // sending 'increment' message to parent component or view so that it
       // can catch it with v-on:increment in the component declaration
       //this.$emit('increment');
       this.$emit('deincrement');
     }
+
     },
     resetCounter: function () {
       this.counter = 0;
