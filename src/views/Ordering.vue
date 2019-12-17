@@ -248,7 +248,6 @@ export default {
       }
 
     else if (this.isNotBurger()) {
-      console.log("test 2")
       this.addToOrder();
       this.showBurger(false);
       this.showOrder(false);
@@ -432,7 +431,8 @@ export default {
       this.placeOrderBoolean = boolean;
     },
     redoBurgerBolFunc: function(boolean){
-      this.redoburger =boolean;
+      console.log("HEJE");
+      this.redoBurgerBol=boolean;
     },
 
     getpriceofburger: function(item){
