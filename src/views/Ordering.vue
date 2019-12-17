@@ -543,26 +543,30 @@ export default {
   display: grid;
   grid-gap: 15px;
   grid-template-columns: 20% 60% 20%;
+  grid-template-rows: auto;
   margin: auto;
   width: 90%;
   font-family: "Comic Sans MS";
 }
 .leftSection{
   grid-column: 1;
-  grid-row: 1 / span 3;
-  margin-top: 150px
+  grid-row: 2;
+  margin-bottom: 50%;
 }
 
 .header{
+  column-rule-width: 100%;
   grid-column: 2;
   grid-row: 1;
-  font-size: 3.5em;
+  width: 100%;
+  text-align: center;
+}
+.header h1{
+  font-size: 350%;
   color: white;
   -webkit-text-fill-color: black;
   -webkit-text-stroke-width: 1.5px;
   -webkit-text-stroke-color: white;
-  margin-top: -50px;
-  text-align: center;
 }
 
 .menu-button{
@@ -585,10 +589,10 @@ export default {
   grid-row: 2;
   border: 4px groove #ccd;
   background-color: white;
-  margin-left: 15px;
-  padding: 1em;
-  width:700px;
-  margin-top: -73px;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 50%;
+  width:90%;
 }
 #welcomePage{
   font-size: 1.5em;
@@ -616,9 +620,7 @@ export default {
 }
 .rightSection{
   grid-column: 3;
-  grid-row: 1 / span 3;
-  margin-top: 135px;
-  padding: 1em;
+  grid-row: 2;
 }
 
 .rightSection button{
@@ -642,12 +644,13 @@ export default {
 
 #menuButtons{
   display: grid;
-  grid-gap: 20px;
+  grid-gap: 3%;
+  width: 100%;
     grid-template-columns: repeat(1, 1fr);
 }
 
 #placeOrderButton{
-  font-size: 30px;
+  font-size: 1.78em;
   font-family: "Comic Sans MS";
   background-color: LightSkyBlue;
   border: 2px solid;
@@ -658,10 +661,8 @@ export default {
   width: 50%;
 }
 #checkoutButton {
-  width: 270px;
-  height: 80px;
-  margin-top: 10px;
-  font-size: 18px;
+  width: 100%;
+  font-size: 1.4em;
   font-family: "Comic Sans MS";
   border: 4px groove #ccd;
 }
@@ -670,7 +671,7 @@ export default {
   border: 4px groove #ccd;
   padding: 1em;
   background-color: white;
-  width: 198px;
+  width: 80%;
 
 }
 
@@ -702,7 +703,8 @@ export default {
   font-size: 0.9em;
   font-weight: bold;
   border: 2px solid;
-  height:0.95;}
+  height:0.95;
+}
 
 .focused-category {
   background-color: black;
