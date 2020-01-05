@@ -124,7 +124,7 @@
           <h1>{{ uiLabels.order }}</h1>
           <h4>{{uiLabels.protein}} </h4>
           <span v-for="ingri in this.burgerIngredients">
-          <li v-if="ingri.category==1">{{ ingri["ingredient_"+lang] }},  </li>
+          <li v-if="ingri.category==1">{{ ingri["ingredient_"+lang] }}  </li>
         </span>
         <h4>{{ uiLabels.toppings }}</h4>
         <span v-for="ingri in this.burgerIngredients">
@@ -132,7 +132,7 @@
         </span>
         <h4>{{ uiLabels.sauce }}</h4>
         <span v-for="ingri in this.burgerIngredients">
-        <li v-if="ingri.category==3">{{ ingri["ingredient_"+lang] }},  </li>
+        <li v-if="ingri.category==3">{{ ingri["ingredient_"+lang] }}  </li>
         </span>
         <h4>{{ uiLabels.bread }}</h4>
         <li v-if="isBreadIn()!==true">  {{uiLabels.breaddemand}} </li>
@@ -143,7 +143,7 @@
         </div>
 
     </div>
-    <div v-else-if="currentCategory>=5">
+    <div class="hiding" v-else-if="currentCategory>=5">
       {{drinkprice}}
     </div>
 
@@ -245,15 +245,14 @@ export default {
       console.log(Ingredient.length);
       var breadBol
       breadBol=this.isBreadIn()
-      if(this.isBreadIn()){
+      if(this.isBreadIn() || this.burgerIngredients.length==0){
       this.addToOrder()
       this.showBurger(false)
       this.showOrder(false)
       }
-      if(breadBol!==true) {
+      if(breadBol!==true && this.burgerIngredients.length>0) {
         window.alert( "Please choose a bread");
-
-    }
+  }
     },
 
     reDoChosen: function(thechoseningredient){
@@ -370,7 +369,9 @@ export default {
       this.totalOrderPrice = 0;
       this.chosenIngredients = [];
       this.ingredientstosend= [];
+      this.outputOrderText= [];
       this.ingridentcounts.fill(0);
+      this.buttonIsPressed = false;
     },
 
     createOutputOrderText: function(){
@@ -696,6 +697,10 @@ export default {
 
 #secondRightBox {
   padding: 1em;
+}
+
+.hiding{
+  opacity: 0;
 }
 
 #milk {
