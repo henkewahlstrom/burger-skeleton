@@ -184,7 +184,7 @@ export default {
       tempFoodObjekt:"",
       price: 0,
       totalOrderPrice: 0,
-      ingridentcounts:Array(61).fill(0),
+      ingridentcounts:[],
       orderNumber: "",
       currentCategory: 1,
       buttonIsPressed: false,
@@ -233,7 +233,7 @@ export default {
       this.addToBurger();
       this.addToDrinkOrExtra();
       this.createOutputOrderText();
-      this.ingridentcounts=Array(61).fill(0);
+      this.ingridentcounts=Array(this.ingredients.length).fill(0);
       //this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
       this.burgerIngredients = [];
       this.drinksAndExtras = [];
@@ -412,8 +412,12 @@ export default {
 
     showBurger: function(boolean) {
       this.hamburgerButtons = boolean;
-      console.log(this.burgerIngredients);
+      console.log(this.ingredients.length);
+      if(this.buttonIsPressed!=true){
+      this.ingridentcounts=Array(this.ingredients.length).fill(0);
       this.buttonIsPressed=true;
+      console.log(this.ingredients)
+    }
     },
 
     showOrder: function(boolean) {
