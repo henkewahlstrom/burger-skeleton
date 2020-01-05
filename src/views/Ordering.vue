@@ -49,7 +49,7 @@
             v-on:deincrement="removeIngredientNumber(item,index)"
             :item="item"
             :lang="lang"
-            :thecounter="ingridentcounts[index]"
+            :thecounter="ingredientCounts[index]"
             :currentCategory=currentCategory
             :key="item.ingredient_id">
           </Ingredient>
@@ -65,7 +65,7 @@
             v-on:deincrement="removeIngredientNumber(item,index)"
             :item="item"
             :lang="lang"
-            :thecounter="ingridentcounts[index]"
+            :thecounter="ingredientCounts[index]"
             :currentCategory=currentCategory
             :key="item.ingredient_id">
           </Ingredient>
@@ -174,7 +174,7 @@ export default {
   data: function() { //Not that data is a function!
     return {
       drinkprice:0,
-      ingredientstosend:[],
+      ingredientsToSend:[],
       itemprice: 0,
       langBoolData:true,
       chosenIngredients: [],
@@ -184,7 +184,7 @@ export default {
       tempFoodObjekt:"",
       price: 0,
       totalOrderPrice: 0,
-      ingridentcounts:Array(61).fill(0),
+      ingredientCounts: Array(61).fill(0),
       orderNumber: "",
       currentCategory: 1,
       buttonIsPressed: false,
@@ -217,11 +217,11 @@ export default {
       if (this.currentCategory<=4){
         this.burgerIngredients.push(item);
         this.price += +item.selling_price;
-        this.ingridentcounts[index]++
+        this.ingredientCounts[index]++
       }
       else if (this.currentCategory>=5) {
         this.drinksAndExtras.push(item);
-        this.ingridentcounts[index]++
+        this.ingredientCounts[index]++
         this.drinkprice += +item.selling_price;
       }
     },
@@ -233,7 +233,7 @@ export default {
       this.addToBurger();
       this.addToDrinkOrExtra();
       this.createOutputOrderText();
-      this.ingridentcounts=Array(61).fill(0);
+      this.ingredientCounts=Array(61).fill(0);
       //this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
       this.burgerIngredients = [];
       this.drinksAndExtras = [];
@@ -255,24 +255,24 @@ export default {
   }
     },
 
-    reDoChosen: function(thechoseningredient){
+    redoChosen: function(theChosenIngredient){
       var i
       var j
-      for(i=0; i<thechoseningredient.length; i++){
-        if(thechoseningredient[i].bread != null){
-          for(j=0; j<thechoseningredient[i].meat.length; j++){
-            this.ingredientstosend.push(thechoseningredient[i].meat[j])
+      for(i=0; i<theChosenIngredient.length; i++){
+        if(theChosenIngredient[i].bread != null){
+          for(j=0; j<theChosenIngredient[i].meat.length; j++){
+            this.ingredientsToSend.push(theChosenIngredient[i].meat[j])
           }
-          for(j=0; j<thechoseningredient[i].additionals.length; j++){
-            this.ingredientstosend.push(thechoseningredient[i].additionals[j])
+          for(j=0; j<theChosenIngredient[i].additionals.length; j++){
+            this.ingredientsToSend.push(theChosenIngredient[i].additionals[j])
           }
-          for(j=0; j<thechoseningredient[i].sauce.length; j++){
-            this.ingredientstosend.push(thechoseningredient[i].sauce[j])
+          for(j=0; j<theChosenIngredient[i].sauce.length; j++){
+            this.ingredientsToSend.push(theChosenIngredient[i].sauce[j])
           }
-          this.ingredientstosend.push(thechoseningredient[i].bread)
+          this.ingredientsToSend.push(theChosenIngredient[i].bread)
         }
         else {
-          this.ingredientstosend.push(thechoseningredient[i].name)
+          this.ingredientsToSend.push(theChosenIngredient[i].name)
         }
       }
     },
@@ -322,11 +322,11 @@ export default {
       }
     },
 
-    redoBurgerIngridient: function(i){
+    redoBurgerIngredient: function(i){
      var j
       for(j=0; j<this.chosenIngredients[i].meat.length; j++){
         this.burgerIngredients.push(this.chosenIngredients[i].meat[j])
-        this.ingridentcounts[this.ingredients.indexOf(this.burgerIngredients[j])]++
+        this.ingredientCounts[this.ingredients.indexOf(this.burgerIngredients[j])]++
       }
       for(j=0; j<this.chosenIngredients[i].additionals.length; j++){
         this.burgerIngredients.push(this.chosenIngredients[i].additionals[j])
@@ -341,7 +341,7 @@ export default {
       var j
       this.displayOrder=true;
       this.redoBurgerBol=true;
-      this.redoBurgerIngridient(i);
+      this.redoBurgerIngredient(i);
       this.hamburgerButtons=true;
       this.currentCategory=1;
       this.chosenIngredients.splice(i,1);
@@ -349,7 +349,7 @@ export default {
       this.displayOrder=true
       for (j= 0; j < this.burgerIngredients.length; j+= 1) {
         if(this.ingredients.indexOf(this.burgerIngredients[j])>-1){
-        this.ingridentcounts[this.ingredients.indexOf(this.burgerIngredients[j])]++
+        this.ingredientCounts[this.ingredients.indexOf(this.burgerIngredients[j])]++
       }
     }
     },
@@ -358,7 +358,7 @@ export default {
       var i,
       //Wrap the order in an object
         order = {
-          ingredients: this.ingredientstosend,
+          ingredients: this.ingredientsToSend,
           price: this.totalOrderPrice
         };
       // make use of socket.io's magic to send the stuff to the kitchen via the server (app.js)
@@ -368,9 +368,9 @@ export default {
       this.price = 0;
       this.totalOrderPrice = 0;
       this.chosenIngredients = [];
-      this.ingredientstosend= [];
+      this.ingredientsToSend= [];
       this.outputOrderText= [];
-      this.ingridentcounts.fill(0);
+      this.ingredientCounts.fill(0);
       this.buttonIsPressed = false;
     },
 
@@ -501,7 +501,7 @@ export default {
         this.drinksAndExtras.splice( this.drinksAndExtras.indexOf(item),1);
         this.drinkprice += -item.selling_price;
       }
-      this.ingridentcounts[index]--
+      this.ingredientCounts[index]--
     },
 
     nextPage: function(){
@@ -514,7 +514,7 @@ export default {
 
     popupFunction: function(){
       if (confirm("Are you sure you want to place the order?")){
-        this.reDoChosen(this.chosenIngredients)
+        this.redoChosen(this.chosenIngredients)
         this.placeOrder()
       };
     },
