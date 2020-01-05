@@ -4,8 +4,7 @@
     <section class="leftSection">
       <div id="menuButtons">
         <button id = "bigButtons" v-on:click="changeCategory(1); showBurger(true); showOrder(true)"><img src="@/assets/hamburger.png" width=100%></button>
-
-        <div class="hamburgerIngredients" v-if="hamburgerButtons">
+          <div class="hamburgerIngredients" v-if="hamburgerButtons">
           <button :class="['menu-button', {'focused-category' : currentCategory === 1}]" v-on:click="changeCategory(1)"> {{ uiLabels.protein }} </button>
           <button :class="['menu-button', {'focused-category' : currentCategory === 2}]" v-on:click="changeCategory(2)"> {{ uiLabels.toppings }} </button>
           <button :class="['menu-button', {'focused-category' : currentCategory === 3}]" v-on:click="changeCategory(3)"> {{ uiLabels.sauce }} </button>
@@ -92,7 +91,7 @@
             {{ ab}} &nbsp;
             <button v-on:click="removeItem(index)" id= "index" > X </button>
             <span  v-if="ab.includes('Burger')">
-            <button v-on:click="changeburger(index)" id="index2"> {{uiLabels.redoburger}}</button>
+            <button v-on:click="changeBurger(index)" id="index2"> {{uiLabels.redoburger}}</button>
             </span>
             <br>
           </div>
@@ -136,8 +135,8 @@
         <li v-if="ingri.category==3">{{ ingri["ingredient_"+lang] }},  </li>
         </span>
         <h4>{{ uiLabels.bread }}</h4>
-        <li v-if="isbreadin()!==true">  {{uiLabels.breaddemand}} </li>
-        <span  v-if="isbreadin()" v-for="ingri in this.burgerIngredients">
+        <li v-if="isBreadIn()!==true">  {{uiLabels.breaddemand}} </li>
+        <span  v-if="isBreadIn()" v-for="ingri in this.burgerIngredients">
           <li v-if="ingri.category==4">{{ ingri["ingredient_"+lang] }}  </li>
         </span>
         <h4>{{uiLabels.burgerprice}} {{ price }} kr </h4>
@@ -225,8 +224,8 @@ export default {
         this.ingridentcounts[index]++
         this.drinkprice += +item.selling_price;
       }
-
     },
+
     addToOrder: function () {
       var breadbol;
       breadbol=this.isbreadin();
@@ -243,26 +242,26 @@ export default {
     },
 
     addButtonK: function(){
-      var breadbol
-      breadbol=this.isbreadin()
-      if(this.isbreadin()){
+      var breadBol
+      breadBol=this.isBreadIn()
+      if(this.isBreadIn()){
       this.addToOrder()
       this.showBurger(false)
       this.showOrder(false)
       }
-
-    else if (this.isNotBurger()) {
+      else if (this.isNotBurger()) {
       this.addToOrder();
       this.showBurger(false);
       this.showOrder(false);
-    }
-    if(breadbol!==true) {
+      }
+      if(breadBol!==true) {
       if(this.currentCategory <= 3) {
         window.alert( "Please choose a bread");
       }
     }
     },
-    redochosen: function(thechoseningredient){
+
+    reDoChosen: function(thechoseningredient){
       var i
       var j
       for(i=0; i<thechoseningredient.length; i++){
@@ -282,7 +281,6 @@ export default {
           this.ingredientstosend.push(thechoseningredient[i].name)
         }
       }
-
     },
 
     addToBurger: function(){
@@ -303,7 +301,7 @@ export default {
         }
       }
       if(this.isBurger){
-        this.getpriceofburger(this.aBurger)
+        this.getPriceOfBurger(this.aBurger)
         this.chosenIngredients.push({bread:this.aBurger.bread, meat:this.aBurger.meat,
           additionals:this.aBurger.additionals, sauce:this.aBurger.sauce, price:this.itemprice});
           this.itemprice=0;
@@ -315,11 +313,12 @@ export default {
       }
       //this.chosenIngredients.push(this.aBurger);
     },
+
     addToDrinkOrExtra: function(){
       var j;
       for (j=0; j< this.drinksAndExtras.length; j++){
         if (this.drinksAndExtras[j].category >= 5){
-          this.getpriceofburger(this.drinksAndExtras[j])
+          this.getPriceOfBurger(this.drinksAndExtras[j])
           this.aDrinkOrExtra.name = this.drinksAndExtras[j]
           this.chosenIngredients.push({name:this.aDrinkOrExtra.name, size:this.aDrinkOrExtra.size, price:this.itemprice});
           this.itemprice=0;
@@ -328,13 +327,12 @@ export default {
         }
       }
     },
-    redoburgeringridientburger: function(i){
-     var j
 
+    redoBurgerIngridient: function(i){
+     var j
       for(j=0; j<this.chosenIngredients[i].meat.length; j++){
         this.burgerIngredients.push(this.chosenIngredients[i].meat[j])
         this.ingridentcounts[this.ingredients.indexOf(this.burgerIngredients[j])]++
-
       }
       for(j=0; j<this.chosenIngredients[i].additionals.length; j++){
         this.burgerIngredients.push(this.chosenIngredients[i].additionals[j])
@@ -343,13 +341,13 @@ export default {
         this.burgerIngredients.push(this.chosenIngredients[i].sauce[j])
       }
       this.burgerIngredients.push(this.chosenIngredients[i].bread)
-
     },
-    changeburger: function(i){
+
+    changeBurger: function(i){
       var j
       this.displayOrder=true;
       this.redoBurgerBol=true;
-      this.redoburgeringridientburger(i);
+      this.redoBurgerIngridient(i);
       this.hamburgerButtons=true;
       this.currentCategory=1;
       this.chosenIngredients.splice(i,1);
@@ -360,13 +358,7 @@ export default {
         this.ingridentcounts[this.ingredients.indexOf(this.burgerIngredients[j])]++
       }
     }
-
-
-
     },
-
-
-
 
     placeOrder: function () {
       var i,
@@ -417,6 +409,7 @@ export default {
         }
       }
     },
+
     changeCategory: function(int) {
       this.currentCategory = int;
     },
@@ -426,21 +419,25 @@ export default {
       console.log(this.burgerIngredients);
       this.buttonIsPressed=true;
     },
+
     showOrder: function(boolean) {
       this.displayOrder = boolean;
     },
+
     langBool: function(boolean){
       this.langBoolData=boolean;
     },
+
     showPlaceOrder: function(boolean){
       this.placeOrderBoolean = boolean;
     },
+
     redoBurgerBolFunc: function(boolean){
       console.log("HEJE");
       this.redoBurgerBol=boolean;
     },
 
-    getpriceofburger: function(item){
+    getPriceOfBurger: function(item){
       var j
         if(item.bread!=null){
         this.itemprice=parseInt(item.bread.selling_price);
@@ -449,11 +446,9 @@ export default {
         }
         for (j=0; j < item.additionals.length; j++){
           this.itemprice+=parseInt(item.additionals[j].selling_price);
-
         }
         for (j=0; j < item.sauce.length; j++){
           this.itemprice+=parseInt(item.sauce[j].selling_price);
-
         }
       }
         else {
@@ -466,13 +461,13 @@ export default {
       this.createOutputOrderText();
     },
 
-    getbreadindex: function(ingri){
+    getBreadIndex: function(ingri){
       if(ingri.category==4){
         return ingri
       }
     },
 
-    isbreadin:function(){
+    isBreadIn:function(){
       var i
       for(i=0; i <this.burgerIngredients.length; i++){
 
@@ -481,7 +476,6 @@ export default {
         }
       }
       return false
-
     },
 
     isNotBurger:function(){
@@ -501,11 +495,10 @@ export default {
       }
       else if (this.currentCategory == 4){
         var bread_index;
-        if(this.isbreadin()){
-          bread_index=this.burgerIngredients.findIndex(this.getbreadindex);
+        if(this.isBreadIn()){
+          bread_index=this.burgerIngredients.findIndex(this.getBreadIndex);
           this.price += -this.burgerIngredients[bread_index].selling_price;
           this.burgerIngredients.splice(bread_index,1);
-
           }
       }
       else {
@@ -518,23 +511,24 @@ export default {
     nextPage: function(){
       this.currentCategory += 1;
     },
+
     previousPage: function(){
       this.currentCategory = this.currentCategory - 1;
     },
 
-
     popupFunction: function(){
       if (confirm("Are you sure you want to place the order?")){
-        this.redochosen(this.chosenIngredients)
+        this.reDoChosen(this.chosenIngredients)
         this.placeOrder()
       };
     },
+
     redoPopUp: function(){
       window.alert( "Please add the changed burger to your order");
     }
-
   }
 }
+
 </script>
 <style scoped>
 /* scoped in the style tag means that these rules will only apply to elements, classes and ids in this template and no other templates. */
@@ -549,6 +543,7 @@ export default {
     z-index: -2;
   }
 }
+
 .examplePanel {
   position: fixed;
   background-size: cover;
@@ -567,6 +562,7 @@ export default {
   width: 90%;
   font-family: "Comic Sans MS";
 }
+
 .leftSection{
   grid-column: 1;
   grid-row: 2;
@@ -580,6 +576,7 @@ export default {
   width: 100%;
   text-align: center;
 }
+
 .header h1{
   font-size: 350%;
   color: white;
@@ -599,6 +596,7 @@ export default {
   border: 4px groove #ccd;
   display: inline-block;
 }
+
 .hamburgerIngredients {
   text-align: center;
 }
@@ -613,6 +611,7 @@ export default {
   margin-bottom: 50%;
   width:90%;
 }
+
 #welcomePage{
   font-size: 1.5em;
   text-align: center;
@@ -626,11 +625,13 @@ export default {
   margin-top: 30px;
   float: right;
 }
+
 .allPrevNextAdd{
   display:grid;
   grid-template-columns: 50% 50%;
   grid-gap: 28.8%;
 }
+
 .previousAndNext{
   display: grid;
   grid-template-columns: 50% 50%;
@@ -638,6 +639,7 @@ export default {
   width: 50%;
   padding: 1%
 }
+
 .rightSection{
   grid-column: 3;
   grid-row: 2;
@@ -675,12 +677,14 @@ export default {
   background-color: LightSkyBlue;
   border: 2px solid;
 }
+
 #addOrderButton {
   display: grid;
   font-size: 100%;
   width: 40%;
   padding:1%;
 }
+
 #checkoutButton {
   width: 100%;
   font-size: 1.4em;
@@ -693,7 +697,6 @@ export default {
   padding: 1em;
   background-color: white;
   width: 80%;
-
 }
 
 #secondRightBox {
@@ -711,6 +714,7 @@ export default {
 #vegan {
   color: green;
 }
+
 #index{
   background-color: OrangeRed;
   font-size: 0.9em;
@@ -739,6 +743,7 @@ export default {
   top:0;
   z-index: -2;
 }
+
 .ingredient {
   border: 1px solid #ccd;
   padding: 1em;
