@@ -228,12 +228,16 @@ export default {
 
     },
     addToOrder: function () {
+      var breadbol;
+      breadbol=this.isbreadin();
+
       this.addToBurger();
       this.addToDrinkOrExtra();
       this.createOutputOrderText();
       this.ingridentcounts=Array(61).fill(0);
       //this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
-      this.burgerIngredients = [];
+      if(breadbol){
+      this.burgerIngredients = [];}
       this.drinksAndExtras = [];
       this.price=0;
     },
@@ -419,6 +423,7 @@ export default {
 
     showBurger: function(boolean) {
       this.hamburgerButtons = boolean;
+      console.log(this.burgerIngredients);
       this.buttonIsPressed=true;
     },
     showOrder: function(boolean) {
