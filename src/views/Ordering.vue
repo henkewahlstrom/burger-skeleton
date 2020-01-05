@@ -235,11 +235,11 @@ export default {
       this.createOutputOrderText();
       this.ingridentcounts=Array(61).fill(0);
       //this.chosenIngredients =  this.chosenIngredients.concat(this.burgerIngredients).concat(this.drinksAndExtras);
-      if(breadbol){
-      this.burgerIngredients = [];}
+      this.burgerIngredients = [];
       this.drinksAndExtras = [];
       this.price=0;
-    },
+    }
+    ,
 
     addButtonK: function(){
       console.log(Ingredient.length);
@@ -250,15 +250,9 @@ export default {
       this.showBurger(false)
       this.showOrder(false)
       }
-      else if (this.isNotBurger()) {
-      this.addToOrder();
-      this.showBurger(false);
-      this.showOrder(false);
-      }
       if(breadBol!==true) {
-      if(this.currentCategory <= 3) {
         window.alert( "Please choose a bread");
-      }
+
     }
     },
 
