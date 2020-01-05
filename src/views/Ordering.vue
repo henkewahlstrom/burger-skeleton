@@ -228,7 +228,7 @@ export default {
 
     addToOrder: function () {
       var breadbol;
-      breadbol=this.isbreadin();
+      breadbol=this.isBreadIn();
 
       this.addToBurger();
       this.addToDrinkOrExtra();
@@ -242,6 +242,7 @@ export default {
     },
 
     addButtonK: function(){
+      console.log(Ingredient.length);
       var breadBol
       breadBol=this.isBreadIn()
       if(this.isBreadIn()){
