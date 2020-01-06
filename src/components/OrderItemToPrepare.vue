@@ -96,15 +96,11 @@ export default {
     },
 
     holdburger:function(){
-      console.log(this.burgerdone)
       this.burgerdone=true
-      console.log(this.burgerdone)
     },
 
     holddrink:function(){
-      console.log(this.drinkdone)
       this.drinkdone=true
-      console.log(this.drinkdone)
     },
 
 
@@ -124,7 +120,6 @@ export default {
         }
       }
       this.run=false
-      console.log(this.drinksAndExtras)
       return true
 
 

@@ -242,7 +242,6 @@ export default {
     ,
 
     addButtonK: function(){
-      console.log(Ingredient.length);
       var breadBol
       breadBol=this.isBreadIn()
       if(this.isBreadIn() || this.burgerIngredients.length==0){
@@ -412,11 +411,9 @@ export default {
 
     showBurger: function(boolean) {
       this.hamburgerButtons = boolean;
-      console.log(this.ingredients.length);
       if(this.buttonIsPressed!=true){
       this.ingredientCounts=Array(this.ingredients.length).fill(0);
       this.buttonIsPressed=true;
-      console.log(this.ingredients)
     }
     },
 
@@ -433,7 +430,6 @@ export default {
     },
 
     redoBurgerBolFunc: function(boolean){
-      console.log("HEJE");
       this.redoBurgerBol=boolean;
     },
 
