@@ -261,6 +261,7 @@ export default {
         if(theChosenIngredient[i].bread != null){
           for(j=0; j<theChosenIngredient[i].meat.length; j++){
             this.ingredientsToSend.push(theChosenIngredient[i].meat[j])
+            console.log("hej");
           }
           for(j=0; j<theChosenIngredient[i].additionals.length; j++){
             this.ingredientsToSend.push(theChosenIngredient[i].additionals[j])
@@ -325,7 +326,6 @@ export default {
      var j
       for(j=0; j<this.chosenIngredients[i].meat.length; j++){
         this.burgerIngredients.push(this.chosenIngredients[i].meat[j])
-        this.ingredientCounts[this.ingredients.indexOf(this.burgerIngredients[j])]++
       }
       for(j=0; j<this.chosenIngredients[i].additionals.length; j++){
         this.burgerIngredients.push(this.chosenIngredients[i].additionals[j])
